@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Claude Code
+.claude/
+
+# Root-level working files (not needed for the website)
+architecture.pdf
+architecture.png
+hierloc_arxiv.tex
+/paper.pdf
+CUSTOMIZATION_GUIDE.md
+IMAGE_DOCUMENTATION.md
+
+# Source/build directories
+iclr2026/
+plots/
+media/
+
+# Render scripts
+render_batch.sh
+render_batch_v2.sh
+render_batch_v3.sh
+update_architecture.sh
+
+# PDF duplicates of images (PNG versions are used on the web)
+static/images/*.pdf
