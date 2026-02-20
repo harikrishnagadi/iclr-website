@@ -172,7 +172,17 @@ class Scene3Insight(Scene):
         lorentz_points = self._create_hierarchical_lorentz_points()
         lorentz_points.move_to([0, 0.6, 0])
 
-        lorentz_visual = VGroup(lorentz_disc, lorentz_points)
+        # Add labels for hierarchy levels
+        continent_label = create_sans_body("Continents", font_size=13, color=COLORS["accent"])
+        continent_label.move_to([-1.6, 0.6, 0])
+
+        country_label = create_sans_body("Countries", font_size=13, color=COLORS["accent"])
+        country_label.move_to([1.8, 0.6, 0])
+
+        city_label = create_sans_body("Cities\n(deep hierarchy)", font_size=12, color=COLORS["text"])
+        city_label.move_to([0, -0.5, 0])
+
+        lorentz_visual = VGroup(lorentz_disc, lorentz_points, continent_label, country_label, city_label)
 
         solution_desc = create_sans_body(
             "Lorentz (Hyperbolic) model:\n"
