@@ -375,9 +375,9 @@ class Scene1Hook(Scene):
             # ============================================================
             # CREATE EARTH GLOBE USING SVG
             # ============================================================
-            # Load Earth SVG from static/images - positioned far right with good gap
+            # Load Earth SVG from static/images - positioned far right and lower
             earth_position_x = 5.0  # Far right for visual clarity
-            earth_position_y = 1.2
+            earth_position_y = -0.5  # Lower position
 
             earth_svg = SVGMobject(
                 file_name="/Volumes/SSD/iclr-website/static/images/earth-icon.svg"
@@ -398,7 +398,7 @@ class Scene1Hook(Scene):
 
             # Create location marker for Paris with pulse effect
             lat = 48.86 * np.pi / 180
-            lon = -5.0 * np.pi / 180  # Adjusted to be more left on the Earth
+            lon = -20.0 * np.pi / 180  # More left on the Earth SVG
 
             # Position on sphere surface
             marker_x = earth_svg.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
