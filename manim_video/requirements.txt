@@ -1,0 +1,4 @@
+manim>=0.18.0
+pydub>=0.25.1
+numpy>=1.21.0
+opencv-python>=4.5.0

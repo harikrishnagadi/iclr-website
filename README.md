@@ -1,80 +1,188 @@
-# Academic Project Page Template
+# HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation
 
-> **Update (September 2025)**: This template has been modernized with better design, SEO, and mobile support. For the original version, see the [original-version branch](https://github.com/eliahuhorwitz/Academic-project-page-template/tree/original-version).
+> **Published at ICLR 2026**
+> A scalable, interpretable approach to global visual geolocation using hyperbolic geometry and hierarchical entity embeddings.
 
-A clean, responsive template for academic project pages.
+[![arXiv](https://img.shields.io/badge/arXiv-2601.23064-b31b1b.svg)](https://arxiv.org/abs/2601.23064)
+[![ICLR 2026](https://img.shields.io/badge/ICLR-2026-informational.svg)](https://iclr.cc/)
 
+## 📍 Project Overview
 
-Example project pages built using this template are:
-- https://horwitz.ai/probex
-- https://vision.huji.ac.il/probegen
-- https://horwitz.ai/mother
-- https://horwitz.ai/spectral_detuning
-- https://vision.huji.ac.il/ladeda
-- https://vision.huji.ac.il/dsire
-- https://horwitz.ai/podd
-- https://dreamix-video-editing.github.io
-- https://horwitz.ai/conffusion
-- https://horwitz.ai/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad
-- https://vision.huji.ac.il/deepsim
+**HierLoc** addresses the challenge of visual geolocation—predicting where an image was taken—by reformulating it as an **image-to-entity alignment problem** in hyperbolic space. Rather than retrieving from millions of image embeddings, our method aligns images to a compact hierarchy of geographic entities (countries, regions, subregions, cities) embedded in hyperbolic geometry.
 
+### Key Innovations
 
+1. **Hyperbolic Embeddings for Hierarchies**: Exploit the exponential volume growth of hyperbolic space to faithfully represent geographic hierarchies where the number of entities grows exponentially with depth.
 
-## Start using the template
-To start using the template click on `Use this Template`.
+2. **Geo-Weighted Hyperbolic InfoNCE Loss**: Incorporate great-circle (haversine) distance into the contrastive objective to emphasize geographically proximal negatives.
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+3. **240k Entity Embeddings vs. 5M Image Embeddings**: Achieve 95%+ compression while improving accuracy, enabling:
+   - Efficient inference with hierarchical beam search
+   - Interpretable predictions (which entities matched)
+   - Potential for client-side deployment
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+### Results on OSV5M Benchmark
 
-## What's New
+| Metric | Improvement |
+|--------|-------------|
+| Mean Geodesic Error | **↓19.5%** vs. SOTA |
+| Country Accuracy | **+8.8%** |
+| Region Accuracy | **+20.1%** |
+| Subregion Accuracy | **+43.2%** (significant fine-grained gain) |
+| City Accuracy | **+16.8%** |
 
-- Modern, clean design with better mobile support
-- Improved SEO with proper meta tags and structured data
-- Performance improvements (lazy loading, optimized assets)
-- More Works dropdown
-- Copy button for BibTeX citations
-- Better accessibility
+Also validated on **MediaEval'16**, **IM2GPS**, **IM2GPS3K**, and **YFCC4K**.
 
-## Components
+## 👥 Authors
 
-- Teaser video
-- Image carousel
-- YouTube video embedding
-- Video carousel
-- PDF poster viewer
-- BibTeX citation
+**Hari Krishna Gadi**¹·², **Hongyi Luo**¹·², **Daniel Matos**¹, **Lu Liu**¹, **Yongliang Wang**¹, **Yanfeng Zhang**¹, **Liqiu Meng**²
 
-## Customization
+¹ Huawei Riemann Lab
+² Chair of Cartography, Technical University of Munich
 
-The HTML file has TODO comments showing what to replace:
+**Contact**: `harikrishna.gadi1@huawei.com`
 
-- Paper title, authors, institution, conference
-- Links (arXiv, GitHub, etc.)
-- Abstract and descriptions  
-- Videos, images, and PDFs
-- Related works in the dropdown
-- Meta tags for SEO and social sharing
+## 📚 Resources
 
-### Meta Tags
-The template includes meta tags for better search engine visibility and social media sharing. These appear in the `<head>` section and help with:
-- Google Scholar indexing
-- Social media previews (Twitter, Facebook, LinkedIn)
-- Search engine optimization
+- **Paper**: [arXiv:2601.23064](https://arxiv.org/abs/2601.23064) | [PDF](static/paper.pdf)
+- **Website**: Interactive project page with visualizations and results
+- **Conference**: [ICLR 2026](https://iclr.cc/)
 
-Create a 1200x630px social preview image at `static/images/social_preview.png`.
+## 🏗️ Repository Structure
 
-## Tips
+```
+iclr-website/
+├── index.html                    # Project website (main entry point)
+├── static/
+│   ├── css/                      # Stylesheets (Bulma framework)
+│   ├── js/                       # JavaScript (carousel, slider, animations)
+│   ├── images/                   # Project images, plots, and visual assets
+│   ├── videos/                   # Demo and explainer videos
+│   ├── pdfs/                     # PDFs (paper, poster, etc.)
+│   └── webfonts/                 # Font files
+├── iclr2026/                     # LaTeX source for ICLR 2026 submission
+│   ├── hierloc.tex               # Main paper LaTeX
+│   ├── *.bst, *.sty              # BibTeX and LaTeX style files
+│   ├── plots/                    # Generated paper plots (PDFs)
+│   └── *.bib                     # Bibliography database
+├── paper.pdf                     # Final paper PDF
+└── .gitignore                    # Git ignore rules
 
-- Compress images with [TinyPNG](https://tinypng.com)
-- Use YouTube for large videos (>10MB)  
-- Replace the favicon in `static/images/`
-- Works with GitHub Pages
+```
 
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
+See [STRUCTURE.md](STRUCTURE.md) for detailed explanation of directory organization and development guidelines.
 
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+## 🚀 Website Setup & Deployment
+
+### Local Development
+
+No build step required—simply open `index.html` in a browser:
+
+```bash
+# Clone the repository
+git clone https://github.com/harikrishnagadi/iclr-website.git
+cd iclr-website
+
+# Serve locally (requires Python or Node.js)
+# Python 3
+python -m http.server 8000
+
+# Or Node.js
+npx http-server
+```
+
+Visit `http://localhost:8000` to view the website.
+
+### GitHub Pages Deployment
+
+This repository is configured for automatic deployment to GitHub Pages:
+
+1. Ensure the repository is public
+2. Go to **Settings → Pages**
+3. Set source to `master` branch
+4. The site will be available at `https://<your-username>.github.io/iclr-website`
+
+### Customization
+
+The website is built on the **Academic Project Page Template**. To customize:
+
+1. **Edit content**: Modify `index.html` directly (HTML comments show where to update)
+2. **Update styling**: Edit `static/css/index.css` for colors, fonts, and layout
+3. **Replace images/videos**: Place new assets in `static/images/` or `static/videos/`
+4. **Update links**: arXiv, GitHub, paper PDF, etc.
+
+**Important**: Replace `static/images/favicon.ico` with your own favicon.
+
+## 📖 Technical Details
+
+### Hyperbolic Geometry
+
+We operate in the **Lorentz model** of hyperbolic space with constant curvature -1/K. Key properties:
+
+- **Exponential volume growth**: Naturally accommodates branching hierarchies
+- **Distance metric**: Geodesic distance via arcosh formula
+- **Operations**: Performed in tangent space at origin using exponential/logarithmic maps
+
+### Entity Hierarchy
+
+```
+World
+├── Continent (e.g., Europe, Asia)
+│   ├── Country (e.g., Germany, China)
+│   │   ├── Region (e.g., Bavaria, Jiangsu)
+│   │   │   └── Subregion (e.g., Munich, Nanjing)
+│   │   │       └── City (e.g., specific urban areas)
+```
+
+The hyperbolic space maintains semantic relationships while keeping fine-grained locations well-separated.
+
+### Contrastive Learning
+
+**Geo-Weighted Hyperbolic InfoNCE Loss**:
+
+```
+ℒ = -log [ exp(sim(i, e+)) / Σ_j w_j · exp(sim(i, e_j)) ]
+```
+
+Where `w_j = exp(-haversine_distance(entity_j) / σ)` weights negatives by geographic proximity.
+
+## 📊 Benchmarks & Evaluation
+
+| Dataset | Split | # Images | Scenes |
+|---------|-------|----------|--------|
+| **OSV5M** | Train: 4.8M, Test: 200k | 5M+ | Global street view |
+| **MediaEval'16** | Train: 4.7M | 4.7M | Flickr images |
+| **IM2GPS** | Test: 143k | 143k | Diverse geo-tagged images |
+| **IM2GPS3K** | Test: 3k | 3k | Geographic diversity challenge |
+| **YFCC4K** | Test: 4k | 4k | Flickr dataset (hard cases) |
+
+## 🔬 Research Contributions
+
+1. **Reformulate geolocation** from image-image retrieval to image-entity alignment
+2. **Demonstrate hyperbolic advantage** for hierarchical geographic representation
+3. **Introduce GWH-InfoNCE** loss incorporating great-circle distance
+4. **Achieve SOTA** across all hierarchy levels on OSV5M
+5. **Enable scalable inference** via hierarchical beam search and 95% embedding reduction
+
+## 📝 Citation
+
+```bibtex
+@article{gadi2026hierloc,
+  title={HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation},
+  author={Gadi, Hari Krishna and Luo, Hongyi and Matos, Daniel and Liu, Lu and Wang, Yongliang and Zhang, Yanfeng and Meng, Liqiu},
+  journal={arXiv preprint arXiv:2601.23064},
+  year={2026}
+}
+```
+
+## 📄 License
+
+Website: Licensed under [Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+Paper: See the paper for research publication terms.
+
+## 🙏 Acknowledgments
+
+- Built on the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template)
+- Visualization and carousel components via [Bulma CSS Framework](https://bulma.io/)
+- Icons from [FontAwesome](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/)
+- Inspired by [Nerfies](https://nerfies.github.io/) project page design

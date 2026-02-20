@@ -16,851 +16,546 @@
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Huawei Riemann Lab & TU Munich">
   <meta property="og:title" content="HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation">
   <meta property="og:description"
     content="HierLoc introduces an entity-centric formulation of geolocation that moves from image-to-image retrieval to image-to-entity alignment in Hyperbolic space, achieving state-of-the-art performance on OSV5M.">
-  <meta property="og:url" content="https://hierloc.github.io">
+  <meta property="og:url" content="https://harikrishnagadi.github.io/iclr-website">
   <meta property="og:image" content="static/images/carousel_final/main_banner.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="HierLoc Architecture Overview">
-  <meta property="article:published_time" content="2026-05-01T00:00:00.000Z">
-  <meta property="article:author" content="Hari Krishna Gadi">
-  <meta property="article:section" content="Research">
-  <meta property="article:tag" content="Geolocation">
-  <meta property="article:tag" content="Hyperbolic Geometry">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@huawei">
   <meta name="twitter:creator" content="@harikrishnagadi">
   <meta name="twitter:title" content="HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation">
   <meta name="twitter:description"
     content="HierLoc introduces an entity-centric formulation of geolocation that moves from image-to-image retrieval to image-to-entity alignment in Hyperbolic space, achieving state-of-the-art performance on OSV5M.">
   <meta name="twitter:image" content="static/images/carousel_final/main_banner.png">
-  <meta name="twitter:image:alt" content="HierLoc Architecture Overview">
 
-  <!-- Academic/Research Specific -->
+  <!-- Academic -->
   <meta name="citation_title" content="HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation">
   <meta name="citation_author" content="Hari Krishna Gadi">
   <meta name="citation_publication_date" content="2026">
   <meta name="citation_conference_title" content="International Conference on Learning Representations (ICLR)">
   <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2601.23064">
 
-  <!-- Additional SEO -->
-  <meta name="theme-color" content="#2563eb">
-  <meta name="msapplication-TileColor" content="#2563eb">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://ajax.googleapis.com">
-  <link rel="preconnect" href="https://documentcloud.adobe.com">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-
+  <meta name="theme-color" content="#0a0a0f">
 
   <title>HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation</title>
 
-  <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link rel="apple-touch-icon" href="static/images/favicon.ico">
 
-  <!-- Critical CSS - Load synchronously -->
-  <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
 
-  <!-- Non-critical CSS - Load asynchronously -->
-  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="static/css/bulma.min.css?v=3">
+  <link rel="stylesheet" href="static/css/index.css?v=3">
 
-  <!-- Fallback for browsers that don't support preload -->
+  <!-- Non-critical CSS -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
     <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
     <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   </noscript>
 
-  <!-- Fonts - Optimized loading -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Defer non-critical JavaScript -->
+  <!-- JS -->
   <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
 
-  <!-- Structured Data for Academic Papers -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
     "headline": "HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation",
-    "description": "HierLoc introduces an entity-centric formulation of geolocation that moves from image-to-image retrieval to image-to-entity alignment in Hyperbolic space, achieving state-of-the-art performance on OSV5M.",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Hari Krishna Gadi",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "Huawei Riemann Lab, TU Munich"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "Hongyi Luo",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "Huawei Riemann Lab, TU Munich"
-        }
-      }
-    ],
+    "author": [{"@type":"Person","name":"Hari Krishna Gadi"},{"@type":"Person","name":"Hongyi Luo"}],
     "datePublished": "2026-05-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "International Conference on Learning Representations (ICLR)"
-    },
-    "url": "https://hierloc.github.io",
-    "image": "static/images/carousel_final/main_banner.png",
-    "keywords": ["Geolocation", "Hyperbolic Embeddings", "Hierarchical Learning", "Computer Vision", "ICLR 2026"],
-    "abstract": "Visual geolocalization... (see full abstract below)",
-    "citation": "@inproceedings{Gadi2026HierLoc, ...}",
-    "isAccessibleForFree": true,
-    "license": "https://creativecommons.org/licenses/by/4.0/",
-    "mainEntity": {
-      "@type": "WebPage",
-      "@id": "https://hierloc.github.io"
-    },
-    "about": [
-      {
-        "@type": "Thing",
-        "name": "Computer Vision"
-      },
-      {
-        "@type": "Thing", 
-        "name": "Machine Learning"
-      }
-    ]
-  }
-  </script>
-
-  <!-- Website/Organization Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Huawei Riemann Lab",
-    "url": "https://www.huawei.com",
-    "logo": "static/images/favicon.ico",
-    "sameAs": [
-      "https://twitter.com/huawei"
-    ]
+    "publisher": {"@type":"Organization","name":"International Conference on Learning Representations (ICLR)"},
+    "url": "https://harikrishnagadi.github.io/iclr-website",
+    "keywords": ["Geolocation","Hyperbolic Embeddings","Hierarchical Learning","Computer Vision","ICLR 2026"]
   }
   </script>
 </head>
 
 <body>
 
-
-  <!-- Scroll to Top Button -->
+  <!-- Scroll to Top -->
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
   </button>
 
-  <!-- More Works Dropdown -->
-  <!-- 
-  <div class="more-works-container">
-    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
-      <i class="fas fa-flask"></i>
-      More Works
-      <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="more-works-dropdown" id="moreWorksDropdown">
-      <div class="dropdown-header">
-        <h4>More Works from Our Lab</h4>
-        <button class="close-btn" onclick="toggleMoreWorks()">
-          <i class="fas fa-times"></i>
-        </button>
+  <main id="main-content">
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════════════ -->
+    <section class="hero-main">
+      <!-- Decorative arcs -->
+      <div class="hero-arc"></div>
+      <div class="hero-arc"></div>
+      <div class="hero-arc"></div>
+
+      <!-- Animated hyperbolic canvas -->
+      <canvas id="hyperbolic-canvas" aria-hidden="true"></canvas>
+
+      <div class="hero-body-inner">
+        <div class="venue-badge">ICLR 2026 &nbsp;·&nbsp; International Conference on Learning Representations</div>
+
+        <h1 class="title hero-title">
+          <span class="accent">HierLoc</span>: Hyperbolic Entity Embeddings<br>for Hierarchical Visual Geolocation
+        </h1>
+
+        <div class="title-rule"></div>
+
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"><a href="#" target="_blank">Hari Krishna Gadi</a><sup>1,2</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank">Hongyi Luo</a><sup>1,2</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank">Daniel Matos</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank">Lu Liu</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank">Yongliang Wang</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank">Yanfeng Zhang</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank">Liqiu Meng</a><sup>2</sup></span>
+        </div>
+
+        <div class="affiliation-line">
+          <sup>1</sup> Huawei Riemann Lab &nbsp;&nbsp;·&nbsp;&nbsp; <sup>2</sup> Technical University of Munich
+        </div>
+
+        <div class="cta-row">
+          <a href="https://arxiv.org/pdf/2601.23064" target="_blank" class="cta-btn cta-btn-primary">
+            <i class="fas fa-file-pdf"></i> Paper
+          </a>
+          <a href="https://arxiv.org/abs/2601.23064" target="_blank" class="cta-btn cta-btn-outline">
+            <i class="ai ai-arxiv"></i> arXiv
+          </a>
+          <a href="#" target="_blank" class="cta-btn cta-btn-outline">
+            <i class="fab fa-github"></i> Code
+          </a>
+          <a href="static/paper.pdf" target="_blank" class="cta-btn cta-btn-outline">
+            <i class="fas fa-download"></i> PDF
+          </a>
+        </div>
       </div>
-      <div class="works-list">
-        <a href="#" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 1</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2024</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         STAT BAR
+    ═══════════════════════════════════════════════════════ -->
+    <div class="stat-bar reveal">
+      <div class="stat-bar-inner">
+        <div class="stat-item">
+          <span class="stat-value">19.5%</span>
+          <span class="stat-label">Error Reduction</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">43%</span>
+          <span class="stat-label">Subregion Accuracy ↑</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">6.56×</span>
+          <span class="stat-label">Inference Speedup</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">240k</span>
+          <span class="stat-label">Entity Embeddings</span>
+        </div>
       </div>
     </div>
-  </div>
-  -->
 
-  <main id="main-content">
-    <section class="hero is-medium"
-      style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); position: relative; overflow: hidden;">
-      <div class="hero-body">
-        <div class="container is-max-desktop">
-          <div class="columns is-centered">
-            <div class="column has-text-centered">
-              <div class="title-container" style="margin-bottom: 2rem;">
-                <h1 class="title is-1"
-                  style="color: #f8fafc; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem;">HierLoc:
-                  Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation</h1>
-                <div
-                  style="width: 100px; height: 4px; background: linear-gradient(90deg, #0ea5e9, #8b5cf6); margin: 0 auto; border-radius: 2px;">
-                </div>
-              </div>
-
-              <div class="is-size-5 publication-authors" style="color: #cbd5e1; margin-bottom: 1.5rem;">
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Hari Krishna
-                    Gadi</a><sup>1,2</sup>,
-                </span>
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Hongyi Luo</a><sup>1,2</sup>,
-                </span>
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Daniel Matos</a><sup>1</sup>,
-                </span>
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Lu Liu</a><sup>1</sup>,
-                </span>
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Yongliang Wang</a><sup>1</sup>,
-                </span>
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Yanfeng Zhang</a><sup>1</sup>,
-                </span>
-                <span class="author-block">
-                  <a href="#" target="_blank" style="color: #e2e8f0; font-weight: 600;">Liqiu Meng</a><sup>2</sup>
-                </span>
-              </div>
-
-              <div class="is-size-5 publication-authors" style="color: #94a3b8;">
-                <span class="author-block">
-                  <sup>1</sup>Huawei Riemann Lab<br>
-                  <sup>2</sup>Technical University of Munich
-                </span>
-              </div>
-
-              <div class="is-size-4 publication-authors" style="color: #e2e8f0; margin-top: 1.5rem; font-weight: 600;">
-                <span>ICLR 2026 (International Conference on Learning Representations)</span>
-              </div>
-
-              <div class="column has-text-centered reveal" style="margin-top: 2rem;">
-                <div class="publication-links"
-                  style="display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-                  <span class="link-block">
-                    <a href="https://arxiv.org/pdf/2601.23064" target="_blank"
-                      class="external-link button is-medium is-rounded is-white"
-                      style="border: 2px solid #94a3b8; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Paper</span>
-                    </a>
-                  </span>
-
-                  <span class="link-block">
-                    <a href="#" target="_blank" class="external-link button is-medium is-rounded is-white"
-                      style="border: 2px solid #94a3b8; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-                      <span class="icon">
-                        <i class="fab fa-github"></i>
-                      </span>
-                      <span>Code</span>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-    </section>
-
-
-    <!-- Teaser video-->
-    <!-- Teaser video removed per user request -->
-    <!-- End teaser video -->
-    <!-- End teaser video -->
-
-    <!-- Paper abstract -->
-    <section class="section hero reveal"
-      style="background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #f093fb 100%);">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <h2 class="title is-2 has-text-white">Abstract</h2>
-            <div class="content has-text-justified has-text-white">
-              <p class="is-size-5">
-                Visual geolocalization, the task of predicting where an image was taken, remains challenging due to
-                global scale, visual ambiguity, and the inherently hierarchical structure of geography. Existing
-                paradigms rely on either large-scale retrieval, which requires storing a large number of image
-                embeddings, grid-based classifiers that ignore geographic continuity, or generative models that diffuse
-                over space but struggle with fine detail.
-              </p>
-              <p class="is-size-5">
-                We introduce an entity-centric formulation of geolocation that replaces image-to-image retrieval with a
-                compact hierarchy of geographic entities embedded in Hyperbolic space. Images are aligned directly to
-                country, region, subregion, and city entities through Geo-Weighted Hyperbolic contrastive learning by
-                directly incorporating haversine distance into the contrastive objective. This hierarchical design
-                enables interpretable predictions and efficient inference with 240k entity embeddings instead of over 5
-                million image embeddings on the OSV5M benchmark, on which our method establishes a new state-of-the-art
-                performance.
-              </p>
-              <p class="is-size-5">
-                Compared to the current methods in the literature, it reduces mean geodesic error by 19.5%, while
-                improving the fine-grained subregion accuracy by 43%. These results demonstrate that geometry-aware
-                hierarchical embeddings provide a scalable and conceptually new alternative for global image
-                geolocation.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End paper abstract -->
-
-
-    <!-- Image carousel -->
-    <section class="hero is-small reveal">
-      <div class="hero-body">
-        <div class="container">
-          <div id="results-carousel" class="carousel results-carousel">
-            <div class="item">
-              <!-- HierLoc Architecture Overview -->
-              <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview"
-                loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>HierLoc Architecture:</strong> Images are encoded and mapped with exp₀ into the Lorentz model of
-                Hyperbolic space, while entities (countries, regions, subregions, cities) combine image, text, and
-                location features. In tangent space at origin, cross-modal attention aligns each image with entities per
-                hierarchy level. Training employs Geo-Weighted Hyperbolic InfoNCE (GWH-InfoNCE) loss.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Hyperbolic Operations - exp0 and log0 -->
-              <img src="static/images/carousel_final/exp0_log0.png" alt="Hyperbolic Space Projections" loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Hyperbolic Projections:</strong> The exp₀ and log₀ functions enable bidirectional mapping
-                between tangent space at origin O and hyperbolic space, preserving hierarchical tree-like relationships
-                critical for geographic entity representation in Lorentz model (K = -1 curvature).
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Paper Teaser and Overview -->
-              <img src="static/images/carousel_final/paper_teaser.png" alt="HierLoc Paper Overview" loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Research Overview:</strong> HierLoc achieves hierarchical geolocation in hyperbolic space with
-                cross-modal attention. The method uses 240k geographic entity embeddings instead of 5M+ image
-                embeddings, enabling efficient inference with 6.56× speedup over RFM S₂.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Performance Results Visualization -->
-              <img src="static/images/carousel_final/mean_error_raster_grid.png"
-                alt="Mean Geographic Error Distribution" loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Geographic Error Distribution:</strong> Mean error visualization across global regions on OSV5M
-                dataset. HierLoc achieves median localization error of 25.3 km, outperforming previous state-of-the-art
-                methods with 19.5% relative improvement in mean geodesic error.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Main Results Table -->
-              <h2 class="subtitle has-text-centered" style="margin-bottom: 20px;">
-                <strong>Table 1 - OSV5M Results:</strong> HierLoc achieves SOTA on OSV5M with 25.3 km median error and
-                47.1% recall@1km.
-              </h2>
-              <div class="table-container">
-                <table class="table is-striped is-hoverable is-fullwidth" style="font-size: 0.85rem;">
-                  <thead>
-                    <tr>
-                      <th>Method</th>
-                      <th>GeoScore &uarr;</th>
-                      <th>Dist. (km) &darr;</th>
-                      <th>Country (%)</th>
-                      <th>Region (%)</th>
-                      <th>Subregion (%)</th>
-                      <th>City (%)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>SC 0-shot</td>
-                      <td>2273</td>
-                      <td>2854</td>
-                      <td>38.4</td>
-                      <td>20.8</td>
-                      <td>9.9</td>
-                      <td>14.8</td>
-                    </tr>
-                    <tr>
-                      <td>Regression</td>
-                      <td>3028</td>
-                      <td>1481</td>
-                      <td>56.5</td>
-                      <td>16.3</td>
-                      <td>1.5</td>
-                      <td>0.7</td>
-                    </tr>
-                    <tr>
-                      <td>ISNs</td>
-                      <td>3331</td>
-                      <td>2308</td>
-                      <td>66.8</td>
-                      <td>39.4</td>
-                      <td>--</td>
-                      <td>4.2</td>
-                    </tr>
-                    <tr>
-                      <td>Hybrid</td>
-                      <td>3361</td>
-                      <td>1814</td>
-                      <td>68.0</td>
-                      <td>39.4</td>
-                      <td>10.3</td>
-                      <td>5.9</td>
-                    </tr>
-                    <tr>
-                      <td>SC Retrieval</td>
-                      <td>3597</td>
-                      <td>1386</td>
-                      <td>73.4</td>
-                      <td>45.8</td>
-                      <td>28.4</td>
-                      <td>19.9</td>
-                    </tr>
-                    <tr>
-                      <td>RFM S<sub>2</sub></td>
-                      <td>3767</td>
-                      <td>1069</td>
-                      <td>76.2</td>
-                      <td>44.2</td>
-                      <td>--</td>
-                      <td>5.4</td>
-                    </tr>
-                    <tr>
-                      <td>LocDiff</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>77.0</td>
-                      <td>46.3</td>
-                      <td>--</td>
-                      <td>11.0</td>
-                    </tr>
-                    <tr style="border-top: 2px solid #dbdbdb;">
-                      <td><u>HierLoc (VITL-14)</u></td>
-                      <td><u>3850</u></td>
-                      <td><u>1067</u></td>
-                      <td><u>80.1</u></td>
-                      <td><u>52.9</u></td>
-                      <td><u>39.0</u></td>
-                      <td><u>22.2</u></td>
-                    </tr>
-                    <tr class="is-selected">
-                      <td><strong>HierLoc (DINOV3)</strong></td>
-                      <td><strong>3963</strong></td>
-                      <td><strong>861</strong></td>
-                      <td><strong>82.9</strong></td>
-                      <td><strong>55.0</strong></td>
-                      <td><strong>40.7</strong></td>
-                      <td><strong>23.3</strong></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="item">
-              <!-- Benchmark Comparisons Table -->
-              <h2 class="subtitle has-text-centered" style="margin-bottom: 20px;">
-                <strong>Table 2 - Benchmark Performance:</strong> Cross-dataset evaluation on IM2GPS, IM2GPS3K, and
-                YFCC4K.
-              </h2>
-              <div class="table-container">
-                <table class="table is-striped is-bordered is-fullwidth is-narrow" style="font-size: 0.75rem;">
-                  <thead>
-                    <tr>
-                      <th>Dataset / Method</th>
-                      <th>Median (km) &darr;</th>
-                      <th>1 km &uarr;</th>
-                      <th>25 km &uarr;</th>
-                      <th>200 km &uarr;</th>
-                      <th>750 km &uarr;</th>
-                      <th>2500 km &uarr;</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- IM2GPS -->
-                    <tr class="is-selected">
-                      <td colspan="7" class="has-text-centered"><strong>IM2GPS</strong></td>
-                    </tr>
-                    <tr>
-                      <td>PlaNet</td>
-                      <td>&gt;200</td>
-                      <td>8.4</td>
-                      <td>24.5</td>
-                      <td>37.6</td>
-                      <td>53.6</td>
-                      <td>71.3</td>
-                    </tr>
-                    <tr>
-                      <td>PIGEON</td>
-                      <td>70.5</td>
-                      <td>14.8</td>
-                      <td>40.9</td>
-                      <td>63.3</td>
-                      <td>82.3</td>
-                      <td><u>91.1</u></td>
-                    </tr>
-                    <tr style="background-color: #f0f8ff;">
-                      <td><strong>HierLoc</strong></td>
-                      <td><strong>21.4</strong></td>
-                      <td>10.5</td>
-                      <td><strong>51.9</strong></td>
-                      <td><u>67.5</u></td>
-                      <td><u>83.1</u></td>
-                      <td><strong>92.4</strong></td>
-                    </tr>
-
-                    <!-- IM2GPS3K -->
-                    <tr class="is-selected">
-                      <td colspan="7" class="has-text-centered"><strong>IM2GPS3K</strong></td>
-                    </tr>
-                    <tr>
-                      <td>PIGEON</td>
-                      <td><u>147.3</u></td>
-                      <td>11.3</td>
-                      <td>36.7</td>
-                      <td>53.8</td>
-                      <td>72.4</td>
-                      <td><strong>85.3</strong></td>
-                    </tr>
-                    <tr>
-                      <td>Img2Loc</td>
-                      <td>--</td>
-                      <td><strong>17.1</strong></td>
-                      <td><strong>45.1</strong></td>
-                      <td><u>57.8</u></td>
-                      <td>72.9</td>
-                      <td>84.6</td>
-                    </tr>
-                    <tr style="background-color: #f0f8ff;">
-                      <td><strong>HierLoc</strong></td>
-                      <td><strong>73.4</strong></td>
-                      <td>11.3</td>
-                      <td><u>43.8</u></td>
-                      <td><strong>58.4</strong></td>
-                      <td><u>74.1</u></td>
-                      <td><u>85.1</u></td>
-                    </tr>
-
-                    <!-- YFCC4K -->
-                    <tr class="is-selected">
-                      <td colspan="7" class="has-text-centered"><strong>YFCC4K</strong></td>
-                    </tr>
-                    <tr>
-                      <td>PIGEON</td>
-                      <td><u>383.0</u></td>
-                      <td><u>10.4</u></td>
-                      <td>23.7</td>
-                      <td><u>40.6</u></td>
-                      <td><strong>62.2</strong></td>
-                      <td><strong>77.7</strong></td>
-                    </tr>
-                    <tr>
-                      <td>Img2Loc</td>
-                      <td>--</td>
-                      <td><strong>14.1</strong></td>
-                      <td><u>29.5</u></td>
-                      <td>41.4</td>
-                      <td>59.2</td>
-                      <td><u>76.8</u></td>
-                    </tr>
-                    <tr style="background-color: #f0f8ff;">
-                      <td><strong>HierLoc</strong></td>
-                      <td><strong>341.9</strong></td>
-                      <td>8.4</td>
-                      <td><strong>30.2</strong></td>
-                      <td><strong>43.3</strong></td>
-                      <td><u>61.7</u></td>
-                      <td>75.8</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="item">
-              <!-- Comparison with Baselines -->
-              <img src="static/images/carousel_final/hierloc_vs_sc_inference.png" alt="Comparison with Baselines"
-                loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Inference Strategies:</strong> Beam search comparison showing HierLoc achieves 97% of
-                full-search accuracy using less than 10% search time. At beam width=5, HierLoc achieves 135 km error vs
-                433 km error for SC retrieval with 240k image searches per query.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Beam Width Analysis -->
-              <img src="static/images/carousel_final/beam_width_plots.png" alt="Beam Width Analysis" loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Beam Width Optimization:</strong> Accuracies and search time for different beam widths. Narrow
-                beam (width=10) achieves near-optimal accuracy (98.7% of best) with 95% reduction in search time,
-                demonstrating efficient hierarchical search in hyperbolic space with room for speed-accuracy trade-offs.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Island vs Mainland Performance -->
-              <img src="static/images/carousel_final/island_nonisland_panels.png" alt="Island vs Mainland Performance"
-                loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Island vs Mainland Analysis:</strong> HierLoc shows consistent improvement over baselines across
-                both island (Vatican City: 0.7 km↓error) and mainland territories. Cross-attention particularly helps
-                challenging regions, reducing median errors from 545 km to 411 km on IM2GPS3K.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Scaling Performance -->
-              <img src="static/images/carousel_final/scaling_wallclock_to_2B.png" alt="Scaling Performance"
-                loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Computational Efficiency:</strong> Inference latency vs accuracy on same GPU. HierLoc provides
-                6.56× speedup over RFM S₂ during inference while using 10× fewer training images (4.7M vs 48M). Scales
-                efficiently to billions of query images with 0.64 ms per image on A100 GPU.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Lorentz Model Configuration -->
-              <img src="static/images/carousel_final/lorentz_umap.png" alt="Lorentz Model Configuration"
-                loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>Manifold Sensitivity:</strong> Hyperbolic outperforms Euclidean/spherical across benchmarks:
-                25.3 km vs 27.4 km vs 28.9 km median error on OSV5M. Validating hyperbolic geometry choice: provides
-                7.7% and 12.5% error reduction vs Euclidean and spherical respectively across all datasets.
-              </h2>
-            </div>
-            <div class="item">
-              <!-- Main Banner -->
-              <img src="static/images/carousel_final/main_banner.png" alt="HierLoc Banner" loading="lazy" />
-              <h2 class="subtitle has-text-centered">
-                <strong>HierLoc:</strong> Hierarchical Geolocation in Hyperbolic Space with Cross-Modal Attention for
-                Accurate and Efficient Image Geolocation. Accepted to ICLR 2026.
-              </h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End image carousel -->
-
-
-
-
-    <!-- Youtube video removed -->
-    <!-- Video Results -->
-    <section class="hero is-small reveal">
-      <div class="hero-body">
-        <div class="container is-max-desktop">
-          <h2 class="title is-3 has-text-centered publication-title">Results</h2>
-          <div class="columns is-centered">
-            <div class="column is-10">
-              <video poster="" controls muted playsinline loop style="width: 100%; border-radius: 8px;">
-                <source src="static/videos/hierloc_results_slideshow.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
+    <!-- ═══════════════════════════════════════════════════════
+         ABSTRACT
+    ═══════════════════════════════════════════════════════ -->
+    <section class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card">
+        <span class="section-eyebrow">Abstract</span>
+        <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
+        <hr class="section-rule section-rule-center">
+        <div class="abstract-text">
+          <p>
+            Visual geolocalization — predicting where an image was taken — remains challenging due to global scale,
+            visual ambiguity, and the <strong>inherently hierarchical structure of geography</strong>. Existing
+            paradigms rely on either large-scale retrieval, which requires storing a large number of image embeddings,
+            grid-based classifiers that ignore geographic continuity, or generative models that struggle with fine detail.
+          </p>
+          <p>
+            We introduce an <strong>entity-centric formulation</strong> of geolocation that replaces image-to-image
+            retrieval with a compact hierarchy of geographic entities embedded in <strong>Hyperbolic space</strong>.
+            Images are aligned to country, region, subregion, and city entities through
+            <strong>Geo-Weighted Hyperbolic contrastive learning</strong>, directly incorporating haversine distance
+            into the contrastive objective.
+          </p>
+          <p>
+            This hierarchical design enables interpretable predictions and efficient inference with
+            <strong>240k entity embeddings</strong> instead of over 5 million image embeddings on the OSV5M benchmark,
+            reducing mean geodesic error by <strong>19.5%</strong> while improving fine-grained subregion accuracy
+            by <strong>43%</strong>.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Video Explainer Stack -->
-    <section class="hero is-small reveal">
-      <div class="hero-body">
-        <div class="container is-max-desktop">
-          <h2 class="title is-3 has-text-centered publication-title">Methodology Explained</h2>
-          <div class="mobile-video-stack">
+    <!-- ═══════════════════════════════════════════════════════
+         RESULTS CAROUSEL
+    ═══════════════════════════════════════════════════════ -->
+    <section class="hl-section carousel-section reveal">
+      <div class="u-center" style="margin-bottom: 2.5rem;">
+        <span class="section-eyebrow">Figures & Results</span>
+        <h2 class="section-heading"><em>Key Findings</em></h2>
+        <hr class="section-rule section-rule-center">
+      </div>
+      <div class="u-max-wide">
+        <div id="results-carousel" class="carousel results-carousel">
 
-            <!-- Video 1 -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-              <h3 class="title is-4 has-text-centered">The Challenge: Finding Your Place</h3>
-              <p class="has-text-centered" style="margin-bottom: 1rem;">
-                Visual geolocation is like finding a needle in a haystack—but the haystack is the entire planet. 
-                Standard methods struggle with the sheer scale and ambiguity of the world.
-              </p>
-              <div class="columns is-centered">
-                <div class="column is-10">
-                  <video poster="" controls muted playsinline style="width: 100%; border-radius: 8px;">
-                    <source src="static/videos/hierloc_explainer.mp4?v=9" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-            </div>
-
-            <!-- Video 2 -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-              <h3 class="title is-4 has-text-centered">The Old Way vs. HierLoc</h3>
-              <p class="has-text-centered" style="margin-bottom: 1rem;">
-                Most systems use massive image retrieval (slow) or rigid grids (inaccurate). 
-                HierLoc treats the world as a hierarchy of entities, aligning images to places, not just other images.
-              </p>
-              <div class="columns is-centered">
-                <div class="column is-10">
-                  <video poster="" controls muted playsinline style="width: 100%; border-radius: 8px;">
-                    <source src="static/videos/hierloc_paradigms.mp4?v=9" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-            </div>
-
-            <!-- Video 3 -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-              <h3 class="title is-4 has-text-centered">The Core Insight: Multimodal Entities</h3>
-              <p class="has-text-centered" style="margin-bottom: 1rem;">
-                We don't just use coordinates. We fuse <strong>Vision</strong> (DINOv3), <strong>Language</strong> (CLIP), and <strong>Location</strong> 
-                into a single "Entity Prototype."
-              </p>
-              <div class="columns is-centered">
-                <div class="column is-10">
-                  <video poster="" controls muted playsinline style="width: 100%; border-radius: 8px;">
-                    <source src="static/videos/hierloc_key_idea.mp4?v=9" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-            </div>
-
-            <!-- Video 4: Architecture -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-              <h3 class="title is-4 has-text-centered">The Architecture</h3>
-              <p class="has-text-centered" style="margin-bottom: 1rem;">
-                How it works under the hood: Images and Entities are projected into a shared <strong>Tangent Space</strong>, 
-                aligned via Cross-Attention, and then mapped into <strong>Hyperbolic Space</strong>.
-              </p>
-              <div class="columns is-centered">
-                <div class="column is-10">
-                  <video poster="" controls muted playsinline style="width: 100%; border-radius: 8px;">
-                    <source src="static/videos/hierloc_architecture.mp4?v=9" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-            </div>
-
-            <!-- Video 5: Geometry -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-              <h3 class="title is-4 has-text-centered">Why Geometry Matters</h3>
-              <p class="has-text-centered" style="margin-bottom: 1rem;">
-                See the difference: Euclidean space crushes the hierarchy. Hyperbolic space preserves it.
-                This structure allows us to search 240k entities instead of 5 million images—faster, smarter, and more accurate.
-              </p>
-              <div class="columns is-centered">
-                <div class="column is-10">
-                  <video poster="" controls muted playsinline style="width: 100%; border-radius: 8px;">
-                    <source src="static/videos/hierloc_why_hyperbolic.mp4?v=9" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-            </div>
-
-            <!-- Video 6: Inference -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-              <h3 class="title is-4 has-text-centered">Smart Navigation: Beam Search</h3>
-              <p class="has-text-centered" style="margin-bottom: 1rem;">
-                We don't scan blindly. We navigate. By traversing the tree (Continent → Country → City) with Beam Search, 
-                HierLoc reduces 5 million comparisons to just ~400. That's <strong>O(log N)</strong> speed.
-              </p>
-              <div class="columns is-centered">
-                <div class="column is-10">
-                  <video poster="" controls muted playsinline style="width: 100%; border-radius: 8px;">
-                    <source src="static/videos/hierloc_inference.mp4?v=9" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-            </div>
-
+          <div class="item">
+            <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>HierLoc Architecture:</strong> Images are encoded and mapped with exp₀ into the Lorentz model of
+              Hyperbolic space, while entities (countries, regions, subregions, cities) combine image, text, and
+              location features. In tangent space at origin, cross-modal attention aligns each image with entities
+              per hierarchy level. Training employs Geo-Weighted Hyperbolic InfoNCE (GWH-InfoNCE) loss.
+            </h2>
           </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/exp0_log0.png" alt="Hyperbolic Space Projections" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Hyperbolic Projections:</strong> The exp₀ and log₀ functions enable bidirectional mapping
+              between tangent space at origin O and hyperbolic space, preserving hierarchical tree-like relationships
+              critical for geographic entity representation in Lorentz model (K = −1 curvature).
+            </h2>
+          </div>
+
+
+          <div class="item">
+            <img src="static/images/carousel_final/mean_error_raster_grid.png" alt="Mean Geographic Error Distribution" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Geographic Error Distribution:</strong> Mean error visualization across global regions on
+              OSV5M dataset. HierLoc achieves median localization error of 25.3 km, outperforming previous
+              state-of-the-art methods with 19.5% relative improvement in mean geodesic error.
+            </h2>
+          </div>
+
+          <div class="item">
+            <h2 class="subtitle has-text-centered" style="margin-bottom: 20px; font-size: 1rem !important;">
+              <strong>Table 1 — OSV5M Results:</strong> HierLoc achieves SOTA on OSV5M with 25.3 km median error.
+            </h2>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>GeoScore ↑</th>
+                    <th>Dist. (km) ↓</th>
+                    <th>Country (%)</th>
+                    <th>Region (%)</th>
+                    <th>Subregion (%)</th>
+                    <th>City (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>SC 0-shot</td><td>2273</td><td>2854</td><td>38.4</td><td>20.8</td><td>9.9</td><td>14.8</td></tr>
+                  <tr><td>Regression</td><td>3028</td><td>1481</td><td>56.5</td><td>16.3</td><td>1.5</td><td>0.7</td></tr>
+                  <tr><td>ISNs</td><td>3331</td><td>2308</td><td>66.8</td><td>39.4</td><td>--</td><td>4.2</td></tr>
+                  <tr><td>Hybrid</td><td>3361</td><td>1814</td><td>68.0</td><td>39.4</td><td>10.3</td><td>5.9</td></tr>
+                  <tr><td>SC Retrieval</td><td>3597</td><td>1386</td><td>73.4</td><td>45.8</td><td>28.4</td><td>19.9</td></tr>
+                  <tr><td>RFM S<sub>2</sub></td><td>3767</td><td>1069</td><td>76.2</td><td>44.2</td><td>--</td><td>5.4</td></tr>
+                  <tr><td>LocDiff</td><td>--</td><td>--</td><td>77.0</td><td>46.3</td><td>--</td><td>11.0</td></tr>
+                  <tr style="border-top: 2px solid rgba(255,255,255,0.1);">
+                    <td><u>HierLoc (VITL-14)</u></td><td><u>3850</u></td><td><u>1067</u></td>
+                    <td><u>80.1</u></td><td><u>52.9</u></td><td><u>39.0</u></td><td><u>22.2</u></td>
+                  </tr>
+                  <tr class="is-selected">
+                    <td><strong>HierLoc (DINOV3)</strong></td><td><strong>3963</strong></td><td><strong>861</strong></td>
+                    <td><strong>82.9</strong></td><td><strong>55.0</strong></td><td><strong>40.7</strong></td><td><strong>23.3</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="item">
+            <h2 class="subtitle has-text-centered" style="margin-bottom: 20px; font-size: 1rem !important;">
+              <strong>Table 2 — Benchmark Performance:</strong> Cross-dataset evaluation on IM2GPS, IM2GPS3K, and YFCC4K.
+            </h2>
+            <div class="table-container">
+              <table class="table is-striped is-bordered is-fullwidth is-narrow">
+                <thead>
+                  <tr>
+                    <th>Dataset / Method</th>
+                    <th>Median (km) ↓</th>
+                    <th>1 km ↑</th>
+                    <th>25 km ↑</th>
+                    <th>200 km ↑</th>
+                    <th>750 km ↑</th>
+                    <th>2500 km ↑</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected"><td colspan="7" class="has-text-centered"><strong>IM2GPS</strong></td></tr>
+                  <tr><td>PlaNet</td><td>&gt;200</td><td>8.4</td><td>24.5</td><td>37.6</td><td>53.6</td><td>71.3</td></tr>
+                  <tr><td>PIGEON</td><td>70.5</td><td>14.8</td><td>40.9</td><td>63.3</td><td>82.3</td><td><u>91.1</u></td></tr>
+                  <tr style="background-color: #f0f8ff;">
+                    <td><strong>HierLoc</strong></td><td><strong>21.4</strong></td><td>10.5</td>
+                    <td><strong>51.9</strong></td><td><u>67.5</u></td><td><u>83.1</u></td><td><strong>92.4</strong></td>
+                  </tr>
+                  <tr class="is-selected"><td colspan="7" class="has-text-centered"><strong>IM2GPS3K</strong></td></tr>
+                  <tr><td>PIGEON</td><td><u>147.3</u></td><td>11.3</td><td>36.7</td><td>53.8</td><td>72.4</td><td><strong>85.3</strong></td></tr>
+                  <tr><td>Img2Loc</td><td>--</td><td><strong>17.1</strong></td><td><strong>45.1</strong></td><td><u>57.8</u></td><td>72.9</td><td>84.6</td></tr>
+                  <tr style="background-color: #f0f8ff;">
+                    <td><strong>HierLoc</strong></td><td><strong>73.4</strong></td><td>11.3</td>
+                    <td><u>43.8</u></td><td><strong>58.4</strong></td><td><u>74.1</u></td><td><u>85.1</u></td>
+                  </tr>
+                  <tr class="is-selected"><td colspan="7" class="has-text-centered"><strong>YFCC4K</strong></td></tr>
+                  <tr><td>PIGEON</td><td><u>383.0</u></td><td><u>10.4</u></td><td>23.7</td><td><u>40.6</u></td><td><strong>62.2</strong></td><td><strong>77.7</strong></td></tr>
+                  <tr><td>Img2Loc</td><td>--</td><td><strong>14.1</strong></td><td><u>29.5</u></td><td>41.4</td><td>59.2</td><td><u>76.8</u></td></tr>
+                  <tr style="background-color: #f0f8ff;">
+                    <td><strong>HierLoc</strong></td><td><strong>341.9</strong></td><td>8.4</td>
+                    <td><strong>30.2</strong></td><td><strong>43.3</strong></td><td><u>61.7</u></td><td>75.8</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/hierloc_vs_sc_inference.png" alt="Comparison with Baselines" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Inference Strategies:</strong> Beam search comparison showing HierLoc achieves 97% of
+              full-search accuracy using less than 10% search time. At beam width=5, HierLoc achieves 135 km error
+              vs 433 km error for SC retrieval with 240k image searches per query.
+            </h2>
+          </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/beam_width_plots.png" alt="Beam Width Analysis" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Beam Width Optimization:</strong> Accuracies and search time for different beam widths.
+              Narrow beam (width=10) achieves near-optimal accuracy (98.7% of best) with 95% reduction in search
+              time, demonstrating efficient hierarchical search in hyperbolic space.
+            </h2>
+          </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/island_nonisland_panels.png" alt="Island vs Mainland Performance" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Island vs Mainland Analysis:</strong> HierLoc shows consistent improvement across both island
+              and mainland territories. Cross-attention particularly helps challenging regions, reducing median
+              errors from 545 km to 411 km on IM2GPS3K.
+            </h2>
+          </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/scaling_wallclock_to_2B.png" alt="Scaling Performance" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Computational Efficiency:</strong> Inference latency vs accuracy on same GPU. HierLoc provides
+              6.56× speedup over RFM S₂ while using 10× fewer training images (4.7M vs 48M). Scales efficiently
+              to billions of query images with 0.64 ms per image on A100 GPU.
+            </h2>
+          </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/lorentz_umap.png" alt="Lorentz Model Configuration" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>Manifold Sensitivity:</strong> Hyperbolic outperforms Euclidean/spherical across benchmarks:
+              25.3 km vs 27.4 km vs 28.9 km median error on OSV5M. Provides 7.7% and 12.5% error reduction vs
+              Euclidean and spherical respectively.
+            </h2>
+          </div>
+
+          <div class="item">
+            <img src="static/images/carousel_final/main_banner.png" alt="HierLoc Banner" loading="lazy" />
+            <h2 class="subtitle has-text-centered">
+              <strong>HierLoc:</strong> Hierarchical Geolocation in Hyperbolic Space with Cross-Modal Attention for
+              Accurate and Efficient Image Geolocation. Accepted to ICLR 2026.
+            </h2>
+          </div>
+
         </div>
       </div>
     </section>
-    <!-- End video stack -->
 
+    <!-- ═══════════════════════════════════════════════════════
+         RESULTS VIDEO
+    ═══════════════════════════════════════════════════════ -->
+    <section class="hl-section hl-section-alt reveal">
+      <div class="u-center" style="margin-bottom: 2.5rem;">
+        <span class="section-eyebrow">Demonstration</span>
+        <h2 class="section-heading"><em>Results</em></h2>
+        <hr class="section-rule section-rule-center">
+      </div>
+      <div class="results-video-wrap">
+        <video controls muted playsinline loop>
+          <source src="static/videos/hierloc_results_slideshow.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
 
+    <!-- ═══════════════════════════════════════════════════════
+         METHODOLOGY VIDEO
+    ═══════════════════════════════════════════════════════ -->
+    <section class="hl-section reveal">
+      <div class="u-center" style="margin-bottom: 2.5rem;">
+        <span class="section-eyebrow">Explainer</span>
+        <h2 class="section-heading">Methodology <em>Explained</em></h2>
+        <hr class="section-rule section-rule-center">
+      </div>
+      <div class="results-video-wrap">
+        <video controls muted playsinline>
+          <source src="static/videos/hierloc_explainer_new.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
 
-
-
-
-
-
-
-    <br>
-
-    <!--BibTex citation -->
-    <section class="section reveal" id="BibTeX">
-      <div class="container is-max-desktop content">
+    <!-- ═══════════════════════════════════════════════════════
+         BIBTEX
+    ═══════════════════════════════════════════════════════ -->
+    <section class="hl-section bibtex-section reveal" id="BibTeX">
+      <div class="u-center" style="margin-bottom: 2.5rem;">
+        <span class="section-eyebrow">Citation</span>
+        <h2 class="section-heading"><em>BibTeX</em></h2>
+        <hr class="section-rule section-rule-center">
+      </div>
+      <div class="bibtex-card">
         <div class="bibtex-header">
-          <h2 class="title publication-title">BibTeX</h2>
+          <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
             <i class="fas fa-copy"></i>
             <span class="copy-text">Copy</span>
           </button>
         </div>
         <pre id="bibtex-code"><code>@misc{gadi2026hierlochyperbolicentityembeddings,
-      title={HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation}, 
-      author={Hari Krishna Gadi and Daniel Matos and Hongyi Luo and Lu Liu and Yongliang Wang and Yanfeng Zhang and Liqiu Meng},
+      title={HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation},
+      author={Hari Krishna Gadi and Daniel Matos and Hongyi Luo and Lu Liu
+              and Yongliang Wang and Yanfeng Zhang and Liqiu Meng},
       year={2026},
       eprint={2601.23064},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2601.23064}, 
+      url={https://arxiv.org/abs/2601.23064},
 }</code></pre>
       </div>
     </section>
-    <!--End BibTex citation -->
 
-
+    <!-- ═══════════════════════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════════════════════ -->
     <footer class="footer">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-8">
             <div class="content">
-
               <p>
-                This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
-                  target="_blank">Academic Project Page Template</a> which was adopted from the <a
-                  href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-                You are free to borrow the source code of this website, we just ask that you link back to this page in
-                the footer. <br> This website is licensed under a <a rel="license"
-                  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-                  Commons Attribution-ShareAlike 4.0 International License</a>.
+                This page was built using the
+                <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
+                adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+                Licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
               </p>
-
             </div>
           </div>
         </div>
       </div>
     </footer>
 
-    <!-- Statcounter tracking code -->
+  </main>
 
-    <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+  <!-- Hyperbolic canvas animation -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('hyperbolic-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
-    <!-- End of Statcounter Code -->
+      function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Draw Poincaré disk geodesics (circles orthogonal to boundary)
+      let t = 0;
+
+      function drawGeodesic(cx, cy, r, alpha) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(232, 168, 56, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+
+      function render() {
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        const cx = W / 2, cy = H / 2;
+        const R = Math.min(W, H) * 0.42;
+
+        // Outer boundary circle
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(232, 168, 56, 0.07)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Concentric geodesic rings (animating)
+        const rings = 8;
+        for (let i = 1; i <= rings; i++) {
+          const progress = i / rings;
+          // Hyperbolic: inner rings expand slowly, outer compress
+          const rr = R * (1 - Math.exp(-progress * 2.5)) / (1 - Math.exp(-2.5));
+          const alpha = (0.12 - progress * 0.012) * (0.7 + 0.3 * Math.sin(t * 0.4 + i));
+          drawGeodesic(cx, cy, rr, Math.max(0, alpha));
+        }
+
+        // Rotating geodesic lines through origin (like tree branches)
+        const spokes = 12;
+        for (let i = 0; i < spokes; i++) {
+          const angle = (i / spokes) * Math.PI * 2 + t * 0.05;
+          const x1 = cx + Math.cos(angle) * R;
+          const y1 = cy + Math.sin(angle) * R;
+          const alpha = 0.04 + 0.02 * Math.sin(t * 0.3 + i);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(x1, y1);
+          ctx.strokeStyle = `rgba(232, 168, 56, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+
+        // Floating points (like entities in hyperbolic space)
+        const points = 24;
+        for (let i = 0; i < points; i++) {
+          const angle = (i / points) * Math.PI * 2 + t * 0.02 * (i % 3 === 0 ? 1 : -0.5);
+          // Hyperbolic placement: cluster near boundary
+          const radialFrac = 0.3 + 0.6 * Math.pow(i / points, 0.4);
+          const px = cx + Math.cos(angle) * R * radialFrac;
+          const py = cy + Math.sin(angle) * R * radialFrac;
+          const size = 1.2 + 0.8 * Math.sin(t * 0.5 + i * 1.3);
+          const alpha = 0.15 + 0.1 * Math.sin(t * 0.4 + i);
+          ctx.beginPath();
+          ctx.arc(px, py, size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(232, 168, 56, ${alpha})`;
+          ctx.fill();
+        }
+
+        t += 0.012;
+        requestAnimationFrame(render);
+      }
+
+      render();
+    })();
+  </script>
 
 </body>
-
 </html>
