@@ -78,26 +78,20 @@
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style"
     onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
 
   <!-- Fallback for browsers that don't support preload -->
   <noscript>
     <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
     <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   </noscript>
 
   <!-- Fonts - Optimized loading -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 
   <!-- Defer non-critical JavaScript -->
   <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-  <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
@@ -176,37 +170,8 @@
 
   <!-- Scroll to Top Button -->
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
-    <i class="fas fa-chevron-up"></i>
+    ↑
   </button>
-
-  <!-- More Works Dropdown -->
-  <!-- 
-  <div class="more-works-container">
-    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
-      <i class="fas fa-flask"></i>
-      More Works
-      <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="more-works-dropdown" id="moreWorksDropdown">
-      <div class="dropdown-header">
-        <h4>More Works from Our Lab</h4>
-        <button class="close-btn" onclick="toggleMoreWorks()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="works-list">
-        <a href="#" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 1</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2024</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-  -->
 
   <main id="main-content">
     <section class="hero is-medium"
@@ -268,7 +233,7 @@
                       class="external-link button is-medium is-rounded is-white"
                       style="border: 2px solid #94a3b8; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
                       <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
+                        📄
                       </span>
                       <span>Paper</span>
                     </a>
@@ -278,7 +243,7 @@
                     <a href="#" target="_blank" class="external-link button is-medium is-rounded is-white"
                       style="border: 2px solid #94a3b8; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
                       <span class="icon">
-                        <i class="fab fa-github"></i>
+                        💻
                       </span>
                       <span>Code</span>
                     </a>
@@ -296,13 +261,12 @@
     <!-- End teaser video -->
 
     <!-- Paper abstract -->
-    <section class="section hero reveal"
-      style="background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #f093fb 100%);">
+    <section class="section hero reveal">
       <div class="container is-max-desktop">
         <div class="columns is-centered has-text-centered">
           <div class="column is-four-fifths">
-            <h2 class="title is-2 has-text-white">Abstract</h2>
-            <div class="content has-text-justified has-text-white">
+            <h2 class="title is-2">Abstract</h2>
+            <div class="content has-text-justified">
               <p class="is-size-5">
                 Visual geolocalization, the task of predicting where an image was taken, remains challenging due to
                 global scale, visual ambiguity, and the inherently hierarchical structure of geography. Existing
@@ -815,8 +779,7 @@
         <div class="bibtex-header">
           <h2 class="title publication-title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
-            <i class="fas fa-copy"></i>
-            <span class="copy-text">Copy</span>
+            📋 <span class="copy-text">Copy</span>
           </button>
         </div>
         <pre id="bibtex-code"><code>@misc{gadi2026hierlochyperbolicentityembeddings,
