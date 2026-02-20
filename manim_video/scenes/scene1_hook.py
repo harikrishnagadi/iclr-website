@@ -285,33 +285,33 @@ class Scene1Hook(Scene):
             # ============================================================
             # SEQUENCE 6: Define Visual Geolocation (6-16s)
             # ============================================================
-            # Title: What is Visual Geolocation?
+            # Title: Visual Geolocation (Centered)
             geo_title = Text(
                 "Visual Geolocation",
                 font=FONTS["sans"],
-                font_size=28,
+                font_size=32,
                 color=COLORS["accent"]
             )
-            geo_title.move_to([0, -2.8, 0])
+            geo_title.move_to([0, 0.5, 0])
 
-            # Description text
+            # Description text (below title)
             geo_description = Text(
-                "Determining the geographic location of an image\nbased on visual features alone",
+                "Determining the geographic location of an image based on visual features alone",
                 font=FONTS["sans"],
                 font_size=18,
                 color=COLORS["text"],
-                line_spacing=1.3
+                line_spacing=1.2
             )
-            geo_description.move_to([0, -3.5, 0])
+            geo_description.move_to([0, -0.5, 0])
 
-            # Task text
+            # Task text (below description, single line)
             task_text = Text(
                 "The Challenge: Guess where each image was taken",
                 font=FONTS["sans"],
-                font_size=16,
-                color=COLORS["text_muted"]
+                font_size=18,
+                color=COLORS["accent"]
             )
-            task_text.move_to([0, -4.0, 0])
+            task_text.move_to([0, -1.5, 0])
 
             # Fade in definition
             self.play(FadeIn(geo_title, run_time=0.6))
