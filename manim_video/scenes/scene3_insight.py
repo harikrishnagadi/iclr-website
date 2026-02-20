@@ -124,7 +124,6 @@ class Scene3Insight(Scene):
 
         # Create proper layout: street view on left, map on right
         # Position images with safe spacing using ObjectPositioner validation
-        positioner = ObjectPositioner()
 
         # Left image (street view): x = -3.0, centered vertically at y = 0.3
         street_view.move_to([-3.0, 0.3, 0])
@@ -135,16 +134,20 @@ class Scene3Insight(Scene):
         # Create group with proper spacing
         level1_container = Group(street_view, sv_level1_map)
 
-        # Validate that neither image exceeds canvas bounds
-        bounds_ok = (
-            positioner.is_within_canvas(street_view) and
-            positioner.is_within_canvas(sv_level1_map)
-        )
+        # Validate bounds using ObjectPositioner
+        sv_bounds = ObjectPositioner.get_bounds(street_view)
+        map_bounds = ObjectPositioner.get_bounds(sv_level1_map)
+
+        bounds_ok = True
+        if sv_bounds and map_bounds:
+            is_sv_ok, sv_errors = ObjectPositioner.is_within_canvas(sv_bounds)
+            is_map_ok, map_errors = ObjectPositioner.is_within_canvas(map_bounds)
+            bounds_ok = is_sv_ok and is_map_ok
 
         if bounds_ok:
             self.play(FadeIn(level1_container, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
         else:
-            # Fallback: reduce sizes and try again
+            # Fallback: reduce sizes if bounds exceeded
             street_view.set_height(2.0)
             sv_level1_map.set_height(2.0)
             street_view.move_to([-3.0, 0.3, 0])
