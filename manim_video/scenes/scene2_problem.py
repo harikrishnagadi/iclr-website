@@ -572,14 +572,14 @@ class Scene2Problem(Scene):
             font_size=20,
             color=COLORS["text_muted"]
         )
-        clf_desc1.move_to([0, -2.8, 0])
+        clf_desc1.move_to([0, -2.4, 0])
 
         clf_desc2 = create_sans_body(
             "Limited by cell granularity - imprecise near borders.",
             font_size=18,
             color=COLORS["text_muted"]
         )
-        clf_desc2.move_to([0, -3.15, 0])
+        clf_desc2.move_to([0, -2.75, 0])
 
         self.play(
             FadeIn(clf_desc1, run_time=0.5,
@@ -774,14 +774,14 @@ class Scene2Problem(Scene):
             font_size=20,
             color=COLORS["text_muted"]
         )
-        diff_desc1.move_to([0, -2.8, 0])
+        diff_desc1.move_to([0, -2.4, 0])
 
         diff_desc2 = create_sans_body(
             "High compute cost: inference requires many denoising steps.",
             font_size=18,
             color=COLORS["text_muted"]
         )
-        diff_desc2.move_to([0, -3.15, 0])
+        diff_desc2.move_to([0, -2.75, 0])
 
         self.play(
             FadeIn(diff_desc1, run_time=0.5,
@@ -950,14 +950,14 @@ class Scene2Problem(Scene):
             font_size=20,
             color=COLORS["text_muted"]
         )
-        ret_desc1.move_to([0, -2.8, 0])
+        ret_desc1.move_to([0, -2.4, 0])
 
         ret_desc2 = create_sans_body(
             "Scales to 100M+ references with index structures like FAISS.",
             font_size=18,
             color=COLORS["text_muted"]
         )
-        ret_desc2.move_to([0, -3.15, 0])
+        ret_desc2.move_to([0, -2.75, 0])
 
         self.play(
             FadeIn(ret_desc1, run_time=0.5,
