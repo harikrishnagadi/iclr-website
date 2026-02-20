@@ -494,15 +494,120 @@ class Scene1Hook(Scene):
             self.wait(2.5)
 
             # ============================================================
-            # SEQUENCE 8: Transition to Next Scene
+            # SEQUENCE 8: Real-World Use Cases (30-40 seconds)
             # ============================================================
-            # Fade out everything
+            # Fade out Earth visualization
             self.play(
                 FadeOut(paris_image, paris_frame, earth_group, marker_group,
-                        arrow_path, label_group, background_elements, run_time=1.0),
-                run_time=1.0
+                        arrow_path, label_group, run_time=0.8)
             )
             self.remove(paris_image)
+            self.wait(0.3)
+
+            # Use Cases Gallery Section
+            usecases_title = Text(
+                "Real-World Impact",
+                font=FONTS["sans"],
+                font_size=40,
+                color=COLORS["accent"]
+            )
+            usecases_title.move_to([0, 2.5, 0])
+
+            # Define 5 key use cases
+            use_cases = [
+                {
+                    "name": "Emergency Response",
+                    "description": "Rapid location identification\nfor disaster relief",
+                    "icon": "🚑"
+                },
+                {
+                    "name": "News & Journalism",
+                    "description": "Verify breaking news\nlocation automatically",
+                    "icon": "📰"
+                },
+                {
+                    "name": "Wildlife Conservation",
+                    "description": "Monitor endangered species\nat scale",
+                    "icon": "🦁"
+                },
+                {
+                    "name": "Urban Planning",
+                    "description": "Map cities comprehensively\nfor better infrastructure",
+                    "icon": "🏙️"
+                },
+                {
+                    "name": "Climate Action",
+                    "description": "Track environmental changes\nglobally in real-time",
+                    "icon": "🌍"
+                }
+            ]
+
+            # Create use case boxes
+            usecase_boxes = VGroup()
+            x_positions = [-5.0, -2.5, 0, 2.5, 5.0]
+
+            for i, (pos_x, usecase) in enumerate(zip(x_positions, use_cases)):
+                # Create box for each use case
+                box = RoundedRectangle(
+                    width=2.0,
+                    height=1.8,
+                    corner_radius=0.15,
+                    color=COLORS["accent"],
+                    stroke_width=2,
+                    fill_opacity=0.08,
+                    fill_color=COLORS["accent"]
+                )
+                box.move_to([pos_x, 0.5, 0])
+
+                # Use case name
+                name = Text(
+                    usecase["name"],
+                    font=FONTS["sans"],
+                    font_size=14,
+                    color=COLORS["accent"]
+                )
+                name.move_to([pos_x, 1.2, 0])
+
+                # Use case description
+                desc = Text(
+                    usecase["description"],
+                    font=FONTS["sans"],
+                    font_size=11,
+                    color=COLORS["text"],
+                    line_spacing=1.1
+                )
+                desc.move_to([pos_x, 0.3, 0])
+
+                usecase_item = VGroup(box, name, desc)
+                usecase_boxes.add(usecase_item)
+
+            # Display title and use cases
+            self.play(FadeIn(usecases_title, run_time=0.6))
+            self.wait(0.3)
+            self.play(FadeIn(usecase_boxes, run_time=1.0))
+            self.wait(2.0)
+
+            # Closing statement
+            closing = Text(
+                "HierLoc makes visual understanding practical\nat planetary scale",
+                font=FONTS["sans"],
+                font_size=22,
+                color=COLORS["gold_light"],
+                line_spacing=1.3
+            )
+            closing.move_to([0, -2.8, 0])
+
+            self.play(FadeIn(closing, run_time=0.8))
+            self.wait(2.0)
+
+            # ============================================================
+            # SEQUENCE 9: Transition to Next Scene
+            # ============================================================
+            # Final fade out
+            self.play(
+                FadeOut(usecases_title, usecase_boxes, closing,
+                        background_elements, run_time=1.0)
+            )
             self.wait(0.5)
         else:
             # Fallback if no images available
