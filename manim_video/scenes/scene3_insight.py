@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import COLORS, FONTS, setup_manim_config
 from utils import create_serif_title, create_sans_body
+from layout import ObjectPositioner, ReadabilityChecker
 
 setup_manim_config(quality="high_quality")
 
@@ -80,7 +81,9 @@ class Scene3Insight(Scene):
         )
         self.wait(0.3)
 
-        # Street view image (real Paris location)
+        # ============================================================
+        # Street view image (real Paris location) - Load once
+        # ============================================================
         street_view_files = [
             "/Volumes/SSD/iclr-website/static/images/streetview/Paris_00131_445353063_8c58bd82b1_179_88895879@N00.jpg",
             "/Volumes/SSD/iclr-website/static/images/streetview/0b_5a_5283974984.jpg",
@@ -92,8 +95,9 @@ class Scene3Insight(Scene):
             if os.path.exists(sv_path):
                 try:
                     street_view = ImageMobject(sv_path)
-                    street_view.set_height(3.5)
-                    street_view.move_to([-3.5, 0.3, 0])
+                    # Constrain height to safe zone: title at y=2.2, content area below
+                    # Max safe height: ~2.8 units to avoid overlap with lower UI
+                    street_view.set_height(2.6)
                     break
                 except Exception:
                     pass
@@ -101,22 +105,53 @@ class Scene3Insight(Scene):
         if street_view is None:
             street_view = VGroup()
 
-        # Sequential Hierarchy Levels - Now with Street View Image alongside
+        # ============================================================
+        # Sequential Hierarchy Levels - with proper layout
+        # ============================================================
         # Level 1: Country - France
         sv_level1_path = "/Volumes/SSD/iclr-website/static/images/sv_level1_country.png"
         sv_level1_map = None
         if os.path.exists(sv_level1_path):
             try:
                 sv_level1_map = ImageMobject(sv_level1_path)
-                sv_level1_map.set_height(3.8)
-                sv_level1_map.move_to([3.2, 0.3, 0])
+                # Same height constraint as street view
+                sv_level1_map.set_height(2.6)
             except Exception:
                 pass
 
         if sv_level1_map is None:
             sv_level1_map = VGroup()
 
-        self.play(FadeIn(street_view, sv_level1_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        # Create proper layout: street view on left, map on right
+        # Position images with safe spacing using ObjectPositioner validation
+        positioner = ObjectPositioner()
+
+        # Left image (street view): x = -3.0, centered vertically at y = 0.3
+        street_view.move_to([-3.0, 0.3, 0])
+
+        # Right image (map): x = +3.0, centered vertically at y = 0.3
+        sv_level1_map.move_to([3.0, 0.3, 0])
+
+        # Create group with proper spacing
+        level1_container = Group(street_view, sv_level1_map)
+
+        # Validate that neither image exceeds canvas bounds
+        bounds_ok = (
+            positioner.is_within_canvas(street_view) and
+            positioner.is_within_canvas(sv_level1_map)
+        )
+
+        if bounds_ok:
+            self.play(FadeIn(level1_container, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        else:
+            # Fallback: reduce sizes and try again
+            street_view.set_height(2.0)
+            sv_level1_map.set_height(2.0)
+            street_view.move_to([-3.0, 0.3, 0])
+            sv_level1_map.move_to([3.0, 0.3, 0])
+            level1_container = Group(street_view, sv_level1_map)
+            self.play(FadeIn(level1_container, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+
         self.wait(2.0)
 
         # Level 2: Region - Île-de-France
@@ -125,16 +160,18 @@ class Scene3Insight(Scene):
         if os.path.exists(sv_level2_path):
             try:
                 sv_level2_map = ImageMobject(sv_level2_path)
-                sv_level2_map.set_height(3.8)
-                sv_level2_map.move_to([3.2, 0.3, 0])
+                sv_level2_map.set_height(2.6)
             except Exception:
                 pass
 
         if sv_level2_map is None:
             sv_level2_map = VGroup()
 
-        self.play(FadeOut(sv_level1_map, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(sv_level2_map, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
+        sv_level2_map.move_to([3.0, 0.3, 0])
+        level2_container = Group(street_view, sv_level2_map)
+
+        self.play(FadeOut(level1_container, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(level2_container, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
         # Level 3: City - Paris
@@ -143,16 +180,18 @@ class Scene3Insight(Scene):
         if os.path.exists(sv_level3_path):
             try:
                 sv_level3_map = ImageMobject(sv_level3_path)
-                sv_level3_map.set_height(3.8)
-                sv_level3_map.move_to([3.2, 0.3, 0])
+                sv_level3_map.set_height(2.6)
             except Exception:
                 pass
 
         if sv_level3_map is None:
             sv_level3_map = VGroup()
 
-        self.play(FadeOut(sv_level2_map, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(sv_level3_map, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
+        sv_level3_map.move_to([3.0, 0.3, 0])
+        level3_container = Group(street_view, sv_level3_map)
+
+        self.play(FadeOut(level2_container, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(level3_container, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
         # Level 4: District - 1st Arrondissement
@@ -161,20 +200,22 @@ class Scene3Insight(Scene):
         if os.path.exists(sv_level4_path):
             try:
                 sv_level4_map = ImageMobject(sv_level4_path)
-                sv_level4_map.set_height(3.8)
-                sv_level4_map.move_to([3.2, 0.3, 0])
+                sv_level4_map.set_height(2.6)
             except Exception:
                 pass
 
         if sv_level4_map is None:
             sv_level4_map = VGroup()
 
-        self.play(FadeOut(sv_level3_map, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(sv_level4_map, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
+        sv_level4_map.move_to([3.0, 0.3, 0])
+        level4_container = Group(street_view, sv_level4_map)
+
+        self.play(FadeOut(level3_container, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(level4_container, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
-        # Combine all maps for final fadeout reference
-        hierarchy_map = sv_level4_map
+        # Reference for final fadeout
+        hierarchy_map = level4_container
 
         # ============================================================
         # SEQUENCE 2: The Challenge - Euclidean Space Problem
