@@ -49,7 +49,7 @@ class Scene3Insight(Scene):
             dot = Dot(
                 point=[x_pos, 3.2, 0],
                 radius=0.07,
-                color=COLORS["gold_light"] if i == 2 else COLORS["text_muted"],
+                color=COLORS["accent"] if i == 2 else COLORS["text_muted"],
                 fill_opacity=1.0 if i == 2 else 0.4
             )
             progress_dots.add(dot)
@@ -118,7 +118,7 @@ class Scene3Insight(Scene):
             font_size=32,
             color=COLORS["accent"]
         )
-        problem_title.move_to([0, -1.0, 0])
+        problem_title.move_to([0, 2.2, 0])
 
         problem_desc = create_sans_body(
             "Euclidean space compresses hierarchical levels together.\n"
@@ -126,10 +126,10 @@ class Scene3Insight(Scene):
             font_size=18,
             color=COLORS["text"]
         )
-        problem_desc.move_to([0, -1.8, 0])
+        problem_desc.move_to([0, 0.5, 0])
 
         self.play(
-            FadeOut(hierarchy_map, hierarchy_desc,
+            FadeOut(hierarchy_map, hierarchy_desc, hierarchy_title,
                    run_time=0.6,
                    rate_func=rate_functions.ease_in_out_sine)
         )
@@ -249,28 +249,29 @@ class Scene3Insight(Scene):
 
     def _create_hierarchical_lorentz_points(self):
         """
-        Create hierarchical points in Lorentz disc.
-        Inner points: deep hierarchy (cities)
-        Middle points: countries
-        Outer points: continents
+        Create hierarchical points in Lorentz disc (hyperbolic geometry).
+        In hyperbolic space, the boundary represents infinite distance.
+        Root (center): continents
+        Middle ring: countries
+        Boundary (outer): cities (leaves of hierarchy tree)
         """
         points = VGroup()
 
-        # Continent level (outermost)
+        # Root level (center) - Continent
         continent_positions = [
-            np.array([1.2, 0, 0]),
-            np.array([-1.2, 0, 0]),
+            np.array([0.25, 0, 0]),
+            np.array([-0.25, 0, 0]),
         ]
         for pos in continent_positions:
             dot = Dot(
                 point=pos,
-                radius=0.1,
-                color=COLORS["gold_light"],
-                fill_opacity=0.8
+                radius=0.07,
+                color=COLORS["accent"],
+                fill_opacity=0.7
             )
             points.add(dot)
 
-        # Country level (middle)
+        # Country level (middle ring)
         country_positions = [
             np.array([0.75, 0.75, 0]),
             np.array([0.75, -0.75, 0]),
@@ -280,27 +281,29 @@ class Scene3Insight(Scene):
         for pos in country_positions:
             dot = Dot(
                 point=pos,
-                radius=0.07,
+                radius=0.06,
                 color=COLORS["accent"],
                 fill_opacity=0.8
             )
             points.add(dot)
 
-        # City level (innermost - deep hierarchy)
+        # City level (boundary - deep hierarchy, leaves of tree)
         city_positions = [
-            np.array([0.25, 0.25, 0]),
-            np.array([0.25, -0.25, 0]),
-            np.array([-0.25, 0.25, 0]),
-            np.array([-0.25, -0.25, 0]),
-            np.array([0, 0.4, 0]),
-            np.array([0, -0.4, 0]),
+            np.array([1.2, 0.2, 0]),
+            np.array([1.2, -0.2, 0]),
+            np.array([-1.2, 0.2, 0]),
+            np.array([-1.2, -0.2, 0]),
+            np.array([0.2, 1.2, 0]),
+            np.array([-0.2, 1.2, 0]),
+            np.array([0.2, -1.2, 0]),
+            np.array([-0.2, -1.2, 0]),
         ]
         for pos in city_positions:
             dot = Dot(
                 point=pos,
-                radius=0.04,
-                color=COLORS["text_muted"],
-                fill_opacity=0.9
+                radius=0.08,
+                color=COLORS["text"],
+                fill_opacity=0.95
             )
             points.add(dot)
 
