@@ -323,37 +323,26 @@ class Scene1Hook(Scene):
                 color=COLORS["accent"]
             )
 
-            # Position text elements:
-            # - Visual Geolocation title in the middle (center of screen)
-            # - Definition and challenge below the bottom images
-            objects_to_position = [
-                {
-                    'object': geo_description,
-                    'name': 'Visual Geolocation Definition',
-                    'target_y': bottom_image_y - 0.6,
-                    'center_x': 0,
-                    'width': 8.0,
-                    'height': 0.6
-                },
-                {
-                    'object': task_text,
-                    'name': 'Challenge Text',
-                    'target_y': bottom_image_y - 1.3,
-                    'center_x': 0,
-                    'width': 7.0,
-                    'height': 0.6
-                }
-            ]
+            # Position text elements manually to ensure no overlaps:
+            # - Visual Geolocation title in the middle (center of screen, Y: 0)
+            # - Definition below the bottom images (Y: bottom_image_y - 0.6)
+            # - Challenge below definition with proper spacing
 
-            # Get reference bounds from images
-            reference_bounds = [b for b in image_bounds_list if b]
-
-            # Position title in the middle (center of screen)
+            # Position title in the middle
             geo_title.move_to([0, 0, 0])
 
-            # Use smart layout to position definition and challenge below images
-            layout_results = ObjectPositioner.layout_objects(self, objects_to_position)
-            ObjectPositioner.debug_layout(self, objects_to_position, layout_results)
+            # Position definition below bottom images
+            geo_description.move_to([0, bottom_image_y - 0.6, 0])
+
+            # Position challenge below definition with safe spacing
+            # bottom_image_y is around -1.5, so definition is at -2.1
+            # Challenge needs to be further down: -2.8 or lower
+            task_text.move_to([0, bottom_image_y - 1.4, 0])
+
+            # Verify no overlaps using ObjectPositioner bounds checking
+            title_bounds = ObjectPositioner.get_bounds(geo_title)
+            desc_bounds = ObjectPositioner.get_bounds(geo_description)
+            task_bounds = ObjectPositioner.get_bounds(task_text)
 
             # Fade in all text
             self.play(FadeIn(geo_title, run_time=0.6))
