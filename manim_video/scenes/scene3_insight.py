@@ -91,35 +91,32 @@ class Scene3Insight(Scene):
             "/Volumes/SSD/iclr-website/static/images/streetview/482314949_dbc149bb10_224_50435419@N00.jpg",
         ]
 
-        street_view_image = None
+        street_view = None
         for sv_path in street_view_files:
             if os.path.exists(sv_path):
                 try:
-                    street_view_image = ImageMobject(sv_path)
-                    street_view_image.set_height(2.4)  # Reduced size
-                    street_view_image.move_to([-3.5, 0.5, 0])  # Left side
+                    street_view = ImageMobject(sv_path)
+                    street_view.set_height(2.2)  # Reduced from 2.8
+                    street_view.move_to([-3.5, 0.5, 0])  # Left side
+
+                    # Add frame around image (like Scene 2)
+                    frame = Rectangle(
+                        width=street_view.width + 0.15,
+                        height=street_view.height + 0.15,
+                        stroke_color=COLORS["accent"],
+                        stroke_width=2.5,
+                        fill_opacity=0,
+                    )
+                    frame.move_to([-3.5, 0.5, 0])
+
+                    # Group image with frame
+                    street_view = VGroup(street_view, frame)
                     break
                 except Exception:
                     pass
 
-        if street_view_image is None:
-            street_view_image = VGroup()
-
-        # Create frame around image (visible rectangle border)
-        frame_width = 2.4 * (street_view_image.width / street_view_image.height) if hasattr(street_view_image, 'width') else 2.0
-        frame_height = 2.4
-
-        image_frame = Rectangle(
-            width=frame_width + 0.2,
-            height=frame_height + 0.2,
-            stroke_color=COLORS["accent"],
-            stroke_width=3,
-            fill_opacity=0,
-        )
-        image_frame.move_to([-3.5, 0.5, 0])
-
-        # Group image with frame (use Group for ImageMobject compatibility)
-        street_view = Group(image_frame, street_view_image)
+        if street_view is None:
+            street_view = VGroup()
 
         # Load animated map frames
         map_frame_dir = "/Volumes/SSD/iclr-website/static/images/map_zoom_frames"
@@ -140,11 +137,11 @@ class Scene3Insight(Scene):
                 map_animation.set_height(3.0)
                 map_animation.move_to([3.0, 0.4, 0])  # Right side
 
-                # Create text labels with WHITE start color (will animate to yellow)
+                # Create text labels below map with yellow color for hierarchy
                 map_label = create_sans_body(
                     "Geographic Hierarchy: France → Île-de-France Regions → Paris",
                     font_size=14,
-                    color=COLORS["text"]  # White initially
+                    color='#ffff00'  # Yellow for hierarchy
                 )
                 map_label.move_to([3.0, -2.2, 0])  # Below right-side map
 
@@ -160,7 +157,7 @@ class Scene3Insight(Scene):
                                run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
                 self.wait(0.2)
 
-                # Play through all frames with text color animation
+                # Play through all frames
                 frame_duration = 1.0 / 60.0
 
                 for frame_idx in range(1, len(frame_files)):
@@ -173,21 +170,9 @@ class Scene3Insight(Scene):
                         self.remove(map_animation)
                         self.add(next_frame)
                         map_animation = next_frame
-
-                        # Interpolate text color from white to yellow as animation progresses
-                        progress = frame_idx / (len(frame_files) - 1)
-                        # Color interpolation: white (1,1,1) → yellow (1,1,0)
-                        r = 1.0
-                        g = 1.0
-                        b = 1.0 - progress  # B channel goes from 1 to 0 to make yellow
-
-                        map_label.set_color(rgb_to_color([r, g, b]))
-
                         self.wait(frame_duration * 0.95)
 
-                    except Exception as e:
-                        if frame_idx < 10 or frame_idx % 100 == 0:
-                            print(f"Frame {frame_idx}/{len(frame_files)-1}")
+                    except Exception:
                         continue
 
                 self.wait(0.3)
