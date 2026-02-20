@@ -375,12 +375,15 @@ class Scene1Hook(Scene):
             # ============================================================
             # CREATE EARTH GLOBE USING SVG
             # ============================================================
-            # Load Earth SVG from static/images
+            # Load Earth SVG from static/images - positioned far right with good gap
+            earth_position_x = 5.0  # Far right for visual clarity
+            earth_position_y = 1.2
+
             earth_svg = SVGMobject(
                 file_name="/Volumes/SSD/iclr-website/static/images/earth-icon.svg"
             )
             earth_svg.set_height(2.4)  # Diameter of approximately 1.2 radius
-            earth_svg.move_to([2.2, 1.2, 0])
+            earth_svg.move_to([earth_position_x, earth_position_y, 0])
 
             # Add subtle shadow/depth effect with darker circle behind
             earth_shadow = Circle(
@@ -391,7 +394,7 @@ class Scene1Hook(Scene):
                 stroke_width=0,
                 stroke_opacity=0
             )
-            earth_shadow.move_to([2.2 + 0.1, 1.2 - 0.1, 0])
+            earth_shadow.move_to([earth_position_x + 0.1, earth_position_y - 0.1, 0])
 
             # Create location marker for Paris with pulse effect
             lat = 48.86 * np.pi / 180
@@ -445,14 +448,14 @@ class Scene1Hook(Scene):
                 angle=PI/6
             )
 
-            # Enhanced location label with background
+            # Enhanced location label with background - positioned below Earth
             location_label = Text(
                 "Paris, France",
                 font=FONTS["sans"],
                 font_size=14,
                 color=COLORS["accent"]
             )
-            location_label.move_to([2.2, -0.6, 0])
+            location_label.move_to([earth_position_x, earth_position_y - 1.6, 0])
 
             # Label background for better readability
             label_bg = SurroundingRectangle(
