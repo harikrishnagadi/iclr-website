@@ -398,7 +398,7 @@ class Scene1Hook(Scene):
 
             # Create location marker for Paris with pulse effect
             lat = 48.86 * np.pi / 180
-            lon = -20.0 * np.pi / 180  # More left on the Earth SVG
+            lon = -24.0 * np.pi / 180  # 4 degrees more left on the Earth SVG
 
             # Position on sphere surface
             marker_x = earth_svg.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
