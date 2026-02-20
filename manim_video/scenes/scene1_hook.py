@@ -397,8 +397,8 @@ class Scene1Hook(Scene):
             earth_shadow.move_to([earth_position_x + 0.1, earth_position_y - 0.1, 0])
 
             # Create location marker for Paris with actual coordinates
-            lat = 48.8566 * np.pi / 180  # Paris latitude: 48.8566° N
-            lon = 2.3522 * np.pi / 180   # Paris longitude: 2.3522° E
+            lat = 48.8566 * np.pi / 4  # Paris latitude: 48.8566° N
+            lon = 2.3522 * np.pi / 4   # Paris longitude: 2.3522° E
 
             # Position on sphere surface
             marker_x = earth_svg.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
@@ -513,43 +513,33 @@ class Scene1Hook(Scene):
             )
             usecases_title.move_to([0, 2.5, 0])
 
-            # Define 5 key use cases
+            # Define 3 key use cases (no icons for proper rendering)
             use_cases = [
                 {
-                    "name": "Emergency Response",
-                    "description": "Rapid location identification\nfor disaster relief",
-                    "icon": "🚑"
-                },
-                {
                     "name": "News & Journalism",
-                    "description": "Verify breaking news\nlocation automatically",
-                    "icon": "📰"
-                },
-                {
-                    "name": "Wildlife Conservation",
-                    "description": "Monitor endangered species\nat scale",
-                    "icon": "🦁"
-                },
-                {
-                    "name": "Urban Planning",
-                    "description": "Map cities comprehensively\nfor better infrastructure",
-                    "icon": "🏙️"
+                    "description": "Verify breaking news\nlocation automatically"
                 },
                 {
                     "name": "Climate Action",
-                    "description": "Track environmental changes\nglobally in real-time",
-                    "icon": "🌍"
+                    "description": "Track environmental changes\nglobally in real-time"
+                },
+                {
+                    "name": "Smart Glasses",
+                    "description": "Location determination for \n AR navigation"
                 }
             ]
 
-            # Create use case boxes
+            # Create use case boxes with CSS-like layout (3 boxes, evenly spaced)
             usecase_boxes = VGroup()
-            x_positions = [-5.0, -2.5, 0, 2.5, 5.0]
+            # Single row: 3 boxes spread evenly using CSS positioning
+            # Positions: left=-3.0, center=0.0, right=3.0 (equal spacing)
+            x_positions = [-3.5, 0.0, 3.5]
+            pos_y = 0.5
 
             for i, (pos_x, usecase) in enumerate(zip(x_positions, use_cases)):
                 # Create box for each use case
                 box = RoundedRectangle(
-                    width=2.0,
+                    width=2.2,
                     height=1.8,
                     corner_radius=0.15,
                     color=COLORS["accent"],
@@ -557,26 +547,26 @@ class Scene1Hook(Scene):
                     fill_opacity=0.08,
                     fill_color=COLORS["accent"]
                 )
-                box.move_to([pos_x, 0.5, 0])
+                box.move_to([pos_x, pos_y, 0])
 
                 # Use case name
                 name = Text(
                     usecase["name"],
                     font=FONTS["sans"],
-                    font_size=14,
+                    font_size=12,
                     color=COLORS["accent"]
                 )
-                name.move_to([pos_x, 1.2, 0])
+                name.move_to([pos_x, pos_y + 0.4, 0])
 
                 # Use case description
                 desc = Text(
                     usecase["description"],
                     font=FONTS["sans"],
-                    font_size=11,
+                    font_size=9,
                     color=COLORS["text"],
-                    line_spacing=1.1
+                    line_spacing=1.3
                 )
-                desc.move_to([pos_x, 0.3, 0])
+                desc.move_to([pos_x, pos_y - 0.3, 0])
 
                 usecase_item = VGroup(box, name, desc)
                 usecase_boxes.add(usecase_item)
@@ -587,25 +577,12 @@ class Scene1Hook(Scene):
             self.play(FadeIn(usecase_boxes, run_time=1.0))
             self.wait(2.0)
 
-            # Closing statement
-            closing = Text(
-                "HierLoc makes visual understanding practical\nat planetary scale",
-                font=FONTS["sans"],
-                font_size=22,
-                color=COLORS["gold_light"],
-                line_spacing=1.3
-            )
-            closing.move_to([0, -2.8, 0])
-
-            self.play(FadeIn(closing, run_time=0.8))
-            self.wait(2.0)
-
             # ============================================================
             # SEQUENCE 9: Transition to Next Scene
             # ============================================================
             # Final fade out
             self.play(
-                FadeOut(usecases_title, usecase_boxes, closing,
+                FadeOut(usecases_title, usecase_boxes,
                         background_elements, run_time=1.0)
             )
             self.wait(0.5)

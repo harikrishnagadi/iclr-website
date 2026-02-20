@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from config import COLORS, FONTS, setup_manim_config
 from layout import ObjectPositioner
 
-setup_manim_config(quality="h")
+setup_manim_config(quality="high_quality")
 
 
 class Scene4Solution(Scene):

@@ -1,17 +1,19 @@
 """
 Scene 3: THE INSIGHT - Geographic Hierarchy & Hyperbolic Geometry
-Duration: ~39 seconds
-Purpose: Reveal that geography is hierarchical + introduce hyperbolic space
+Duration: ~35 seconds
+Purpose: Show hierarchy on map + introduce Lorentz disc hyperbolic model
 
 Key insights from paper:
-- Geographic entities form a hierarchy (countries > regions > cities)
+- Geographic entities form a hierarchy (countries > regions > cities) - SHOWN ON MAP
 - Euclidean space compresses deep hierarchies
-- Hyperbolic space has exponential volume = perfect for hierarchy
+- Hyperbolic space (Lorentz disc) has exponential volume = perfect for hierarchy
 """
 
 from manim import *
+from manim import rate_functions
 import numpy as np
 import sys
+import os
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -19,13 +21,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import COLORS, FONTS, setup_manim_config
 from utils import create_serif_title, create_sans_body
-from layout import ObjectPositioner
 
-setup_manim_config(quality="h")
+setup_manim_config(quality="high_quality")
 
 
 class Scene3Insight(Scene):
-    """Key insight: Hierarchy and hyperbolic geometry"""
+    """Key insight: Hierarchy on maps and hyperbolic geometry"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
@@ -33,7 +34,6 @@ class Scene3Insight(Scene):
         # ============================================================
         # HEADER & PROGRESS LINE (Top of Scene)
         # ============================================================
-        # Full-width divider line below header
         divider_line = Line(
             start=[-7.0, 3.2, 0],
             end=[7.0, 3.2, 0],
@@ -42,8 +42,6 @@ class Scene3Insight(Scene):
             stroke_opacity=0.3
         )
 
-        # Progress dots spread evenly across entire line
-        # Scene 3 is the third scene, so third dot should be highlighted yellow
         progress_dots = VGroup()
         num_scenes = 5
         dot_x_positions = np.linspace(-6.8, 6.8, num_scenes)
@@ -56,7 +54,6 @@ class Scene3Insight(Scene):
             )
             progress_dots.add(dot)
 
-        # Header title "HierLoc"
         hierlock_header = Text(
             "HierLoc",
             font=FONTS["sans"],
@@ -65,192 +62,246 @@ class Scene3Insight(Scene):
         )
         hierlock_header.move_to([-5.5, 3.6, 0])
 
-        # Add header and progress line
         self.add(divider_line, progress_dots, hierlock_header)
 
         # ============================================================
-        # SEQUENCE 1: Title (0-1s)
+        # SEQUENCE 1: Hierarchy on Map
         # ============================================================
-        title = Text(
-            "The Insight",
-            font=FONTS["sans"],
-            font_size=64,
+        hierarchy_title = create_sans_body(
+            "Geographic Hierarchy",
+            font_size=44,
+            color=COLORS["accent"]
+        )
+        hierarchy_title.move_to([0, 2.2, 0])
+
+        self.play(
+            FadeIn(hierarchy_title, run_time=0.8,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(0.3)
+
+        # Geographic Hierarchy Map (4-panel progression: Europe → France → Île-de-France → Paris)
+        map_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_progression.png"
+        hierarchy_map = None
+
+        if os.path.exists(map_path):
+            try:
+                hierarchy_map = ImageMobject(map_path)
+                hierarchy_map.set_height(4.0)
+                hierarchy_map.move_to([0, 0.2, 0])
+            except Exception as e:
+                pass
+
+        if hierarchy_map is None:
+            # Fallback if map doesn't load
+            hierarchy_map = VGroup()
+
+        hierarchy_desc = create_sans_body(
+            "Geographic data naturally organizes into multiple\nhierarchical levels: Countries → Regions → Cities",
+            font_size=18,
             color=COLORS["text"]
         )
-        title.move_to([0, 2.0, 0])
+        hierarchy_desc.move_to([0, -2.0, 0])
 
-        self.play(FadeIn(title, run_time=1.0))
+        self.play(
+            FadeIn(hierarchy_map, hierarchy_desc,
+                   run_time=1.0,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(2.0)
+
+        # ============================================================
+        # SEQUENCE 2: The Challenge - Euclidean Space Problem
+        # ============================================================
+        problem_title = create_sans_body(
+            "The Challenge",
+            font_size=32,
+            color=COLORS["accent"]
+        )
+        problem_title.move_to([0, -1.0, 0])
+
+        problem_desc = create_sans_body(
+            "Euclidean space compresses hierarchical levels together.\n"
+            "Deep levels lose their hierarchical separation.",
+            font_size=18,
+            color=COLORS["text"]
+        )
+        problem_desc.move_to([0, -1.8, 0])
+
+        self.play(
+            FadeOut(hierarchy_map, hierarchy_desc,
+                   run_time=0.6,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(0.2)
+
+        self.play(
+            FadeIn(problem_title, problem_desc, run_time=0.6,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(1.5)
+
+        # ============================================================
+        # SEQUENCE 3: The Solution - Lorentz Disc Model
+        # ============================================================
+        solution_title = create_sans_body(
+            "The Solution: Hyperbolic Space",
+            font_size=38,
+            color=COLORS["accent"]
+        )
+        solution_title.move_to([0, 2.2, 0])
+
+        self.play(
+            FadeOut(hierarchy_title, problem_title, problem_desc,
+                   run_time=0.6,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(0.2)
+
+        self.play(
+            FadeIn(solution_title, run_time=0.6,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(0.3)
+
+        # Lorentz Disc Model (Upper Hyperboloid Sheet)
+        lorentz_disc = self._create_lorentz_disc()
+        lorentz_disc.move_to([0, 0.6, 0])
+
+        # Hierarchical points in Lorentz model
+        lorentz_points = self._create_hierarchical_lorentz_points()
+        lorentz_points.move_to([0, 0.6, 0])
+
+        lorentz_visual = VGroup(lorentz_disc, lorentz_points)
+
+        solution_desc = create_sans_body(
+            "Lorentz (Hyperbolic) model:\n"
+            "Exponential space enables perfect hierarchy preservation.",
+            font_size=18,
+            color=COLORS["text"]
+        )
+        solution_desc.move_to([0, -2.0, 0])
+
+        self.play(
+            FadeIn(lorentz_visual, solution_desc, run_time=0.8,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
+        self.wait(2.0)
+
+        # ============================================================
+        # SEQUENCE 4: Final Transition
+        # ============================================================
+        self.play(
+            FadeOut(solution_title, lorentz_visual, solution_desc,
+                   divider_line, progress_dots, hierlock_header,
+                   run_time=1.0,
+                   rate_func=rate_functions.ease_in_out_sine)
+        )
         self.wait(0.5)
 
-        # ============================================================
-        # SEQUENCE 2: Hierarchy Revelation (1.5-13s)
-        # ============================================================
-        # Start with smallest unit: City
-        city_box = Rectangle(
-            width=2.0, height=0.6,
-            stroke_color=COLORS["accent"],
+    def _create_lorentz_disc(self):
+        """
+        Create Lorentz disc model visualization.
+        The Lorentz model uses the upper hyperboloid sheet.
+        Display as a circular disc with radial geodesics.
+        """
+        # Outer circle boundary of Lorentz disc
+        boundary_circle = Circle(
+            radius=1.5,
+            color=COLORS["accent"],
             stroke_width=2.5,
             fill_opacity=0.08,
             fill_color=COLORS["accent"]
         )
-        city_box.move_to([0, 1.0, 0])
 
-        city_label = Text(
-            "Paris",
-            font=FONTS["sans"],
-            font_size=28,
-            color=COLORS["accent"],
-            
-        )
-        city_label.move_to(city_box.get_center())
+        # Radial lines representing geodesics in hyperbolic space
+        geodesics = VGroup()
+        num_geodesics = 8
+        for i in range(num_geodesics):
+            angle = 2 * np.pi * i / num_geodesics
+            end_point = np.array([
+                1.4 * np.cos(angle),
+                1.4 * np.sin(angle),
+                0
+            ])
+            geodesic = Line(
+                start=np.array([0, 0, 0]),
+                end=end_point,
+                color=COLORS["text_muted"],
+                stroke_width=1.0,
+                stroke_opacity=0.3
+            )
+            geodesics.add(geodesic)
 
-        self.play(Create(city_box, run_time=0.7))
-        self.play(FadeIn(city_label, run_time=0.4))
-        self.wait(0.8)
+        # Concentric circles representing different distances in hyperbolic space
+        circles = VGroup()
+        for radius_frac in [0.35, 0.65, 0.95]:
+            circle = Circle(
+                radius=radius_frac * 1.5,
+                color=COLORS["text_muted"],
+                stroke_width=0.8,
+                stroke_opacity=0.2,
+                fill_opacity=0
+            )
+            circles.add(circle)
 
-        # Add Region layer
-        region_box = Rectangle(
-            width=3.2, height=1.2,
-            stroke_color=COLORS["accent"],
-            stroke_width=2.5,
-            fill_opacity=0.04,
-            fill_color=COLORS["accent"]
-        )
-        region_box.move_to([0, 1.0, 0])
+        return VGroup(boundary_circle, geodesics, circles)
 
-        region_label = Text(
-            "Île-de-France",
-            font=FONTS["sans"],
-            font_size=22,
-            color=COLORS["gold_light"]
-        )
-        region_label.next_to(region_box, UP, buff=0.25)
+    def _create_hierarchical_lorentz_points(self):
+        """
+        Create hierarchical points in Lorentz disc.
+        Inner points: deep hierarchy (cities)
+        Middle points: countries
+        Outer points: continents
+        """
+        points = VGroup()
 
-        self.play(Create(region_box, run_time=0.7))
-        self.play(FadeIn(region_label, run_time=0.4))
-        self.wait(0.8)
+        # Continent level (outermost)
+        continent_positions = [
+            np.array([1.2, 0, 0]),
+            np.array([-1.2, 0, 0]),
+        ]
+        for pos in continent_positions:
+            dot = Dot(
+                point=pos,
+                radius=0.1,
+                color=COLORS["gold_light"],
+                fill_opacity=0.8
+            )
+            points.add(dot)
 
-        # Add Country layer
-        country_box = Rectangle(
-            width=4.4, height=1.8,
-            stroke_color=COLORS["accent"],
-            stroke_width=2.5,
-            fill_opacity=0.02,
-            fill_color=COLORS["accent"]
-        )
-        country_box.move_to([0, 1.0, 0])
+        # Country level (middle)
+        country_positions = [
+            np.array([0.75, 0.75, 0]),
+            np.array([0.75, -0.75, 0]),
+            np.array([-0.75, 0.75, 0]),
+            np.array([-0.75, -0.75, 0]),
+        ]
+        for pos in country_positions:
+            dot = Dot(
+                point=pos,
+                radius=0.07,
+                color=COLORS["accent"],
+                fill_opacity=0.8
+            )
+            points.add(dot)
 
-        country_label = Text(
-            "France",
-            font=FONTS["sans"],
-            font_size=20,
-            color=COLORS["gold_light"]
-        )
-        country_label.next_to(country_box, UP, buff=0.3)
+        # City level (innermost - deep hierarchy)
+        city_positions = [
+            np.array([0.25, 0.25, 0]),
+            np.array([0.25, -0.25, 0]),
+            np.array([-0.25, 0.25, 0]),
+            np.array([-0.25, -0.25, 0]),
+            np.array([0, 0.4, 0]),
+            np.array([0, -0.4, 0]),
+        ]
+        for pos in city_positions:
+            dot = Dot(
+                point=pos,
+                radius=0.04,
+                color=COLORS["text_muted"],
+                fill_opacity=0.9
+            )
+            points.add(dot)
 
-        self.play(Create(country_box, run_time=0.7))
-        self.play(FadeIn(country_label, run_time=0.4))
-        self.wait(0.8)
-
-        # Add Continent layer
-        continent_box = Rectangle(
-            width=5.6, height=2.6,
-            stroke_color=COLORS["accent"],
-            stroke_width=2.5,
-            fill_opacity=0,
-            fill_color=COLORS["accent"]
-        )
-        continent_box.move_to([0, 1.0, 0])
-
-        continent_label = Text(
-            "Europe",
-            font=FONTS["sans"],
-            font_size=18,
-            color=COLORS["gold_light"]
-        )
-        continent_label.next_to(continent_box, UP, buff=0.35)
-
-        self.play(Create(continent_box, run_time=0.7))
-        self.play(FadeIn(continent_label, run_time=0.4))
-        self.wait(1.2)
-
-        # ============================================================
-        # SEQUENCE 3: The Problem in Euclidean Space (13-22s)
-        # ============================================================
-        problem_text = Text(
-            "In Euclidean space:\nentities at deep levels\nget compressed together",
-            font=FONTS["sans"],
-            font_size=28,
-            color=COLORS["text_muted"],
-            line_spacing=1.3
-        )
-
-        # Position below hierarchy boxes
-        safe_y, found, _ = ObjectPositioner.find_safe_y_position(
-            target_height=1.2,
-            existing_bounds_list=[],
-            start_y=-2.3,
-            direction='down',
-            center_x=0,
-            h_spacing=0.2,
-            v_spacing=0.3
-        )
-        problem_text.move_to([0, safe_y if found else -2.3, 0])
-
-        self.play(
-            FadeOut(city_label, region_label, country_label, continent_label, run_time=0.5)
-        )
-        self.wait(0.2)
-        self.play(FadeIn(problem_text, run_time=0.6))
-        self.wait(1.5)
-
-        # ============================================================
-        # SEQUENCE 4: The Solution - Hyperbolic Space (22-35s)
-        # ============================================================
-        # Clear the boxes
-        self.play(
-            FadeOut(city_box, region_box, country_box, continent_box, problem_text, run_time=0.6)
-        )
-        self.wait(0.3)
-
-        # Introduce Hyperbolic Space (Poincaré disk)
-        poincare_circle = Circle(
-            radius=1.4,
-            color=COLORS["accent"],
-            stroke_width=3,
-            fill_opacity=0.06,
-            fill_color=COLORS["accent"]
-        )
-        poincare_circle.move_to([0, 0.8, 0])
-
-        solution_title = Text(
-            "Hyperbolic Space",
-            font=FONTS["sans"],
-            font_size=32,
-            color=COLORS["accent"],
-            
-        )
-        solution_title.move_to([0, 2.4, 0])
-
-        solution_desc = Text(
-            "Exponential volume growth\n= Perfect for hierarchy",
-            font=FONTS["sans"],
-            font_size=24,
-            color=COLORS["gold_light"],
-            line_spacing=1.2
-        )
-        solution_desc.move_to([0, -2.2, 0])
-
-        self.play(Create(poincare_circle, run_time=0.9))
-        self.play(FadeIn(solution_title, run_time=0.5))
-        self.wait(0.5)
-        self.play(FadeIn(solution_desc, run_time=0.6))
-        self.wait(2.0)
-
-        # ============================================================
-        # SEQUENCE 5: Transition (35-39s)
-        # ============================================================
-        self.play(
-            FadeOut(title, poincare_circle, solution_title, solution_desc, run_time=1.0)
-        )
-        self.wait(0.5)
+        return points

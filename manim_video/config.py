@@ -3,7 +3,12 @@ HierLoc Manim Configuration
 Color scheme and styling from website design
 """
 
+import os
 from manim import config as manim_config
+
+# Ensure output directory exists in manim_video/output
+MANIM_VIDEO_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_DIR = os.path.join(MANIM_VIDEO_DIR, "output")
 
 # Website Color Palette
 COLORS = {
@@ -17,11 +22,11 @@ COLORS = {
     "fg": "#e8e4da",
 }
 
-# Font Families - Modern Sans Serif (Clean, Professional)
+# Font Families - Consistent with Scene 1
 FONTS = {
-    "serif": "Optima",          # Elegant serif fallback
-    "sans": "Futura",           # Modern geometric sans-serif (award-winning aesthetic)
-    "mono": "Menlo",            # Apple's clean monospace
+    "serif": "Futura",          # All text uses Futura (matching Scene 1)
+    "sans": "Futura",           # Primary font - Modern geometric sans-serif
+    "mono": "Futura",           # Even code text uses Futura for consistency
 }
 
 # Animation Easing Functions
@@ -63,8 +68,9 @@ def setup_manim_config(quality="high_quality", resolution="1920x1080"):
         manim_config.pixel_width = 3840
         manim_config.frame_rate = 60
 
-    # Output directory
-    manim_config.media_dir = "./output"
+    # Output directory - absolute path to manim_video/output
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    manim_config.media_dir = OUTPUT_DIR
     manim_config.log_to_file = False
 
     return manim_config
