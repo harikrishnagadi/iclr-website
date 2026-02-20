@@ -24,7 +24,7 @@ from utils import create_serif_title, create_sans_body
 
 setup_manim_config(quality="high_quality")
 
-
+# 48.863133, 2.336654 location of paris image in /static/images/streetview/
 class Scene3Insight(Scene):
     """Key insight: Hierarchy on maps and hyperbolic geometry"""
 
@@ -80,80 +80,101 @@ class Scene3Insight(Scene):
         )
         self.wait(0.3)
 
-        # Sequential Hierarchy Levels with 2-second display and boundary highlights
-        # Level 1: Europe
-        level1_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level1_europe.png"
-        level1_map = None
-        if os.path.exists(level1_path):
+        # Street view image (real Paris location)
+        street_view_files = [
+            "/Volumes/SSD/iclr-website/static/images/streetview/Paris_00131_445353063_8c58bd82b1_179_88895879@N00.jpg",
+            "/Volumes/SSD/iclr-website/static/images/streetview/0b_5a_5283974984.jpg",
+            "/Volumes/SSD/iclr-website/static/images/streetview/482314949_dbc149bb10_224_50435419@N00.jpg",
+        ]
+
+        street_view = None
+        for sv_path in street_view_files:
+            if os.path.exists(sv_path):
+                try:
+                    street_view = ImageMobject(sv_path)
+                    street_view.set_height(3.5)
+                    street_view.move_to([-3.5, 0.3, 0])
+                    break
+                except Exception:
+                    pass
+
+        if street_view is None:
+            street_view = VGroup()
+
+        # Sequential Hierarchy Levels - Now with Street View Image alongside
+        # Level 1: Country - France
+        sv_level1_path = "/Volumes/SSD/iclr-website/static/images/sv_level1_country.png"
+        sv_level1_map = None
+        if os.path.exists(sv_level1_path):
             try:
-                level1_map = ImageMobject(level1_path)
-                level1_map.set_height(5.5)
-                level1_map.move_to([0, 0.3, 0])
+                sv_level1_map = ImageMobject(sv_level1_path)
+                sv_level1_map.set_height(3.8)
+                sv_level1_map.move_to([3.2, 0.3, 0])
             except Exception:
                 pass
 
-        if level1_map is None:
-            level1_map = VGroup()
+        if sv_level1_map is None:
+            sv_level1_map = VGroup()
 
-        self.play(FadeIn(level1_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(street_view, sv_level1_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
-        # Level 2: France
-        level2_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level2_france.png"
-        level2_map = None
-        if os.path.exists(level2_path):
+        # Level 2: Region - Île-de-France
+        sv_level2_path = "/Volumes/SSD/iclr-website/static/images/sv_level2_region.png"
+        sv_level2_map = None
+        if os.path.exists(sv_level2_path):
             try:
-                level2_map = ImageMobject(level2_path)
-                level2_map.set_height(5.5)
-                level2_map.move_to([0, 0.3, 0])
+                sv_level2_map = ImageMobject(sv_level2_path)
+                sv_level2_map.set_height(3.8)
+                sv_level2_map.move_to([3.2, 0.3, 0])
             except Exception:
                 pass
 
-        if level2_map is None:
-            level2_map = VGroup()
+        if sv_level2_map is None:
+            sv_level2_map = VGroup()
 
-        self.play(FadeOut(level1_map, run_time=0.5, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(level2_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeOut(sv_level1_map, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(sv_level2_map, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
-        # Level 3: Île-de-France
-        level3_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level3_idf.png"
-        level3_map = None
-        if os.path.exists(level3_path):
+        # Level 3: City - Paris
+        sv_level3_path = "/Volumes/SSD/iclr-website/static/images/sv_level3_city.png"
+        sv_level3_map = None
+        if os.path.exists(sv_level3_path):
             try:
-                level3_map = ImageMobject(level3_path)
-                level3_map.set_height(5.5)
-                level3_map.move_to([0, 0.3, 0])
+                sv_level3_map = ImageMobject(sv_level3_path)
+                sv_level3_map.set_height(3.8)
+                sv_level3_map.move_to([3.2, 0.3, 0])
             except Exception:
                 pass
 
-        if level3_map is None:
-            level3_map = VGroup()
+        if sv_level3_map is None:
+            sv_level3_map = VGroup()
 
-        self.play(FadeOut(level2_map, run_time=0.5, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(level3_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeOut(sv_level2_map, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(sv_level3_map, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
-        # Level 4: Paris
-        level4_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level4_paris.png"
-        level4_map = None
-        if os.path.exists(level4_path):
+        # Level 4: District - 1st Arrondissement
+        sv_level4_path = "/Volumes/SSD/iclr-website/static/images/sv_level4_district.png"
+        sv_level4_map = None
+        if os.path.exists(sv_level4_path):
             try:
-                level4_map = ImageMobject(level4_path)
-                level4_map.set_height(5.5)
-                level4_map.move_to([0, 0.3, 0])
+                sv_level4_map = ImageMobject(sv_level4_path)
+                sv_level4_map.set_height(3.8)
+                sv_level4_map.move_to([3.2, 0.3, 0])
             except Exception:
                 pass
 
-        if level4_map is None:
-            level4_map = VGroup()
+        if sv_level4_map is None:
+            sv_level4_map = VGroup()
 
-        self.play(FadeOut(level3_map, run_time=0.5, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(level4_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeOut(sv_level3_map, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(sv_level4_map, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
 
         # Combine all maps for final fadeout reference
-        hierarchy_map = level4_map
+        hierarchy_map = sv_level4_map
 
         # ============================================================
         # SEQUENCE 2: The Challenge - Euclidean Space Problem
