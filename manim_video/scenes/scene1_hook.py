@@ -396,9 +396,9 @@ class Scene1Hook(Scene):
             )
             earth_shadow.move_to([earth_position_x + 0.1, earth_position_y - 0.1, 0])
 
-            # Create location marker for Paris with pulse effect
-            lat = 48.86 * np.pi / 180
-            lon = -24.0 * np.pi / 180  # 4 degrees more left on the Earth SVG
+            # Create location marker for Paris with actual coordinates
+            lat = 48.8566 * np.pi / 180  # Paris latitude: 48.8566° N
+            lon = 2.3522 * np.pi / 180   # Paris longitude: 2.3522° E
 
             # Position on sphere surface
             marker_x = earth_svg.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
