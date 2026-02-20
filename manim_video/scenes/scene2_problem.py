@@ -11,10 +11,24 @@ Grounded in paper:
 
 from manim import *
 import numpy as np
-from config import COLORS, FONTS, setup_manim_config
-from utils import create_serif_title, create_sans_body
+import sys
+from pathlib import Path
 
-setup_manim_config(quality="h")
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from config import COLORS, FONTS, setup_manim_config
+from utils import (
+    create_serif_title,
+    create_sans_body,
+    create_mono_code,
+    apply_color,
+    create_accent_highlight,
+    get_easing_function
+)
+from layout import ObjectPositioner
+
+setup_manim_config(quality="high_quality")
 
 
 class Scene2Problem(Scene):
@@ -24,16 +38,92 @@ class Scene2Problem(Scene):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
+        # BACKGROUND: Beautiful geometric pattern (matching Scene 1)
+        # ============================================================
+        background_elements = VGroup()
+
+        # Large concentric circles (subtle, geometric)
+        for radius in [1.5, 2.5, 3.5, 4.5]:
+            circle = Circle(
+                radius=radius,
+                color=COLORS["accent"],
+                stroke_opacity=0.08,
+                stroke_width=1,
+                fill_opacity=0
+            )
+            background_elements.add(circle)
+
+        # Radial lines (8 directions, subtle)
+        for angle in np.linspace(0, 2*np.pi, 8, endpoint=False):
+            line = Line(
+                start=[0, 0, 0],
+                end=[4.5 * np.cos(angle), 4.5 * np.sin(angle), 0],
+                color=COLORS["accent"],
+                stroke_opacity=0.06,
+                stroke_width=0.8
+            )
+            background_elements.add(line)
+
+        # Some decorative dots at key points (very subtle)
+        for angle in np.linspace(0, 2*np.pi, 12, endpoint=False):
+            dot = Dot(
+                point=[3.5 * np.cos(angle), 3.5 * np.sin(angle), 0],
+                radius=0.04,
+                color=COLORS["accent"],
+                fill_opacity=0.15
+            )
+            background_elements.add(dot)
+
+        background_elements.center()
+        self.add(background_elements)
+
+        # ============================================================
+        # HEADER & PROGRESS LINE (Top of Scene)
+        # ============================================================
+        # Full-width divider line below header
+        divider_line = Line(
+            start=[-7.0, 3.2, 0],
+            end=[7.0, 3.2, 0],
+            color=COLORS["text_muted"],
+            stroke_width=1.5,
+            stroke_opacity=0.3
+        )
+
+        # Progress dots spread evenly across entire line
+        # Scene 2 is the second scene, so second dot should be highlighted yellow
+        progress_dots = VGroup()
+        num_scenes = 5
+        dot_x_positions = np.linspace(-6.8, 6.8, num_scenes)
+        for i, x_pos in enumerate(dot_x_positions):
+            dot = Dot(
+                point=[x_pos, 3.2, 0],
+                radius=0.07,
+                color=COLORS["gold_light"] if i == 1 else COLORS["text_muted"],
+                fill_opacity=1.0 if i == 1 else 0.4
+            )
+            progress_dots.add(dot)
+
+        # Header title "HierLoc"
+        hierlock_header = Text(
+            "HierLoc",
+            font=FONTS["sans"],
+            font_size=48,
+            color=COLORS["accent"]
+        )
+        hierlock_header.move_to([-5.5, 3.6, 0])
+
+        # Add header and progress line
+        self.add(divider_line, progress_dots, hierlock_header)
+
+        # ============================================================
         # SEQUENCE 1: Title (0-1s)
         # ============================================================
-        title = Text(
+        title = create_sans_body(
             "The Problem",
-            font=FONTS["sans"],
             font_size=64,
-            color=COLORS["text"],
-            
+            color=COLORS["text"]
         )
-        title.to_edge(UP, buff=0.5)
+        title.move_to([0, 2.0, 0])
 
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
@@ -67,9 +157,8 @@ class Scene2Problem(Scene):
         self.wait(0.8)
 
         # Label: "5M+ Images" positioned below grid
-        scale_label = Text(
+        scale_label = create_sans_body(
             "5,000,000+ Images",
-            font=FONTS["sans"],
             font_size=28,
             color=COLORS["accent"]
         )
@@ -109,9 +198,8 @@ class Scene2Problem(Scene):
         self.wait(0.7)
 
         # Question label
-        question_label = Text(
+        question_label = create_sans_body(
             "Your image",
-            font=FONTS["sans"],
             font_size=24,
             color=COLORS["gold_light"]
         )
@@ -145,8 +233,7 @@ class Scene2Problem(Scene):
                 buff=0.15,
                 color=COLORS["accent"],
                 stroke_width=2.5,
-                tip_length=0.18,
-                max_tip_angle=0.3
+                tip_length=0.18
             )
             arrows.add(arrow)
 
@@ -163,22 +250,28 @@ class Scene2Problem(Scene):
         self.play(FadeOut(question_label, run_time=0.3))
 
         # Problem 1: "Slow" - TOP LEFT
-        p1_title = Text("Slow", font=FONTS["sans"], font_size=26, color=COLORS["accent"], )
-        p1_desc = Text("O(N) comparisons", font=FONTS["sans"], font_size=18, color=COLORS["text_muted"])
+        p1_title = create_sans_body("Slow", font_size=26, color=COLORS["accent"])
+        p1_desc = create_sans_body("O(N) comparisons", font_size=18, color=COLORS["text_muted"])
         p1 = VGroup(p1_title, p1_desc).arrange(DOWN, buff=0.15)
-        p1.move_to([-2.8, 2.2, 0])
 
         # Problem 2: "Memory-Intensive" - TOP RIGHT
-        p2_title = Text("Memory", font=FONTS["sans"], font_size=26, color=COLORS["accent"], )
-        p2_desc = Text("5M+ embeddings", font=FONTS["sans"], font_size=18, color=COLORS["text_muted"])
+        p2_title = create_sans_body("Memory", font_size=26, color=COLORS["accent"])
+        p2_desc = create_sans_body("5M+ embeddings", font_size=18, color=COLORS["text_muted"])
         p2 = VGroup(p2_title, p2_desc).arrange(DOWN, buff=0.15)
-        p2.move_to([2.8, 2.2, 0])
 
         # Problem 3: "No Structure" - BOTTOM CENTER
-        p3_title = Text("No Structure", font=FONTS["sans"], font_size=26, color=COLORS["accent"], )
-        p3_desc = Text("Geography ignored", font=FONTS["sans"], font_size=18, color=COLORS["text_muted"])
+        p3_title = create_sans_body("No Structure", font_size=26, color=COLORS["accent"])
+        p3_desc = create_sans_body("Geography ignored", font_size=18, color=COLORS["text_muted"])
         p3 = VGroup(p3_title, p3_desc).arrange(DOWN, buff=0.15)
-        p3.move_to([0, -2.2, 0])
+
+        # Use layout system to position problem labels
+        layout_spec = [
+            {'object': p1, 'name': 'Problem 1', 'target_y': 2.2, 'center_x': -2.8, 'width': 2.0, 'height': 1.0},
+            {'object': p2, 'name': 'Problem 2', 'target_y': 2.2, 'center_x': 2.8, 'width': 2.0, 'height': 1.0},
+            {'object': p3, 'name': 'Problem 3', 'target_y': -2.2, 'center_x': 0, 'width': 2.5, 'height': 1.0},
+        ]
+
+        layout_results = ObjectPositioner.layout_objects(self, layout_spec)
 
         self.play(FadeIn(p1, p2, p3, run_time=0.8))
         self.wait(1.5)
@@ -186,14 +279,32 @@ class Scene2Problem(Scene):
         # ============================================================
         # SEQUENCE 6: Impact Statement (21-28s)
         # ============================================================
-        impact = Text(
+        impact = create_sans_body(
             "This doesn't scale.",
-            font=FONTS["sans"],
             font_size=36,
-            color=COLORS["accent"],
-            
+            color=COLORS["accent"]
         )
-        impact.move_to([0, -3.5, 0])
+
+        # Position impact statement safely
+        impact_bounds = ObjectPositioner.get_bounds(impact)
+        safe_y, found, _ = ObjectPositioner.find_safe_y_position(
+            target_height=0.6,
+            existing_bounds_list=[
+                ObjectPositioner.get_bounds(p1),
+                ObjectPositioner.get_bounds(p2),
+                ObjectPositioner.get_bounds(p3),
+            ],
+            start_y=-3.5,
+            direction='down',
+            center_x=0,
+            h_spacing=0.2,
+            v_spacing=0.3
+        )
+
+        if found:
+            impact.move_to([0, safe_y, 0])
+        else:
+            impact.move_to([0, -3.5, 0])
 
         self.play(FadeIn(impact, run_time=0.7))
         self.wait(1.5)
@@ -202,6 +313,6 @@ class Scene2Problem(Scene):
         # SEQUENCE 7: Transition (28-36s)
         # ============================================================
         self.play(
-            FadeOut(title, dot_grid, test_dot, glow, scale_label, arrows, p1, p2, p3, impact, run_time=1.2)
+            FadeOut(title, dot_grid, test_dot, glow, scale_label, arrows, p1, p2, p3, impact, background_elements, divider_line, progress_dots, hierlock_header, run_time=1.2)
         )
         self.wait(0.5)

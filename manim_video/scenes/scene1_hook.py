@@ -12,13 +12,18 @@ Improved design with:
 
 from manim import *
 import os
+import sys
 import numpy as np
 from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from config import COLORS, FONTS, setup_manim_config
 from utils import create_serif_title, create_sans_body
 from layout import ObjectPositioner
 
-setup_manim_config(quality="h")
+setup_manim_config(quality="high_quality")
 
 
 class Scene1Hook(Scene):

@@ -12,7 +12,14 @@ Pipeline:
 
 from manim import *
 import numpy as np
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from config import COLORS, FONTS, setup_manim_config
+from layout import ObjectPositioner
 
 setup_manim_config(quality="h")
 
@@ -24,16 +31,53 @@ class Scene4Solution(Scene):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
+        # HEADER & PROGRESS LINE (Top of Scene)
+        # ============================================================
+        # Full-width divider line below header
+        divider_line = Line(
+            start=[-7.0, 3.2, 0],
+            end=[7.0, 3.2, 0],
+            color=COLORS["text_muted"],
+            stroke_width=1.5,
+            stroke_opacity=0.3
+        )
+
+        # Progress dots spread evenly across entire line
+        # Scene 4 is the fourth scene, so fourth dot should be highlighted yellow
+        progress_dots = VGroup()
+        num_scenes = 5
+        dot_x_positions = np.linspace(-6.8, 6.8, num_scenes)
+        for i, x_pos in enumerate(dot_x_positions):
+            dot = Dot(
+                point=[x_pos, 3.2, 0],
+                radius=0.07,
+                color=COLORS["gold_light"] if i == 3 else COLORS["text_muted"],
+                fill_opacity=1.0 if i == 3 else 0.4
+            )
+            progress_dots.add(dot)
+
+        # Header title "HierLoc"
+        hierlock_header = Text(
+            "HierLoc",
+            font=FONTS["sans"],
+            font_size=48,
+            color=COLORS["accent"]
+        )
+        hierlock_header.move_to([-5.5, 3.6, 0])
+
+        # Add header and progress line
+        self.add(divider_line, progress_dots, hierlock_header)
+
+        # ============================================================
         # SEQUENCE 1: Title (0-1s)
         # ============================================================
         title = Text(
             "HierLoc Solution",
             font=FONTS["sans"],
             font_size=64,
-            color=COLORS["text"],
-            
+            color=COLORS["text"]
         )
-        title.to_edge(UP, buff=0.5)
+        title.move_to([0, 2.0, 0])
 
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
@@ -159,10 +203,8 @@ class Scene4Solution(Scene):
             "Hierarchical Search",
             font=FONTS["sans"],
             font_size=28,
-            color=COLORS["accent"],
-            
+            color=COLORS["accent"]
         )
-        search_title.move_to([0, -0.5, 0])
 
         search_steps = Text(
             "1. Match to countries\n2. Refine to regions\n3. Narrow to cities",
@@ -171,7 +213,13 @@ class Scene4Solution(Scene):
             color=COLORS["text_muted"],
             line_spacing=1.3
         )
-        search_steps.move_to([0, -1.8, 0])
+
+        # Position safely below pipeline
+        layout_spec = [
+            {'object': search_title, 'name': 'Search Title', 'target_y': -0.5, 'center_x': 0, 'width': 4.0, 'height': 0.8},
+            {'object': search_steps, 'name': 'Search Steps', 'target_y': -1.8, 'center_x': 0, 'width': 5.0, 'height': 1.5},
+        ]
+        ObjectPositioner.layout_objects(self, layout_spec)
 
         self.play(FadeOut(arrow1, label1, arrow2, label2, run_time=0.5))
         self.wait(0.3)

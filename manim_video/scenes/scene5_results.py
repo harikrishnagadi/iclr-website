@@ -11,7 +11,15 @@ From paper:
 """
 
 from manim import *
+import numpy as np
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from config import COLORS, FONTS, setup_manim_config
+from layout import ObjectPositioner
 
 setup_manim_config(quality="h")
 
@@ -23,16 +31,53 @@ class Scene5Results(Scene):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
+        # HEADER & PROGRESS LINE (Top of Scene)
+        # ============================================================
+        # Full-width divider line below header
+        divider_line = Line(
+            start=[-7.0, 3.2, 0],
+            end=[7.0, 3.2, 0],
+            color=COLORS["text_muted"],
+            stroke_width=1.5,
+            stroke_opacity=0.3
+        )
+
+        # Progress dots spread evenly across entire line
+        # Scene 5 is the fifth scene, so fifth dot should be highlighted yellow
+        progress_dots = VGroup()
+        num_scenes = 5
+        dot_x_positions = np.linspace(-6.8, 6.8, num_scenes)
+        for i, x_pos in enumerate(dot_x_positions):
+            dot = Dot(
+                point=[x_pos, 3.2, 0],
+                radius=0.07,
+                color=COLORS["gold_light"] if i == 4 else COLORS["text_muted"],
+                fill_opacity=1.0 if i == 4 else 0.4
+            )
+            progress_dots.add(dot)
+
+        # Header title "HierLoc"
+        hierlock_header = Text(
+            "HierLoc",
+            font=FONTS["sans"],
+            font_size=48,
+            color=COLORS["accent"]
+        )
+        hierlock_header.move_to([-5.5, 3.6, 0])
+
+        # Add header and progress line
+        self.add(divider_line, progress_dots, hierlock_header)
+
+        # ============================================================
         # SEQUENCE 1: Title (0-1s)
         # ============================================================
         title = Text(
             "Results",
             font=FONTS["sans"],
             font_size=64,
-            color=COLORS["text"],
-            
+            color=COLORS["text"]
         )
-        title.to_edge(UP, buff=0.5)
+        title.move_to([0, 2.0, 0])
 
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
@@ -51,11 +96,9 @@ class Scene5Results(Scene):
             "↓ 19.5%",
             font=FONTS["sans"],
             font_size=40,
-            color=COLORS["accent"],
-            
+            color=COLORS["accent"]
         )
         metric1 = VGroup(m1_label, m1_value).arrange(DOWN, buff=0.3)
-        metric1.move_to([-2.5, 1.0, 0])
 
         # Metric 2: Country Accuracy
         m2_label = Text(
@@ -68,11 +111,9 @@ class Scene5Results(Scene):
             "+8.8%",
             font=FONTS["sans"],
             font_size=40,
-            color=COLORS["accent"],
-            
+            color=COLORS["accent"]
         )
         metric2 = VGroup(m2_label, m2_value).arrange(DOWN, buff=0.3)
-        metric2.move_to([2.5, 1.0, 0])
 
         # Metric 3: Region Accuracy
         m3_label = Text(
@@ -85,11 +126,17 @@ class Scene5Results(Scene):
             "+20.1%",
             font=FONTS["sans"],
             font_size=40,
-            color=COLORS["accent"],
-            
+            color=COLORS["accent"]
         )
         metric3 = VGroup(m3_label, m3_value).arrange(DOWN, buff=0.3)
-        metric3.move_to([0, 1.0, 0])
+
+        # Use layout system to position metrics
+        layout_spec = [
+            {'object': metric1, 'name': 'Metric 1', 'target_y': 1.0, 'center_x': -2.5, 'width': 2.5, 'height': 1.5},
+            {'object': metric2, 'name': 'Metric 2', 'target_y': 1.0, 'center_x': 2.5, 'width': 2.5, 'height': 1.5},
+            {'object': metric3, 'name': 'Metric 3', 'target_y': 1.0, 'center_x': 0, 'width': 2.5, 'height': 1.5},
+        ]
+        ObjectPositioner.layout_objects(self, layout_spec)
 
         self.play(FadeIn(metric1, run_time=0.7))
         self.wait(0.5)
@@ -180,7 +227,6 @@ class Scene5Results(Scene):
             font=FONTS["sans"],
             font_size=32,
             color=COLORS["gold_light"],
-            ,
             line_spacing=1.4
         )
         big_insight.move_to([0, 0.3, 0])
