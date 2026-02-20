@@ -16,6 +16,7 @@ import numpy as np
 from pathlib import Path
 from config import COLORS, FONTS, setup_manim_config
 from utils import create_serif_title, create_sans_body
+from layout import ObjectPositioner
 
 setup_manim_config(quality="h")
 
@@ -283,18 +284,24 @@ class Scene1Hook(Scene):
             self.wait(2.5)
 
             # ============================================================
-            # SEQUENCE 6: Define Visual Geolocation (6-16s)
+            # SEQUENCE 6: Define Visual Geolocation with Smart Layout (6-16s)
             # ============================================================
-            # Title: Visual Geolocation (Centered)
+            # Get bounds of existing image objects for reference
+            image_bounds_list = [ObjectPositioner.get_bounds(img) for img in image_objects]
+
+            # Find the bottom Y position of the bottom two images
+            bottom_y_values = [bounds['y_min'] for bounds in image_bounds_list if bounds]
+            bottom_image_y = min(bottom_y_values) if bottom_y_values else -1.5
+
+            # Create text elements
             geo_title = Text(
                 "Visual Geolocation",
                 font=FONTS["sans"],
                 font_size=32,
                 color=COLORS["accent"]
             )
-            geo_title.move_to([0, 0.5, 0])
 
-            # Description text (below title)
+            # Description text (single line)
             geo_description = Text(
                 "Determining the geographic location of an image based on visual features alone",
                 font=FONTS["sans"],
@@ -302,24 +309,66 @@ class Scene1Hook(Scene):
                 color=COLORS["text"],
                 line_spacing=1.2
             )
-            geo_description.move_to([0, -0.5, 0])
 
-            # Task text (below description, single line)
+            # Task text (challenge)
             task_text = Text(
                 "The Challenge: Guess where each image was taken",
                 font=FONTS["sans"],
                 font_size=18,
                 color=COLORS["accent"]
             )
-            task_text.move_to([0, -1.5, 0])
 
-            # Fade in definition
-            self.play(FadeIn(geo_title, run_time=0.6))
-            self.wait(0.3)
-            self.play(FadeIn(geo_description, run_time=0.7))
-            self.wait(0.3)
-            self.play(FadeIn(task_text, run_time=0.6))
-            self.wait(2.0)
+            # Position text elements below bottom images using smart layout
+            objects_to_position = [
+                {
+                    'object': geo_title,
+                    'name': 'Visual Geolocation Title',
+                    'target_y': bottom_image_y - 0.8,
+                    'center_x': 0,
+                    'width': 6.0,
+                    'height': 0.8
+                },
+                {
+                    'object': geo_description,
+                    'name': 'Visual Geolocation Definition',
+                    'target_y': bottom_image_y - 1.6,
+                    'center_x': 0,
+                    'width': 8.0,
+                    'height': 0.6
+                },
+                {
+                    'object': task_text,
+                    'name': 'Challenge Text',
+                    'target_y': bottom_image_y - 2.3,
+                    'center_x': 0,
+                    'width': 7.0,
+                    'height': 0.6
+                }
+            ]
+
+            # Get reference bounds from images
+            reference_bounds = [b for b in image_bounds_list if b]
+
+            # Use smart layout to position text
+            layout_results = ObjectPositioner.layout_objects(self, objects_to_position)
+            ObjectPositioner.debug_layout(self, objects_to_position, layout_results)
+
+            # Fade in definition text (only if successfully positioned)
+            if layout_results['success']:
+                self.play(FadeIn(geo_title, run_time=0.6))
+                self.wait(0.3)
+                self.play(FadeIn(geo_description, run_time=0.7))
+                self.wait(0.3)
+                self.play(FadeIn(task_text, run_time=0.6))
+                self.wait(2.0)
+            else:
+                # Fallback: show warning and continue
+                print("⚠️  Layout positioning had issues, using fallback positions")
+                geo_title.move_to([0, bottom_image_y - 0.8, 0])
+                geo_description.move_to([0, bottom_image_y - 1.6, 0])
+                task_text.move_to([0, bottom_image_y - 2.3, 0])
+                self.play(FadeIn(geo_title, geo_description, task_text, run_time=0.6))
+                self.wait(2.0)
 
             # ============================================================
             # SEQUENCE 7: Isolate Image & Show Location on Earth (16-30s)
