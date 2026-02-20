@@ -362,12 +362,12 @@ class Scene1Hook(Scene):
             self.play(FadeOut(*images_to_fade, *other_frames, run_time=0.7))
             self.wait(0.3)
 
-            # Keep Paris image (index 0) and move it closer to Earth
+            # Keep Paris image (index 0) and move it (without scaling)
             paris_image = image_objects[0]
             paris_frame = frames_group[0]
             self.play(
-                paris_image.animate.scale(0.5).move_to([-1.5, 2.0, 0]),
-                paris_frame.animate.scale(0.5).move_to([-1.5, 2.0, 0]),
+                paris_image.animate.move_to([-1.5, 2.0, 0]),
+                paris_frame.animate.move_to([-1.5, 2.0, 0]),
                 FadeOut(geo_title, geo_description, task_text, run_time=0.5)
             )
             self.wait(0.3)
@@ -395,7 +395,7 @@ class Scene1Hook(Scene):
 
             # Create location marker for Paris with pulse effect
             lat = 48.86 * np.pi / 180
-            lon = 2.35 * np.pi / 180
+            lon = -5.0 * np.pi / 180  # Adjusted to be more left on the Earth
 
             # Position on sphere surface
             marker_x = earth_svg.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
@@ -429,10 +429,10 @@ class Scene1Hook(Scene):
             )
             marker_pulse.move_to([marker_x, marker_y, 0])
 
-            # Improved arrow with curve for visual interest
+            # Improved arrow with curve pointing to the location pin
             arrow_path = CurvedArrow(
                 start_point=[-1.5 + 0.5, 1.5, 0],
-                end_point=[2.2 - 0.4, 1.2 + 0.5, 0],
+                end_point=[marker_x, marker_y, 0],
                 color=COLORS["accent"],
                 stroke_width=2.5,
                 tip_length=0.2,
