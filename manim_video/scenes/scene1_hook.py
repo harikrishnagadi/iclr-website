@@ -492,16 +492,8 @@ class Scene1Hook(Scene):
                 rate_func=rate_functions.ease_out_quad
             )
 
-            # Animate Earth rotation with improved visual
-            self.play(
-                earth_group.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
-                marker_group.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
-                arrow_path.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
-                label_group.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
-                run_time=2.5,
-                rate_func=rate_functions.ease_in_out_cubic
-            )
-            self.wait(2.0)
+            # Wait for visual impact
+            self.wait(2.5)
 
             # ============================================================
             # SEQUENCE 8: Transition to Next Scene
@@ -509,7 +501,8 @@ class Scene1Hook(Scene):
             # Fade out everything
             self.play(
                 FadeOut(paris_image, paris_frame, earth_group, marker_group,
-                        arrow_path, label_group, background_elements, run_time=1.0)
+                        arrow_path, label_group, background_elements, run_time=1.0),
+                run_time=1.0
             )
             self.remove(paris_image)
             self.wait(0.5)
