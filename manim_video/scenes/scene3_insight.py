@@ -82,66 +82,97 @@ class Scene3Insight(Scene):
         self.wait(0.3)
 
         # ============================================================
-        # Animated Map Zoom IN Sequence (Europe → Paris)
+        # SEQUENCE 1: Geographic Hierarchy with Street View + Maps
         # ============================================================
-        # Load pre-generated animation frames (810 frames = 13.5 seconds)
-        # - 3 seconds at each level (Europe, France, Île-de-France, Paris)
-        # - Smooth transitions between levels (0.5s each)
+        # Load street view image
+        street_view_files = [
+            "/Volumes/SSD/iclr-website/static/images/streetview/Paris_00131_445353063_8c58bd82b1_179_88895879@N00.jpg",
+            "/Volumes/SSD/iclr-website/static/images/streetview/0b_5a_5283974984.jpg",
+            "/Volumes/SSD/iclr-website/static/images/streetview/482314949_dbc149bb10_224_50435419@N00.jpg",
+        ]
+
+        street_view = None
+        for sv_path in street_view_files:
+            if os.path.exists(sv_path):
+                try:
+                    street_view = ImageMobject(sv_path)
+                    street_view.set_height(2.8)
+                    street_view.move_to([-3.2, 0.4, 0])  # Left side
+                    break
+                except Exception:
+                    pass
+
+        if street_view is None:
+            street_view = VGroup()
+
+        # Load animated map frames
         map_frame_dir = "/Volumes/SSD/iclr-website/static/images/map_zoom_frames"
 
         if os.path.exists(map_frame_dir):
-            # Load all animation frames
             frame_files = sorted([f for f in os.listdir(map_frame_dir) if f.endswith('.png')])
 
             if frame_files:
-                print(f"  ✓ Geographic hierarchy animation: {len(frame_files)} frames ({len(frame_files)/60:.1f}s)")
+                print(f"  ✓ Geographic hierarchy: street view + {len(frame_files)} map frames")
 
-                # Load first frame and display
+                # Display street view
+                self.play(FadeIn(street_view, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+                self.wait(0.3)
+
+                # Load first map frame
                 first_frame_path = os.path.join(map_frame_dir, frame_files[0])
                 map_animation = ImageMobject(first_frame_path)
-                map_animation.set_height(3.4)
-                map_animation.move_to([0, 0.25, 0])
+                map_animation.set_height(3.0)
+                map_animation.move_to([3.0, 0.4, 0])  # Right side
 
-                # FadeIn the animation
-                self.play(FadeIn(map_animation, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+                # Create text labels below map
+                map_label = create_sans_body(
+                    "Geographic Hierarchy: Europe → France → Île-de-France → Paris",
+                    font_size=14,
+                    color=COLORS["text"]
+                )
+                map_label.move_to([3.0, -2.2, 0])  # Below right-side map
+
+                location_label = create_sans_body(
+                    "Street view location: 1st Arrondissement, Paris (48.863°N, 2.337°E)",
+                    font_size=12,
+                    color=COLORS["text_muted"]
+                )
+                location_label.move_to([-3.2, -2.2, 0])  # Below left-side image
+
+                # FadeIn map and labels
+                self.play(FadeIn(map_animation, map_label, location_label,
+                               run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
                 self.wait(0.2)
 
-                # Play through all frames sequentially
-                # At 60fps, each frame = 1/60s = 0.0167s
-                frame_duration = 1.0 / 60.0  # Duration per frame in seconds
+                # Play through all frames
+                frame_duration = 1.0 / 60.0
 
                 for frame_idx in range(1, len(frame_files)):
                     frame_path = os.path.join(map_frame_dir, frame_files[frame_idx])
                     try:
                         next_frame = ImageMobject(frame_path)
-                        next_frame.set_height(3.4)
-                        next_frame.move_to([0, 0.25, 0])
+                        next_frame.set_height(3.0)
+                        next_frame.move_to([3.0, 0.4, 0])
 
-                        # Instant transition to next frame (no animation overhead)
-                        # This allows proper 60fps playback
                         self.remove(map_animation)
                         self.add(next_frame)
                         map_animation = next_frame
+                        self.wait(frame_duration * 0.95)
 
-                        # Add minimal wait to control frame timing
-                        self.wait(frame_duration * 0.95)  # 0.95 factor accounts for processing time
-
-                    except Exception as e:
-                        if frame_idx < 10 or frame_idx % 100 == 0:
-                            print(f"    Frame {frame_idx}/{len(frame_files)}")
+                    except Exception:
                         continue
 
-                # Hold final frame (Paris zoomed in)
                 self.wait(0.3)
 
-                # Reference for final fadeout
-                hierarchy_map = map_animation
+                # Prepare for transition to Challenge
+                # Store all elements to fade out together
+                hierarchy_group = Group(street_view, map_animation, map_label, location_label)
             else:
-                print("  ⚠ No map animation frames found, using fallback")
-                hierarchy_map = VGroup()
+                print("  ⚠ No map animation frames found")
+                hierarchy_group = VGroup()
         else:
-            print(f"  ⚠ Map frame directory not found: {map_frame_dir}")
-            hierarchy_map = VGroup()
+            print(f"  ⚠ Map frame directory not found")
+            hierarchy_group = VGroup()
 
         # ============================================================
         # SEQUENCE 2: The Challenge - Euclidean Space Problem
@@ -161,13 +192,15 @@ class Scene3Insight(Scene):
         )
         problem_desc.move_to([0, 0.5, 0])
 
+        # Fade out hierarchy sequence completely
         self.play(
-            FadeOut(hierarchy_map, hierarchy_title,
+            FadeOut(hierarchy_group, hierarchy_title,
                    run_time=0.6,
                    rate_func=rate_functions.ease_in_out_sine)
         )
         self.wait(0.2)
 
+        # Fade in challenge text
         self.play(
             FadeIn(problem_title, problem_desc, run_time=0.6,
                    rate_func=rate_functions.ease_in_out_sine)

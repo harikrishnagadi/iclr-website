@@ -1,0 +1,8 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Text/Name icon -->
+  <text x="50" y="65" font-size="48" font-weight="bold" text-anchor="middle" fill="none" stroke="#e8a838" stroke-width="2">
+    Aa
+  </text>
+  <!-- Underline -->
+  <line x1="25" y1="75" x2="75" y2="75" stroke="#e8a838" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
