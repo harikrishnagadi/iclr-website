@@ -1,253 +1,261 @@
 """
-Scene 4: The Solution - HierLoc Approach
+Scene 4: THE SOLUTION - HierLoc Architecture
 Duration: ~70 seconds
-Purpose: Show how HierLoc encodes images and does hierarchical search
+Purpose: Show how HierLoc works (from paper Figure 1)
 
-Clean design with:
-- Left side: Image being encoded to embedding
-- Right side: Entity space with hierarchical entities
-- Center: Connection showing the matching process
-- Bottom: Efficiency metrics
+Pipeline:
+1. Image encoding
+2. Mapping to hyperbolic entity space
+3. Hierarchical search (country → region → city)
+4. Efficiency gains (240K entities vs 5M+ images)
 """
 
 from manim import *
 import numpy as np
 from config import COLORS, FONTS, setup_manim_config
-from utils import create_serif_title, create_sans_body
 
 setup_manim_config(quality="h")
 
 
 class Scene4Solution(Scene):
-    """Solution visualization with clean, intentional geometry"""
+    """HierLoc solution architecture"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
-        # TITLE: "The Solution: HierLoc"
+        # SEQUENCE 1: Title (0-1s)
         # ============================================================
-        title = create_serif_title("The Solution", font_size=64)
-        title.to_edge(UP, buff=0.4)
+        title = Text(
+            "HierLoc Solution",
+            font=FONTS["sans"],
+            font_size=64,
+            color=COLORS["text"],
+            
+        )
+        title.to_edge(UP, buff=0.5)
+
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
 
         # ============================================================
-        # LEFT SIDE: Image → Encoding Pipeline
+        # SEQUENCE 2: Pipeline Overview (1.5-20s)
         # ============================================================
-        # Image placeholder
+        # Step 1: Image input (LEFT) at [-3.0, 1.2, 0]
         image_box = Rectangle(
-            width=1.8, height=1.4,
-            stroke_color=COLORS["accent"],
-            stroke_width=2,
-            fill_opacity=0.15,
-            fill_color=COLORS["surface"]
-        )
-        image_box.move_to([-3.5, 1.0, 0])
-
-        image_label = create_sans_body("Image", font_size=22)
-        image_label.move_to(image_box.get_center())
-
-        self.play(Create(image_box, run_time=0.6))
-        self.play(FadeIn(image_label, run_time=0.4))
-        self.wait(0.6)
-
-        # Encoding arrow
-        encode_arrow = Arrow(
-            start=[-2.6, 1.0, 0],
-            end=[-1.2, 1.0, 0],
-            buff=0.1,
-            color=COLORS["accent"],
-            stroke_width=2,
-            tip_length=0.15
-        )
-
-        encode_label = create_sans_body("Encode", font_size=18)
-        encode_label.next_to(encode_arrow, UP, buff=0.1)
-        encode_label.set_color(COLORS["accent"])
-
-        self.play(Create(encode_arrow, run_time=0.5))
-        self.play(FadeIn(encode_label, run_time=0.3))
-        self.wait(0.4)
-
-        # Embedding vector
-        embedding_box = Rectangle(
-            width=1.2, height=1.2,
+            width=2.0, height=1.6,
             stroke_color=COLORS["accent"],
             stroke_width=2,
             fill_opacity=0.1,
-            fill_color=COLORS["accent"]
+            fill_color=COLORS["surface"]
         )
-        embedding_box.move_to([-0.4, 1.0, 0])
+        image_box.move_to([-3.0, 1.2, 0])
 
-        embedding_label = create_sans_body("v", font_size=28)
-        embedding_label.move_to(embedding_box.get_center())
-        embedding_label.set_color(COLORS["accent"])
+        image_label = Text(
+            "Image",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["accent"]
+        )
+        image_label.move_to(image_box.get_center())
 
-        self.play(Create(embedding_box, run_time=0.6))
-        self.play(FadeIn(embedding_label, run_time=0.4))
+        self.play(Create(image_box, run_time=0.6))
+        self.play(FadeIn(image_label, run_time=0.3))
         self.wait(0.8)
 
-        # ============================================================
-        # RIGHT SIDE: Entity Space
-        # ============================================================
-        # Title for entity space
-        entity_label = create_sans_body("Entity Space", font_size=24)
-        entity_label.move_to([3.0, 2.2, 0])
-        entity_label.set_color(COLORS["text_muted"])
+        # Arrow 1: Encoding
+        arrow1 = Arrow(
+            start=[-2.0, 1.2, 0],
+            end=[-0.8, 1.2, 0],
+            buff=0.1,
+            color=COLORS["accent"],
+            stroke_width=2.5,
+            tip_length=0.15
+        )
+        label1 = Text("Encode", font=FONTS["sans"], font_size=16, color=COLORS["accent"])
+        label1.next_to(arrow1, UP, buff=0.15)
 
-        self.play(FadeIn(entity_label, run_time=0.4))
-        self.wait(0.3)
+        self.play(Create(arrow1, run_time=0.5))
+        self.play(FadeIn(label1, run_time=0.3))
+        self.wait(0.6)
 
-        # Create hierarchical entity structure with dots
-        entities = VGroup()
+        # Step 2: Embedding vector
+        embedding_box = Rectangle(
+            width=1.4, height=1.4,
+            stroke_color=COLORS["accent"],
+            stroke_width=2,
+            fill_opacity=0.08,
+            fill_color=COLORS["accent"]
+        )
+        embedding_box.move_to([0.2, 1.2, 0])
 
-        # Level 0: Countries (3 dots)
-        country_positions = [
-            [2.2, 1.0, 0], [3.0, 1.0, 0], [3.8, 1.0, 0]
-        ]
-        for pos in country_positions:
-            dot = Dot(radius=0.08, color=COLORS["accent"], fill_opacity=1.0)
-            dot.move_to(pos)
-            entities.add(dot)
+        embedding_label = Text(
+            "z_img",
+            font=FONTS["sans"],
+            font_size=18,
+            color=COLORS["accent"]
+        )
+        embedding_label.move_to(embedding_box.get_center())
 
-        self.play(Create(entities[0], run_time=0.3))
-        self.wait(0.2)
-        self.play(Create(entities[1], run_time=0.3))
-        self.wait(0.2)
-        self.play(Create(entities[2], run_time=0.3))
-        self.wait(0.4)
+        self.play(Create(embedding_box, run_time=0.6))
+        self.play(FadeIn(embedding_label, run_time=0.3))
+        self.wait(0.8)
 
-        # Level 1: Cities under first country (2 dots)
-        city_positions = [
-            [1.8, -0.3, 0], [2.6, -0.3, 0]
-        ]
-        for i, pos in enumerate(city_positions):
-            dot = Dot(radius=0.06, color=COLORS["text_muted"], fill_opacity=0.8)
-            dot.move_to(pos)
-            entities.add(dot)
-
-            # Connect to parent
-            line = Line(country_positions[0], dot.get_center(),
-                       color=COLORS["text_muted"], stroke_width=1, stroke_opacity=0.5)
-            self.play(Create(line, run_time=0.2))
-            self.play(Create(dot, run_time=0.2))
-
-        self.wait(0.4)
-
-        # ============================================================
-        # CENTER: Matching Process
-        # ============================================================
-        # Arrow from image embedding to entity space
-        match_arrow = Arrow(
-            start=[-0.4, 0.7, 0],
-            end=[1.8, 0.7, 0],
+        # Arrow 2: Map to hyperbolic space
+        arrow2 = Arrow(
+            start=[0.9, 1.2, 0],
+            end=[2.2, 1.2, 0],
             buff=0.1,
             color=COLORS["gold_light"],
             stroke_width=3,
-            tip_length=0.2
+            tip_length=0.15
         )
+        label2 = Text("Map", font=FONTS["sans"], font_size=16, color=COLORS["gold_light"])
+        label2.next_to(arrow2, UP, buff=0.15)
 
-        match_label = create_sans_body("Match", font_size=20)
-        match_label.next_to(match_arrow, UP, buff=0.15)
-        match_label.set_color(COLORS["gold_light"])
+        self.play(Create(arrow2, run_time=0.5))
+        self.play(FadeIn(label2, run_time=0.3))
+        self.wait(0.6)
 
-        self.play(Create(match_arrow, run_time=0.6))
-        self.play(FadeIn(match_label, run_time=0.3))
-        self.wait(0.8)
-
-        # Highlight the best match with glow
-        best_match = Dot(radius=0.12, color=COLORS["accent"], fill_opacity=1.0)
-        best_match.move_to(country_positions[1])
-
-        glow = Circle(
-            radius=0.2,
-            color=COLORS["gold_light"],
+        # Step 3: Entity space visualization
+        entity_circle = Circle(
+            radius=0.6,
+            color=COLORS["accent"],
             stroke_width=2,
-            fill_opacity=0,
-            stroke_opacity=0.8
+            fill_opacity=0.08,
+            fill_color=COLORS["accent"]
         )
-        glow.move_to(country_positions[1])
+        entity_circle.move_to([3.2, 1.2, 0])
 
-        self.play(
-            Create(best_match, run_time=0.4),
-            Create(glow, run_time=0.4)
+        # Small dots inside representing entities
+        dots = VGroup()
+        for angle in np.linspace(0, 2*np.pi, 7)[:-1]:
+            dot = Dot(
+                point=[3.2 + 0.4*np.cos(angle), 1.2 + 0.4*np.sin(angle), 0],
+                radius=0.08,
+                color=COLORS["accent"],
+                fill_opacity=0.8
+            )
+            dots.add(dot)
+
+        entity_label = Text(
+            "Entity Space\n(240K entities)",
+            font=FONTS["sans"],
+            font_size=14,
+            color=COLORS["accent"],
+            line_spacing=1.0
         )
+        entity_label.next_to(entity_circle, DOWN, buff=0.4)
+
+        self.play(Create(entity_circle, run_time=0.6))
+        self.play(FadeIn(dots, run_time=0.4))
+        self.play(FadeIn(entity_label, run_time=0.3))
         self.wait(1.0)
 
         # ============================================================
-        # HIERARCHICAL SEARCH VISUALIZATION
+        # SEQUENCE 3: Hierarchical Search (20-40s)
         # ============================================================
-        search_label = create_sans_body(
-            "Hierarchical Search:\nCountry → Region → City",
-            font_size=24
+        search_title = Text(
+            "Hierarchical Search",
+            font=FONTS["sans"],
+            font_size=28,
+            color=COLORS["accent"],
+            
         )
-        search_label.move_to([0, -1.5, 0])
-        search_label.set_color(COLORS["accent"])
+        search_title.move_to([0, -0.5, 0])
 
-        self.play(FadeIn(search_label, run_time=0.6))
-        self.wait(1.2)
+        search_steps = Text(
+            "1. Match to countries\n2. Refine to regions\n3. Narrow to cities",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text_muted"],
+            line_spacing=1.3
+        )
+        search_steps.move_to([0, -1.8, 0])
+
+        self.play(FadeOut(arrow1, label1, arrow2, label2, run_time=0.5))
+        self.wait(0.3)
+        self.play(FadeIn(search_title, search_steps, run_time=0.8))
+        self.wait(2.5)
 
         # ============================================================
-        # EFFICIENCY METRICS
+        # SEQUENCE 4: Efficiency Gains (40-70s)
         # ============================================================
-        # Clear for metrics
         self.play(
-            FadeOut(image_box, image_label, encode_arrow, encode_label,
-                   embedding_box, embedding_label, match_arrow, match_label,
-                   entity_label, entities, best_match, glow, search_label,
+            FadeOut(image_box, image_label, embedding_box, embedding_label,
+                   entity_circle, dots, entity_label, search_title, search_steps,
                    run_time=0.8)
         )
+        self.wait(0.3)
+
+        # Efficiency comparison
+        efficiency_title = Text(
+            "Efficiency",
+            font=FONTS["sans"],
+            font_size=36,
+            color=COLORS["accent"],
+            
+        )
+        efficiency_title.move_to([0, 2.0, 0])
+
+        # Left column: Traditional
+        trad_header = Text(
+            "Traditional",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text_muted"],
+            
+        )
+        trad_metrics = Text(
+            "5M+ embeddings\nO(N) search\nHigh memory",
+            font=FONTS["sans"],
+            font_size=18,
+            color=COLORS["text_muted"],
+            line_spacing=1.4
+        )
+        trad = VGroup(trad_header, trad_metrics).arrange(DOWN, buff=0.3)
+        trad.move_to([-2.2, 0.5, 0])
+
+        # Right column: HierLoc
+        hierloc_header = Text(
+            "HierLoc",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["accent"],
+            
+        )
+        hierloc_metrics = Text(
+            "240K entities\nSub-linear search\nEfficient",
+            font=FONTS["sans"],
+            font_size=18,
+            color=COLORS["gold_light"],
+            line_spacing=1.4
+        )
+        hierloc = VGroup(hierloc_header, hierloc_metrics).arrange(DOWN, buff=0.3)
+        hierloc.move_to([2.2, 0.5, 0])
+
+        self.play(FadeIn(efficiency_title, run_time=0.6))
         self.wait(0.4)
+        self.play(FadeIn(trad, hierloc, run_time=0.8))
+        self.wait(1.5)
 
-        # Metrics display
-        efficiency_title = create_sans_body(
-            "Efficiency Gains",
-            font_size=32
+        # Highlight the key improvement
+        improvement = Text(
+            "95% fewer embeddings to store",
+            font=FONTS["sans"],
+            font_size=28,
+            color=COLORS["accent"],
+            
         )
-        efficiency_title.move_to([0, 1.5, 0])
-        efficiency_title.set_color(COLORS["accent"])
+        improvement.move_to([0, -2.2, 0])
 
-        # Left metric
-        metric_left = VGroup(
-            create_sans_body("Traditional", font_size=20),
-            create_sans_body("5M+ embeddings", font_size=20),
-            create_sans_body("O(N) search", font_size=20)
-        )
-        metric_left.arrange(DOWN, buff=0.4)
-        metric_left.move_to([-2.5, 0, 0])
-        metric_left[1:].set_color(COLORS["text_muted"])
-
-        # Right metric
-        metric_right = VGroup(
-            create_sans_body("HierLoc", font_size=20),
-            create_sans_body("240K entities", font_size=20),
-            create_sans_body("Sub-linear search", font_size=20)
-        )
-        metric_right.arrange(DOWN, buff=0.4)
-        metric_right.move_to([2.5, 0, 0])
-        metric_right[1:].set_color(COLORS["gold_light"])
-
-        self.play(FadeIn(efficiency_title, run_time=0.5))
-        self.wait(0.4)
-        self.play(FadeIn(metric_left, metric_right, run_time=0.8))
-        self.wait(2.0)
-
-        # Efficiency gain highlight
-        gain_label = create_sans_body(
-            "95% fewer embeddings",
-            font_size=28
-        )
-        gain_label.move_to([0, -1.5, 0])
-        gain_label.set_color(COLORS["accent"])
-
-        self.play(FadeIn(gain_label, run_time=0.6))
-        self.wait(2.0)
+        self.play(FadeIn(improvement, run_time=0.8))
+        self.wait(2.5)
 
         # ============================================================
-        # FADE OUT FOR TRANSITION
+        # SEQUENCE 5: Transition (70s)
         # ============================================================
         self.play(
-            FadeOut(title, efficiency_title, metric_left, metric_right, gain_label, run_time=1.0)
+            FadeOut(title, efficiency_title, trad, hierloc, improvement, run_time=1.0)
         )
         self.wait(0.5)

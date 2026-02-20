@@ -17,11 +17,11 @@ COLORS = {
     "fg": "#e8e4da",
 }
 
-# Font Families - Modern Apple Fonts
+# Font Families - Modern Sans Serif (Clean, Professional)
 FONTS = {
-    "serif": "Optima",  # Modern serif similar to SF Pro
-    "sans": "Helvetica Neue",  # Clean modern sans-serif (Apple standard)
-    "mono": "Menlo",  # Apple's modern monospace
+    "serif": "Optima",          # Elegant serif fallback
+    "sans": "Futura",           # Modern geometric sans-serif (award-winning aesthetic)
+    "mono": "Menlo",            # Apple's clean monospace
 }
 
 # Animation Easing Functions

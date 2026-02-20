@@ -1,12 +1,12 @@
 """
-Scene 2: The Problem - Scale and Inefficiency
+Scene 2: THE PROBLEM - Naive Approach Fails at Scale
 Duration: ~36 seconds
-Purpose: Show why naive geolocation fails at scale
+Purpose: Show why traditional methods don't work well
 
-Clean visualization with:
-- Organized grid of dots representing scale
-- Clear search pattern showing inefficiency
-- Minimal text labels
+Grounded in paper:
+- O(N) comparison complexity against millions of images
+- Memory intensive (5M+ embeddings)
+- Ignores geographic hierarchy
 """
 
 from manim import *
@@ -18,100 +18,121 @@ setup_manim_config(quality="h")
 
 
 class Scene2Problem(Scene):
-    """Problem visualization with clean, intentional geometry"""
+    """Problem visualization: Scale and complexity"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
-        # TITLE: "The Problem"
+        # SEQUENCE 1: Title (0-1s)
         # ============================================================
-        title = create_serif_title("The Problem", font_size=64)
-        title.to_edge(UP, buff=0.4)
+        title = Text(
+            "The Problem",
+            font=FONTS["sans"],
+            font_size=64,
+            color=COLORS["text"],
+            
+        )
+        title.to_edge(UP, buff=0.5)
+
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
 
         # ============================================================
-        # SCALE VISUALIZATION: Grid of dots representing millions
+        # SEQUENCE 2: Scale Visualization (1.5-8s)
         # ============================================================
-        # Create organized grid: 12x12 = 144 dots visible (represents millions)
+        # Create organized grid representing 5M+ images
+        # Grid: 14x14 = 196 dots (visual representation of scale)
+        # Coordinates: Centered at origin, spacing 0.32
         dot_grid = VGroup()
-        grid_size = 12
-        spacing = 0.35
+        grid_size = 14
+        spacing = 0.32
 
+        # Create grid with precise coordinates
         for i in range(grid_size):
             for j in range(grid_size):
-                # Positions arranged in clean grid
-                x = (i - grid_size/2) * spacing
-                y = (j - grid_size/2) * spacing
+                # Offset to center the grid at [0, 0.3, 0]
+                x = (i - grid_size/2) * spacing + 0.05
+                y = (j - grid_size/2) * spacing + 0.3
 
                 dot = Dot(
                     point=[x, y, 0],
-                    radius=0.06,
+                    radius=0.05,
                     color=COLORS["text_muted"],
-                    fill_opacity=0.7
+                    fill_opacity=0.6
                 )
                 dot_grid.add(dot)
 
-        # Center grid in scene
-        dot_grid.move_to([0, 0.5, 0])
+        self.play(FadeIn(dot_grid, run_time=1.2, rate_func=rate_functions.ease_in_out_cubic))
+        self.wait(0.8)
 
-        # Animate grid appearing
-        self.play(
-            FadeIn(dot_grid, run_time=1.2),
-            rate_func=rate_functions.ease_in_out_cubic
+        # Label: "5M+ Images" positioned below grid
+        scale_label = Text(
+            "5,000,000+ Images",
+            font=FONTS["sans"],
+            font_size=28,
+            color=COLORS["accent"]
         )
-        self.wait(1.0)
-
-        # ============================================================
-        # SCALE LABEL: "5M+ images"
-        # ============================================================
-        scale_label = create_sans_body("5M+ images", font_size=32)
-        scale_label.next_to(dot_grid, DOWN, buff=0.8)
-        scale_label.set_color(COLORS["text_muted"])
+        scale_label.move_to([0, -2.8, 0])
 
         self.play(FadeIn(scale_label, run_time=0.6))
         self.wait(0.8)
 
         # ============================================================
-        # HIGHLIGHT ONE TEST IMAGE: Center dot with gold glow
+        # SEQUENCE 3: Test Image Highlight (8-11s)
         # ============================================================
+        # Center dot represents the query image
+        # Coordinates: [0.05, 0.3, 0] (center of grid)
         test_dot = Dot(
-            point=[0, 0.5, 0],
-            radius=0.12,
+            point=[0.05, 0.3, 0],
+            radius=0.15,
             color=COLORS["accent"],
-            fill_opacity=1.0
+            fill_opacity=1.0,
+            z_index=5
         )
 
-        # Create glow effect (animated circle around test dot)
+        # Glow effect around test dot
         glow = Circle(
-            radius=0.25,
+            radius=0.3,
             color=COLORS["accent"],
             stroke_width=2,
             fill_opacity=0,
-            stroke_opacity=0.8
+            stroke_opacity=0.7,
+            z_index=4
         )
-        glow.move_to(test_dot.get_center())
+        glow.move_to([0.05, 0.3, 0])
 
         self.play(
             Create(test_dot, run_time=0.6),
             Create(glow, run_time=0.6)
         )
-        self.wait(0.5)
+        self.wait(0.7)
+
+        # Question label
+        question_label = Text(
+            "Your image",
+            font=FONTS["sans"],
+            font_size=24,
+            color=COLORS["gold_light"]
+        )
+        question_label.next_to(glow, UP, buff=0.3)
+
+        self.play(FadeIn(question_label, run_time=0.4))
+        self.wait(0.8)
 
         # ============================================================
-        # SEARCH ARROWS: Fan out showing comparison
+        # SEQUENCE 4: Search Pattern (11-15s)
         # ============================================================
-        # Create arrows pointing from test dot to surrounding dots
-        num_arrows = 8
-        arrow_length = 1.5
-
+        # Show comparisons: arrows radiating from center
+        # 12 arrows for comprehensive visualization
+        num_arrows = 12
         arrows = VGroup()
+
         for i in range(num_arrows):
             angle = (2 * np.pi * i) / num_arrows
+            start = [0.05, 0.3, 0]
+            arrow_length = 2.2
 
-            # Start from test dot
-            start = [0, 0.5, 0]
             end = [
                 start[0] + arrow_length * np.cos(angle),
                 start[1] + arrow_length * np.sin(angle),
@@ -123,51 +144,64 @@ class Scene2Problem(Scene):
                 end=end,
                 buff=0.15,
                 color=COLORS["accent"],
-                stroke_width=2,
-                tip_length=0.2
+                stroke_width=2.5,
+                tip_length=0.18,
+                max_tip_angle=0.3
             )
             arrows.add(arrow)
 
-        # Animate arrows appearing in sequence
-        for arrow in arrows:
-            self.play(Create(arrow, run_time=0.3))
-        self.wait(0.8)
+        # Animate arrows appearing in bursts
+        for i in range(0, num_arrows, 3):
+            for arrow in arrows[i:i+3]:
+                self.play(Create(arrow, run_time=0.25), lag_ratio=0.1)
+        self.wait(1.0)
 
         # ============================================================
-        # PROBLEM LABELS: Pain points
+        # SEQUENCE 5: Problem Labels (15-21s)
         # ============================================================
-        problems = VGroup()
+        # Clear some space first
+        self.play(FadeOut(question_label, run_time=0.3))
 
-        # Problem 1: "Slow"
-        p1 = create_sans_body("Slow", font_size=28)
-        p1.to_edge(UP, buff=2.0)
-        p1.to_edge(LEFT, buff=0.5)
-        p1.set_color(COLORS["text_muted"])
+        # Problem 1: "Slow" - TOP LEFT
+        p1_title = Text("Slow", font=FONTS["sans"], font_size=26, color=COLORS["accent"], )
+        p1_desc = Text("O(N) comparisons", font=FONTS["sans"], font_size=18, color=COLORS["text_muted"])
+        p1 = VGroup(p1_title, p1_desc).arrange(DOWN, buff=0.15)
+        p1.move_to([-2.8, 2.2, 0])
 
-        # Problem 2: "Memory-heavy"
-        p2 = create_sans_body("Memory\nintensive", font_size=28)
-        p2.to_edge(UP, buff=2.0)
-        p2.to_edge(RIGHT, buff=0.5)
-        p2.set_color(COLORS["text_muted"])
+        # Problem 2: "Memory-Intensive" - TOP RIGHT
+        p2_title = Text("Memory", font=FONTS["sans"], font_size=26, color=COLORS["accent"], )
+        p2_desc = Text("5M+ embeddings", font=FONTS["sans"], font_size=18, color=COLORS["text_muted"])
+        p2 = VGroup(p2_title, p2_desc).arrange(DOWN, buff=0.15)
+        p2.move_to([2.8, 2.2, 0])
 
-        # Problem 3: "No structure"
-        p3 = create_sans_body("No geographic\nstructure", font_size=28)
-        p3.to_edge(DOWN, buff=1.2)
-        p3.set_color(COLORS["text_muted"])
+        # Problem 3: "No Structure" - BOTTOM CENTER
+        p3_title = Text("No Structure", font=FONTS["sans"], font_size=26, color=COLORS["accent"], )
+        p3_desc = Text("Geography ignored", font=FONTS["sans"], font_size=18, color=COLORS["text_muted"])
+        p3 = VGroup(p3_title, p3_desc).arrange(DOWN, buff=0.15)
+        p3.move_to([0, -2.2, 0])
 
-        problems.add(p1, p2, p3)
-
-        # Animate labels appearing
-        for label in problems:
-            self.play(FadeIn(label, run_time=0.5))
-            self.wait(0.3)
-
+        self.play(FadeIn(p1, p2, p3, run_time=0.8))
         self.wait(1.5)
 
         # ============================================================
-        # FADE OUT FOR TRANSITION
+        # SEQUENCE 6: Impact Statement (21-28s)
+        # ============================================================
+        impact = Text(
+            "This doesn't scale.",
+            font=FONTS["sans"],
+            font_size=36,
+            color=COLORS["accent"],
+            
+        )
+        impact.move_to([0, -3.5, 0])
+
+        self.play(FadeIn(impact, run_time=0.7))
+        self.wait(1.5)
+
+        # ============================================================
+        # SEQUENCE 7: Transition (28-36s)
         # ============================================================
         self.play(
-            FadeOut(title, dot_grid, test_dot, glow, arrows, scale_label, problems, run_time=1.0)
+            FadeOut(title, dot_grid, test_dot, glow, scale_label, arrows, p1, p2, p3, impact, run_time=1.2)
         )
         self.wait(0.5)

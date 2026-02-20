@@ -1,12 +1,12 @@
 """
-Scene 3: The Insight - Geographic Hierarchy
+Scene 3: THE INSIGHT - Geographic Hierarchy & Hyperbolic Geometry
 Duration: ~39 seconds
-Purpose: Reveal that geography is hierarchical and hyperbolic space is the solution
+Purpose: Reveal that geography is hierarchical + introduce hyperbolic space
 
-Clean design with:
-- Nested rectangles showing Paris ⊂ France ⊂ Europe ⊂ Earth
-- Clear tree structure showing exponential branching
-- Poincaré disk hint for hyperbolic geometry
+Key insights from paper:
+- Geographic entities form a hierarchy (countries > regions > cities)
+- Euclidean space compresses deep hierarchies
+- Hyperbolic space has exponential volume = perfect for hierarchy
 """
 
 from manim import *
@@ -18,222 +18,184 @@ setup_manim_config(quality="h")
 
 
 class Scene3Insight(Scene):
-    """Hierarchy insight with clean, intentional geometry"""
+    """Key insight: Hierarchy and hyperbolic geometry"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
-        # TITLE: "Geographic Hierarchy"
+        # SEQUENCE 1: Title (0-1s)
         # ============================================================
-        title = create_serif_title("Geographic Hierarchy", font_size=64)
-        title.to_edge(UP, buff=0.4)
+        title = Text(
+            "The Insight",
+            font=FONTS["sans"],
+            font_size=64,
+            color=COLORS["text"],
+            
+        )
+        title.to_edge(UP, buff=0.5)
+
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
 
         # ============================================================
-        # PART A: Nested Containment (Paris example)
+        # SEQUENCE 2: Hierarchy Revelation (1.5-13s)
         # ============================================================
-        # Start with smallest: City
+        # Start with smallest unit: City
         city_box = Rectangle(
-            width=1.8, height=0.5,
+            width=2.0, height=0.6,
             stroke_color=COLORS["accent"],
-            stroke_width=2,
-            fill_opacity=0.1,
+            stroke_width=2.5,
+            fill_opacity=0.08,
             fill_color=COLORS["accent"]
         )
-        city_box.move_to([0, 0, 0])
-        city_label = create_sans_body("Paris", font_size=28)
+        city_box.move_to([0, 1.0, 0])
+
+        city_label = Text(
+            "Paris",
+            font=FONTS["sans"],
+            font_size=28,
+            color=COLORS["accent"],
+            
+        )
         city_label.move_to(city_box.get_center())
 
-        self.play(Create(city_box, run_time=0.6))
+        self.play(Create(city_box, run_time=0.7))
         self.play(FadeIn(city_label, run_time=0.4))
+        self.wait(0.8)
+
+        # Add Region layer
+        region_box = Rectangle(
+            width=3.2, height=1.2,
+            stroke_color=COLORS["accent"],
+            stroke_width=2.5,
+            fill_opacity=0.04,
+            fill_color=COLORS["accent"]
+        )
+        region_box.move_to([0, 1.0, 0])
+
+        region_label = Text(
+            "Île-de-France",
+            font=FONTS["sans"],
+            font_size=22,
+            color=COLORS["gold_light"]
+        )
+        region_label.next_to(region_box, UP, buff=0.25)
+
+        self.play(Create(region_box, run_time=0.7))
+        self.play(FadeIn(region_label, run_time=0.4))
         self.wait(0.8)
 
         # Add Country layer
         country_box = Rectangle(
-            width=3.0, height=1.0,
+            width=4.4, height=1.8,
             stroke_color=COLORS["accent"],
-            stroke_width=2,
-            fill_opacity=0.05,
+            stroke_width=2.5,
+            fill_opacity=0.02,
             fill_color=COLORS["accent"]
         )
-        country_box.move_to([0, 0, 0])
+        country_box.move_to([0, 1.0, 0])
 
-        country_label = create_sans_body("France", font_size=24)
-        country_label.next_to(country_box, UP, buff=0.15)
-        country_label.set_color(COLORS["gold_light"])
-
-        self.play(
-            Create(country_box, run_time=0.6),
-            FadeIn(country_label, run_time=0.4)
+        country_label = Text(
+            "France",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["gold_light"]
         )
+        country_label.next_to(country_box, UP, buff=0.3)
+
+        self.play(Create(country_box, run_time=0.7))
+        self.play(FadeIn(country_label, run_time=0.4))
         self.wait(0.8)
 
         # Add Continent layer
         continent_box = Rectangle(
-            width=4.5, height=1.8,
+            width=5.6, height=2.6,
             stroke_color=COLORS["accent"],
-            stroke_width=2,
-            fill_opacity=0.02,
+            stroke_width=2.5,
+            fill_opacity=0,
             fill_color=COLORS["accent"]
         )
-        continent_box.move_to([0, 0, 0])
+        continent_box.move_to([0, 1.0, 0])
 
-        continent_label = create_sans_body("Europe", font_size=22)
-        continent_label.next_to(continent_box, UP, buff=0.2)
-        continent_label.set_color(COLORS["gold_light"])
-
-        self.play(
-            Create(continent_box, run_time=0.6),
-            FadeIn(continent_label, run_time=0.4)
+        continent_label = Text(
+            "Europe",
+            font=FONTS["sans"],
+            font_size=18,
+            color=COLORS["gold_light"]
         )
-        self.wait(0.8)
+        continent_label.next_to(continent_box, UP, buff=0.35)
 
-        # Add World layer
-        world_box = Rectangle(
-            width=6.0, height=2.8,
-            stroke_color=COLORS["accent"],
-            stroke_width=2,
-            fill_opacity=0.0,
-            fill_color=COLORS["accent"]
-        )
-        world_box.move_to([0, 0, 0])
-
-        world_label = create_sans_body("Earth", font_size=20)
-        world_label.next_to(world_box, UP, buff=0.25)
-        world_label.set_color(COLORS["gold_light"])
-
-        self.play(
-            Create(world_box, run_time=0.6),
-            FadeIn(world_label, run_time=0.4)
-        )
+        self.play(Create(continent_box, run_time=0.7))
+        self.play(FadeIn(continent_label, run_time=0.4))
         self.wait(1.2)
 
         # ============================================================
-        # CLEAR SCENE FOR PART B
+        # SEQUENCE 3: The Problem in Euclidean Space (13-22s)
         # ============================================================
-        self.play(
-            FadeOut(city_label, country_label, continent_label, world_label,
-                   city_box, country_box, continent_box, world_box, run_time=0.8)
+        problem_text = Text(
+            "In Euclidean space:\nentities at deep levels\nget compressed together",
+            font=FONTS["sans"],
+            font_size=28,
+            color=COLORS["text_muted"],
+            line_spacing=1.3
         )
-        self.wait(0.5)
-
-        # ============================================================
-        # PART B: Tree Structure - Hierarchical Branching
-        # ============================================================
-        # Earth at top
-        earth = Dot(radius=0.08, color=COLORS["accent"])
-        earth.move_to([0, 2.5, 0])
-
-        earth_label = create_sans_body("Earth", font_size=20)
-        earth_label.next_to(earth, UP, buff=0.2)
-        earth_label.set_color(COLORS["accent"])
-
-        self.play(Create(earth, run_time=0.4))
-        self.play(FadeIn(earth_label, run_time=0.3))
-        self.wait(0.4)
-
-        # Level 1: Continents (7 represented as 5 visible)
-        continents = VGroup()
-        continent_positions = [
-            [-1.5, 1.2, 0], [-0.5, 1.2, 0], [0.5, 1.2, 0], [1.5, 1.2, 0], [2.5, 1.2, 0]
-        ]
-
-        for i, pos in enumerate(continent_positions):
-            dot = Dot(radius=0.06, color=COLORS["text_muted"])
-            dot.move_to(pos)
-            continents.add(dot)
-
-            # Connect to Earth with line
-            line = Line(earth.get_center(), dot.get_center(),
-                       color=COLORS["text_muted"], stroke_width=1, stroke_opacity=0.6)
-            self.play(Create(line, run_time=0.2))
-            self.play(Create(dot, run_time=0.15))
-
-        self.wait(0.6)
-
-        # Level 2: Countries (3 under one continent)
-        countries = VGroup()
-        country_positions = [
-            [-1.8, 0.2, 0], [-1.5, 0.2, 0], [-1.2, 0.2, 0]
-        ]
-
-        for pos in country_positions:
-            dot = Dot(radius=0.04, color=COLORS["text_muted"])
-            dot.move_to(pos)
-            countries.add(dot)
-
-            # Connect to parent continent
-            line = Line(continent_positions[0], dot.get_center(),
-                       color=COLORS["text_muted"], stroke_width=1, stroke_opacity=0.4)
-            self.play(Create(line, run_time=0.2))
-            self.play(Create(dot, run_time=0.1))
-
-        self.wait(0.6)
-
-        # Add exponential growth label
-        exponential_label = create_sans_body(
-            "Exponential\nbranching",
-            font_size=26
-        )
-        exponential_label.to_edge(RIGHT, buff=0.4)
-        exponential_label.to_edge(DOWN, buff=1.0)
-        exponential_label.set_color(COLORS["accent"])
-
-        self.play(FadeIn(exponential_label, run_time=0.5))
-        self.wait(1.0)
-
-        # ============================================================
-        # PART C: Euclidean Problem
-        # ============================================================
-        # Show that deep levels get cramped in Euclidean space
-        crowding_label = create_sans_body(
-            "In Euclidean space:\ncities get cramped",
-            font_size=28
-        )
-        crowding_label.move_to([0, -2.0, 0])
-        crowding_label.set_color(COLORS["text_muted"])
+        problem_text.move_to([0, -2.3, 0])
 
         self.play(
-            FadeOut(earth, earth_label, continents, countries, exponential_label, run_time=0.6)
+            FadeOut(city_label, region_label, country_label, continent_label, run_time=0.5)
+        )
+        self.wait(0.2)
+        self.play(FadeIn(problem_text, run_time=0.6))
+        self.wait(1.5)
+
+        # ============================================================
+        # SEQUENCE 4: The Solution - Hyperbolic Space (22-35s)
+        # ============================================================
+        # Clear the boxes
+        self.play(
+            FadeOut(city_box, region_box, country_box, continent_box, problem_text, run_time=0.6)
         )
         self.wait(0.3)
-        self.play(FadeIn(crowding_label, run_time=0.5))
-        self.wait(0.8)
 
-        # ============================================================
-        # PART D: Hyperbolic Solution Hint
-        # ============================================================
-        # Draw a circle (Poincaré disk representation)
-        poincare = Circle(
-            radius=1.2,
+        # Introduce Hyperbolic Space (Poincaré disk)
+        poincare_circle = Circle(
+            radius=1.4,
             color=COLORS["accent"],
-            stroke_width=2,
-            fill_opacity=0.05,
+            stroke_width=3,
+            fill_opacity=0.06,
             fill_color=COLORS["accent"]
         )
-        poincare.move_to([0, 0, 0])
+        poincare_circle.move_to([0, 0.8, 0])
 
-        solution_label = create_sans_body(
-            "Hyperbolic space:\nexponential room",
-            font_size=28
+        solution_title = Text(
+            "Hyperbolic Space",
+            font=FONTS["sans"],
+            font_size=32,
+            color=COLORS["accent"],
+            
         )
-        solution_label.move_to([0, -2.0, 0])
-        solution_label.set_color(COLORS["gold_light"])
+        solution_title.move_to([0, 2.4, 0])
 
-        self.play(
-            FadeOut(crowding_label, run_time=0.4),
-            FadeIn(poincare, run_time=0.8)
+        solution_desc = Text(
+            "Exponential volume growth\n= Perfect for hierarchy",
+            font=FONTS["sans"],
+            font_size=24,
+            color=COLORS["gold_light"],
+            line_spacing=1.2
         )
+        solution_desc.move_to([0, -2.2, 0])
+
+        self.play(Create(poincare_circle, run_time=0.9))
+        self.play(FadeIn(solution_title, run_time=0.5))
         self.wait(0.5)
-        self.play(FadeIn(solution_label, run_time=0.5))
+        self.play(FadeIn(solution_desc, run_time=0.6))
         self.wait(2.0)
 
         # ============================================================
-        # FADE OUT FOR TRANSITION
+        # SEQUENCE 5: Transition (35-39s)
         # ============================================================
         self.play(
-            FadeOut(title, poincare, solution_label, run_time=1.0)
+            FadeOut(title, poincare_circle, solution_title, solution_desc, run_time=1.0)
         )
         self.wait(0.5)

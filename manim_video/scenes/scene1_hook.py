@@ -1,12 +1,18 @@
 """
-Scene 1: Hook - The Central Question
+Scene 1: HOOK - Visual Geolocation Challenge
 Duration: ~24 seconds
-Purpose: Pose the mystery of geolocation
+Purpose: Pose the central question + show why it's hard
 
-Design: Minimal, elegant title + simple text reveals
+Award-winning design with:
+- Professional title animation
+- Actual street view images
+- Clean text reveals
+- Perfect geometry and readability
 """
 
 from manim import *
+import os
+from pathlib import Path
 from config import COLORS, FONTS, setup_manim_config
 from utils import create_serif_title, create_sans_body
 
@@ -14,78 +20,175 @@ setup_manim_config(quality="h")
 
 
 class Scene1Hook(Scene):
-    """Opening hook with clean geometry and minimal design"""
+    """Opening hook: The geolocation challenge"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
-        # TITLE ANIMATION: "HierLoc" with gold accent on "Loc"
+        # SEQUENCE 1: Title Introduction (0-1.5s)
         # ============================================================
-        title = create_serif_title("HierLoc", font_size=96)
-        title.move_to(UP * 2.5)
+        # Main title: "HierLoc" - clean, centered
+        # Position: Y=3.0 (top third of scene)
+        title = Text(
+            "HierLoc",
+            font=FONTS["sans"],
+            font_size=100,
+            color=COLORS["text"],
+            
+        )
+        title.move_to([0, 3.0, 0])
 
-        # Apply gold color to "Loc" (characters 4-7)
+        # Apply gold accent to "Loc" (last 3 characters)
         title[4:7].set_color(COLORS["accent"])
 
-        self.play(FadeIn(title, run_time=1.2))
+        self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
 
         # ============================================================
-        # SUBTITLE: "Where Are You?"
+        # SEQUENCE 2: Subtitle (1.5-2.5s)
         # ============================================================
-        subtitle = create_sans_body("Where Are You?", font_size=48)
-        subtitle.next_to(title, DOWN, buff=0.6)
-        subtitle.set_color(COLORS["text_muted"])
+        subtitle = Text(
+            "Visual Geolocation",
+            font=FONTS["sans"],
+            font_size=42,
+            color=COLORS["text_muted"]
+        )
+        subtitle.next_to(title, DOWN, buff=0.4)
 
         self.play(FadeIn(subtitle, run_time=0.8))
-        self.wait(1.5)
+        self.wait(0.3)
 
         # ============================================================
-        # QUESTION 1: "Can you guess where this photo was taken?"
+        # SEQUENCE 3: First Question with Image (2.5-6s)
         # ============================================================
-        q1 = create_sans_body(
-            "Can you guess where this\nphoto was taken?",
-            font_size=40
+        # Question 1 text
+        q1_text = Text(
+            "Can you guess where\nthis photo was taken?",
+            font=FONTS["sans"],
+            font_size=32,
+            color=COLORS["text"],
+            line_spacing=1.2
         )
-        q1.move_to(DOWN * 2)
+        q1_text.move_to([0, -2.5, 0])
 
-        self.play(FadeOut(subtitle, run_time=0.4))
-        self.wait(0.3)
-        self.play(Write(q1, run_time=1.2, rate_func=linear))
-        self.wait(2.0)
+        # Load image from streetview directory
+        streetview_dir = "/Volumes/SSD/iclr-website/static/images/streetview"
+        image_paths = [
+            os.path.join(streetview_dir, "Paris_00131_445353063_8c58bd82b1_179_88895879@N00.jpg"),
+            os.path.join(streetview_dir, "Russia_00019_985802242_5ad0b7dbeb_1190_23707253@N00.jpg"),
+            os.path.join(streetview_dir, "482314949_dbc149bb10_224_50435419@N00.jpg"),
+        ]
 
-        # ============================================================
-        # QUESTION 2: "Without relying on people or landmarks?"
-        # ============================================================
-        q2 = create_sans_body(
-            "Without relying on people\nor landmarks?",
-            font_size=40
-        )
-        q2.move_to(DOWN * 2)
+        # Verify images exist
+        available_images = [p for p in image_paths if os.path.exists(p)]
 
-        self.play(FadeOut(q1, run_time=0.4))
-        self.wait(0.3)
-        self.play(Write(q2, run_time=1.2, rate_func=linear))
-        self.wait(2.0)
+        if available_images:
+            image1 = ImageMobject(available_images[0])
+            image1.set_height(3.0)
+            image1.move_to([0, 0.5, 0])
 
-        # ============================================================
-        # FINAL QUESTION: "How would a computer solve this?"
-        # ============================================================
-        q3_line1 = create_sans_body("How would a", font_size=44)
-        q3_line2 = create_sans_body("computer", font_size=44)
-        q3_line2.set_color(COLORS["accent"])
-        q3_line3 = create_sans_body("solve this?", font_size=44)
+            self.play(FadeIn(image1, run_time=0.8))
+            self.wait(0.4)
+            self.play(FadeIn(q1_text, run_time=0.6))
+            self.wait(2.0)
 
-        q3 = VGroup(q3_line1, q3_line2, q3_line3)
-        q3.arrange(DOWN, buff=0.3)
-        q3.move_to(DOWN * 2)
+            # ============================================================
+            # SEQUENCE 4: Second Question with Different Image (6-9.5s)
+            # ============================================================
+            q2_text = Text(
+                "Without landmarks,\npeople, or language?",
+                font=FONTS["sans"],
+                font_size=32,
+                color=COLORS["text"],
+                line_spacing=1.2
+            )
+            q2_text.move_to([0, -2.5, 0])
 
-        self.play(FadeOut(q2, run_time=0.4))
-        self.wait(0.3)
-        self.play(Write(q3, run_time=1.5, rate_func=linear))
-        self.wait(3.0)
+            # Load second image (different region)
+            if len(available_images) > 1:
+                image2 = ImageMobject(available_images[1])
+                image2.set_height(3.0)
+                image2.move_to([0, 0.5, 0])
 
-        # Fade out for transition
-        self.play(FadeOut(title, q3, run_time=1.0))
-        self.wait(0.5)
+                # Cross-fade
+                self.play(
+                    FadeOut(q1_text, run_time=0.5),
+                    FadeOut(image1, run_time=0.5)
+                )
+                self.wait(0.3)
+                self.play(FadeIn(image2, run_time=0.6))
+                self.wait(0.3)
+                self.play(FadeIn(q2_text, run_time=0.6))
+                self.wait(2.0)
+
+                # ============================================================
+                # SEQUENCE 5: The Challenge (9.5-15s)
+                # ============================================================
+                challenge_text = VGroup(
+                    Text(
+                        "How would a",
+                        font=FONTS["sans"],
+                        font_size=40,
+                        color=COLORS["text"]
+                    ),
+                    Text(
+                        "computer",
+                        font=FONTS["sans"],
+                        font_size=40,
+                        color=COLORS["accent"],
+                        
+                    ),
+                    Text(
+                        "solve this?",
+                        font=FONTS["sans"],
+                        font_size=40,
+                        color=COLORS["text"]
+                    )
+                )
+                challenge_text.arrange(DOWN, buff=0.2)
+                challenge_text.move_to([0, -2.5, 0])
+
+                # Reveal the challenge
+                self.play(FadeOut(q2_text, image2, run_time=0.5))
+                self.wait(0.3)
+
+                for i, part in enumerate(challenge_text):
+                    self.play(Write(part, run_time=0.4, rate_func=linear))
+                    self.wait(0.2)
+
+                self.wait(2.5)
+
+                # ============================================================
+                # SEQUENCE 6: Transition to Next Scene (15-24s)
+                # ============================================================
+                self.play(
+                    FadeOut(title, subtitle, challenge_text, run_time=1.0)
+                )
+                self.wait(0.5)
+            else:
+                # Fallback if second image not available
+                self.play(FadeOut(q1_text, image1, run_time=0.5))
+                self.wait(0.3)
+                self.play(FadeIn(q2_text, run_time=0.6))
+                self.wait(2.0)
+                self.play(FadeOut(title, subtitle, q2_text, run_time=1.0))
+                self.wait(0.5)
+        else:
+            # Fallback if no images available
+            self.play(FadeIn(q1_text, run_time=0.6))
+            self.wait(2.0)
+            q2_text = Text(
+                "How would a computer\nsolve this challenge?",
+                font=FONTS["sans"],
+                font_size=32,
+                color=COLORS["text"],
+                line_spacing=1.2
+            )
+            q2_text.move_to([0, -2.5, 0])
+            self.play(FadeOut(q1_text, run_time=0.5))
+            self.wait(0.3)
+            self.play(FadeIn(q2_text, run_time=0.6))
+            self.wait(2.0)
+            self.play(FadeOut(title, subtitle, q2_text, run_time=1.0))
+            self.wait(0.5)

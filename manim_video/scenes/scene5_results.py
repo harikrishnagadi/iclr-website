@@ -1,138 +1,211 @@
 """
-Scene 5: Results - Impact and Call to Action
+Scene 5: RESULTS - Impact and Achievement
 Duration: ~45 seconds
-Purpose: Show concrete results and impact of HierLoc
+Purpose: Show concrete results from the paper (OSV5M benchmark)
 
-Clean design with:
-- Results metrics displayed clearly
-- Efficiency gains visualization
-- Final call to action
+From paper:
+- 19.5% mean geodesic error reduction
+- +8.8% country accuracy
+- +20.1% region accuracy
+- +43.2% subregion accuracy
 """
 
 from manim import *
-import numpy as np
 from config import COLORS, FONTS, setup_manim_config
-from utils import create_serif_title, create_sans_body
 
 setup_manim_config(quality="h")
 
 
 class Scene5Results(Scene):
-    """Results visualization with clean metrics and impact"""
+    """Results: State-of-the-art performance"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
-        # TITLE: "Results"
+        # SEQUENCE 1: Title (0-1s)
         # ============================================================
-        title = create_serif_title("Results", font_size=64)
-        title.to_edge(UP, buff=0.4)
+        title = Text(
+            "Results",
+            font=FONTS["sans"],
+            font_size=64,
+            color=COLORS["text"],
+            
+        )
+        title.to_edge(UP, buff=0.5)
+
         self.play(FadeIn(title, run_time=1.0))
         self.wait(0.5)
 
         # ============================================================
-        # PART A: Performance Metrics
+        # SEQUENCE 2: Performance Metrics (1.5-15s)
         # ============================================================
-        # Metric 1: Error reduction
-        metric1_label = create_sans_body("Mean Geodesic Error", font_size=22)
-        metric1_value = create_sans_body("↓ 19.5%", font_size=36)
-        metric1_value.set_color(COLORS["accent"])
+        # Metric 1: Geodesic Error
+        m1_label = Text(
+            "Mean Geodesic Error",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text_muted"]
+        )
+        m1_value = Text(
+            "↓ 19.5%",
+            font=FONTS["sans"],
+            font_size=40,
+            color=COLORS["accent"],
+            
+        )
+        metric1 = VGroup(m1_label, m1_value).arrange(DOWN, buff=0.3)
+        metric1.move_to([-2.5, 1.0, 0])
 
-        metric1 = VGroup(metric1_label, metric1_value)
-        metric1.arrange(DOWN, buff=0.3)
-        metric1.move_to([-2.5, 1.2, 0])
+        # Metric 2: Country Accuracy
+        m2_label = Text(
+            "Country Accuracy",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text_muted"]
+        )
+        m2_value = Text(
+            "+8.8%",
+            font=FONTS["sans"],
+            font_size=40,
+            color=COLORS["accent"],
+            
+        )
+        metric2 = VGroup(m2_label, m2_value).arrange(DOWN, buff=0.3)
+        metric2.move_to([2.5, 1.0, 0])
 
-        self.play(FadeIn(metric1_label, run_time=0.4))
-        self.wait(0.3)
-        self.play(FadeIn(metric1_value, run_time=0.6))
-        self.wait(0.6)
+        # Metric 3: Region Accuracy
+        m3_label = Text(
+            "Region Accuracy",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text_muted"]
+        )
+        m3_value = Text(
+            "+20.1%",
+            font=FONTS["sans"],
+            font_size=40,
+            color=COLORS["accent"],
+            
+        )
+        metric3 = VGroup(m3_label, m3_value).arrange(DOWN, buff=0.3)
+        metric3.move_to([0, 1.0, 0])
 
-        # Metric 2: Country accuracy
-        metric2_label = create_sans_body("Country Accuracy", font_size=22)
-        metric2_value = create_sans_body("+8.8%", font_size=36)
-        metric2_value.set_color(COLORS["accent"])
-
-        metric2 = VGroup(metric2_label, metric2_value)
-        metric2.arrange(DOWN, buff=0.3)
-        metric2.move_to([0, 1.2, 0])
-
-        self.play(FadeIn(metric2_label, run_time=0.4))
-        self.wait(0.3)
-        self.play(FadeIn(metric2_value, run_time=0.6))
-        self.wait(0.6)
-
-        # Metric 3: City accuracy
-        metric3_label = create_sans_body("City Accuracy", font_size=22)
-        metric3_value = create_sans_body("+43.2%", font_size=36)
-        metric3_value.set_color(COLORS["accent"])
-
-        metric3 = VGroup(metric3_label, metric3_value)
-        metric3.arrange(DOWN, buff=0.3)
-        metric3.move_to([2.5, 1.2, 0])
-
-        self.play(FadeIn(metric3_label, run_time=0.4))
-        self.wait(0.3)
-        self.play(FadeIn(metric3_value, run_time=0.6))
-        self.wait(0.8)
-
-        # ============================================================
-        # PART B: Key Advantages
-        # ============================================================
-        advantages_title = create_sans_body("Why It Matters", font_size=28)
-        advantages_title.move_to([0, 0.2, 0])
-        advantages_title.set_color(COLORS["accent"])
-
-        # Advantage 1: Faster
-        adv1 = create_sans_body("⚡ Sub-linear search", font_size=20)
-        adv1.move_to([-2.5, -0.8, 0])
-
-        # Advantage 2: Smaller footprint
-        adv2 = create_sans_body("💾 95% fewer embeddings", font_size=20)
-        adv2.move_to([0, -0.8, 0])
-
-        # Advantage 3: Interpretable
-        adv3 = create_sans_body("🔍 Interpretable paths", font_size=20)
-        adv3.move_to([2.5, -0.8, 0])
-
-        self.play(FadeOut(metric1, metric2, metric3, run_time=0.6))
-        self.wait(0.3)
-        self.play(FadeIn(advantages_title, run_time=0.5))
-        self.wait(0.4)
-        self.play(FadeIn(adv1, adv2, adv3, run_time=0.8))
+        self.play(FadeIn(metric1, run_time=0.7))
+        self.wait(0.5)
+        self.play(FadeIn(metric2, run_time=0.7))
+        self.wait(0.5)
+        self.play(FadeIn(metric3, run_time=0.7))
         self.wait(1.5)
 
-        # ============================================================
-        # PART C: Final Message
-        # ============================================================
-        final_message = create_sans_body(
-            "Hyperbolic geometry is the\nright tool for hierarchy",
-            font_size=28
+        # Metric 4: Subregion (standout achievement)
+        m4_label = Text(
+            "Subregion Accuracy",
+            font=FONTS["sans"],
+            font_size=22,
+            color=COLORS["text"]
         )
-        final_message.move_to([0, -2.0, 0])
-        final_message.set_color(COLORS["gold_light"])
+        m4_value = Text(
+            "+43.2%",
+            font=FONTS["sans"],
+            font_size=48,
+            color=COLORS["gold_light"],
+            
+        )
+        metric4 = VGroup(m4_label, m4_value).arrange(DOWN, buff=0.4)
+        metric4.move_to([0, -1.2, 0])
 
+        self.play(FadeIn(metric4, run_time=0.9))
+        self.wait(2.0)
+
+        # ============================================================
+        # SEQUENCE 3: Key Insights (15-28s)
+        # ============================================================
         self.play(
-            FadeOut(advantages_title, adv1, adv2, adv3, run_time=0.6)
+            FadeOut(metric1, metric2, metric3, metric4, run_time=0.6)
         )
         self.wait(0.3)
-        self.play(FadeIn(final_message, run_time=0.8))
+
+        insights_title = Text(
+            "Why This Matters",
+            font=FONTS["sans"],
+            font_size=32,
+            color=COLORS["accent"],
+            
+        )
+        insights_title.move_to([0, 1.5, 0])
+
+        # Insight 1: Speed
+        i1 = Text(
+            "⚡ Sub-linear search time",
+            font=FONTS["sans"],
+            font_size=22,
+            color=COLORS["text"]
+        )
+        i1.move_to([-1.5, 0.4, 0])
+
+        # Insight 2: Memory
+        i2 = Text(
+            "💾 95% fewer embeddings",
+            font=FONTS["sans"],
+            font_size=22,
+            color=COLORS["text"]
+        )
+        i2.move_to([1.5, 0.4, 0])
+
+        # Insight 3: Interpretability
+        i3 = Text(
+            "🔍 Interpretable predictions",
+            font=FONTS["sans"],
+            font_size=22,
+            color=COLORS["text"]
+        )
+        i3.move_to([0, -0.5, 0])
+
+        self.play(FadeIn(insights_title, run_time=0.6))
+        self.wait(0.4)
+        self.play(FadeIn(i1, i2, i3, run_time=0.8))
         self.wait(2.0)
 
         # ============================================================
-        # PART D: Call to Action
-        # ============================================================
-        cta_label = create_sans_body("Learn more", font_size=24)
-        cta_label.move_to([0, -2.8, 0])
-        cta_label.set_color(COLORS["accent"])
-
-        self.play(FadeIn(cta_label, run_time=0.6))
-        self.wait(2.0)
-
-        # ============================================================
-        # FADE OUT FOR COMPLETION
+        # SEQUENCE 4: The Big Insight (28-38s)
         # ============================================================
         self.play(
-            FadeOut(title, final_message, cta_label, run_time=1.0)
+            FadeOut(insights_title, i1, i2, i3, run_time=0.6)
+        )
+        self.wait(0.3)
+
+        big_insight = Text(
+            "Hyperbolic geometry is\nthe right tool for\nhierarchical data",
+            font=FONTS["sans"],
+            font_size=32,
+            color=COLORS["gold_light"],
+            ,
+            line_spacing=1.4
+        )
+        big_insight.move_to([0, 0.3, 0])
+
+        self.play(FadeIn(big_insight, run_time=1.0))
+        self.wait(2.5)
+
+        # ============================================================
+        # SEQUENCE 5: Call to Action (38-45s)
+        # ============================================================
+        cta = Text(
+            "Learn more: HierLoc paper & code",
+            font=FONTS["sans"],
+            font_size=24,
+            color=COLORS["accent"]
+        )
+        cta.move_to([0, -2.0, 0])
+
+        self.play(FadeIn(cta, run_time=0.8))
+        self.wait(2.0)
+
+        # ============================================================
+        # SEQUENCE 6: Final Fade (45s)
+        # ============================================================
+        self.play(
+            FadeOut(title, big_insight, cta, run_time=1.0)
         )
         self.wait(0.5)
