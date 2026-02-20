@@ -223,8 +223,7 @@ class Scene5Results(Scene):
         for bar in geoscore_chart.bars:
             self.play(
                 bar.animate.set(height=bar.target_height),
-                run_time=0.6,
-                rate_func=ease_out
+                run_time=0.6
             )
 
         self.wait(2.0)
@@ -260,8 +259,7 @@ class Scene5Results(Scene):
         for bar in distance_chart.bars:
             self.play(
                 bar.animate.set(height=bar.target_height),
-                run_time=0.6,
-                rate_func=ease_out
+                run_time=0.6
             )
 
         self.wait(2.0)
@@ -369,8 +367,7 @@ class Scene5Results(Scene):
         # Animate all bars together for better visual impact
         self.play(
             *[bar.animate.set(height=bar.target_height) for bar in all_bars],
-            run_time=1.2,
-            rate_func=ease_out
+            run_time=1.2
         )
 
         self.wait(3.0)

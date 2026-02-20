@@ -1,22 +1,21 @@
 """
-Scene 4: THE SOLUTION - HierLoc Entity Features & Embeddings
+Scene 4: THE SOLUTION - Entity Features & Embeddings
 Duration: ~80 seconds
-Purpose: Explain how geographical entities are represented with features and embeddings
+Purpose: Explain how geographical entities are represented as embeddings
 
-Pipeline:
-1. Entity features (image, location, name)
-2. Feature embeddings (z_img, z_loc, z_name)
-3. Aggregation example (Paris)
-4. Entity representation in hyperbolic space
-5. Hierarchical search
+Structure:
+1. Entity features: Images, Location, Name
+2. Feature embeddings: z_img, z_loc, z_name
+3. Entity representation: Combined vector
+4. Hierarchical search in embedding space
 """
 
 from manim import *
 import numpy as np
 import sys
 from pathlib import Path
+import os
 
-# Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import COLORS, FONTS, setup_manim_config
@@ -24,15 +23,19 @@ from layout import ObjectPositioner
 
 setup_manim_config(quality="high_quality")
 
+# Get absolute paths for assets
+ASSETS_DIR = Path(__file__).parent.parent / "assets"
+ICONS_DIR = ASSETS_DIR / "icons"
+
 
 class Scene4Solution(Scene):
-    """HierLoc entity features and embeddings"""
+    """Entity features and embeddings explanation"""
 
     def construct(self):
         self.camera.background_color = COLORS["bg"]
 
         # ============================================================
-        # HEADER & PROGRESS LINE (Top of Scene)
+        # HEADER & PROGRESS LINE
         # ============================================================
         divider_line = Line(
             start=[-7.0, 3.2, 0],
@@ -79,311 +82,239 @@ class Scene4Solution(Scene):
         self.wait(0.5)
 
         # ============================================================
-        # SEQUENCE 2: Entity Features (1.5-15s)
+        # SEQUENCE 2: Three Entity Features (1.5-20s)
         # ============================================================
         subtitle = Text(
-            "What defines a geographical entity?",
+            "How entities are defined",
             font=FONTS["sans"],
-            font_size=20,
+            font_size=18,
             color=COLORS["text_muted"]
         )
-        subtitle.move_to([0, 1.4, 0])
+        subtitle.move_to([0, 1.3, 0])
 
         self.play(FadeIn(subtitle, run_time=0.6))
         self.wait(0.4)
 
-        # Three feature boxes with icons
-        features = [
-            {"name": "Images", "desc": "Photos from location", "x": -3.5, "icon": "../assets/icons/image_icon.png"},
-            {"name": "Location", "desc": "Coordinates (lat, lon)", "x": 0.0, "icon": "../assets/icons/location_icon.png"},
-            {"name": "Name", "desc": "City/region name", "x": 3.5, "icon": "../assets/icons/name_icon.png"}
+        # Three feature panels with proper CSS layout
+        feature_labels = [
+            {"title": "Images", "desc": "Visual content\nfrom location"},
+            {"title": "Location", "desc": "Geographic\ncoordinates"},
+            {"title": "Name", "desc": "Entity name\nand metadata"}
         ]
 
-        feature_boxes = VGroup()
-        for feat in features:
-            # Load PNG icon
-            try:
-                icon = ImageMobject(feat["icon"])
-                icon.scale(0.6)
-                icon.move_to([feat["x"], 0.7, 0])
-            except:
-                # Fallback to colored circle if icon not found
-                icon = Circle(radius=0.4, color=COLORS["accent"], stroke_width=2)
-                icon.move_to([feat["x"], 0.7, 0])
+        feature_panels = VGroup()
 
-            # Name
-            name = Text(
-                feat["name"],
-                font=FONTS["sans"],
-                font_size=14,
-                color=COLORS["accent"]
+        for i, feat in enumerate(feature_labels):
+            # Panel box
+            panel = RoundedRectangle(
+                width=2.0,
+                height=2.2,
+                corner_radius=0.15,
+                color=COLORS["accent"],
+                stroke_width=2,
+                fill_opacity=0.06,
+                fill_color=COLORS["accent"]
             )
-            name.move_to([feat["x"], 0.1, 0])
+
+            # Title
+            feat_title = Text(
+                feat["title"],
+                font=FONTS["sans"],
+                font_size=16,
+                color=COLORS["accent"],
+                weight=BOLD
+            )
 
             # Description
-            desc = Text(
+            feat_desc = Text(
                 feat["desc"],
                 font=FONTS["sans"],
-                font_size=10,
+                font_size=12,
                 color=COLORS["text_muted"],
-                line_spacing=1.1
+                line_spacing=1.2
             )
-            desc.move_to([feat["x"], -0.6, 0])
 
-            feature_group = VGroup(icon, name, desc)
-            feature_boxes.add(feature_group)
+            # Stack vertically with proper spacing
+            content = VGroup(feat_title, feat_desc).arrange(DOWN, buff=0.3)
+            panel.move_to([0, 0, 0])
+            content.move_to(panel.get_center())
 
-        self.play(FadeIn(feature_boxes, run_time=1.0))
+            feature_group = VGroup(panel, content)
+            feature_panels.add(feature_group)
+
+        # Layout 3 panels horizontally with CSS-style spacing
+        feature_panels.arrange(RIGHT, buff=0.8, center=True)
+        feature_panels.move_to([0, 0.5, 0])
+
+        self.play(FadeIn(feature_panels, run_time=0.8))
         self.wait(2.0)
 
         # ============================================================
-        # SEQUENCE 3: Feature Embeddings (15-35s)
+        # SEQUENCE 3: Feature Embeddings (20-35s)
         # ============================================================
         self.play(FadeOut(subtitle, run_time=0.4))
         self.wait(0.2)
 
         embedding_title = Text(
-            "Convert each feature to embedding",
+            "Convert to embeddings",
             font=FONTS["sans"],
-            font_size=22,
+            font_size=20,
             color=COLORS["accent"]
         )
-        embedding_title.move_to([0, 1.4, 0])
+        embedding_title.move_to([0, 1.3, 0])
 
         self.play(FadeIn(embedding_title, run_time=0.6))
-        self.wait(0.4)
+        self.wait(0.3)
 
-        # Arrows pointing down from features
+        # Arrows down from features
         arrows = VGroup()
-        for feat in features:
+        for i in range(3):
             arrow = Arrow(
-                start=[feat["x"], -0.2, 0],
-                end=[feat["x"], -1.2, 0],
-                buff=0,
+                start=feature_panels[i].get_bottom(),
+                end=[feature_panels[i].get_center()[0], -0.6, 0],
+                buff=0.1,
                 color=COLORS["gold_light"],
-                stroke_width=2,
+                stroke_width=2.5,
                 tip_length=0.12
             )
             arrows.add(arrow)
 
         self.play(Create(arrows, run_time=0.6))
-        self.wait(0.3)
+        self.wait(0.4)
 
         # Embedding labels
-        embeddings = [
-            {"label": "z_img", "x": -3.5},
-            {"label": "z_loc", "x": 0.0},
-            {"label": "z_name", "x": 3.5}
-        ]
-
+        embedding_texts = ["z_img", "z_loc", "z_name"]
         embedding_labels = VGroup()
-        for emb in embeddings:
+
+        for i, embed_label in enumerate(embedding_texts):
             label = Text(
-                emb["label"],
+                embed_label,
                 font=FONTS["sans"],
-                font_size=18,
+                font_size=16,
                 color=COLORS["gold_light"]
             )
-            label.move_to([emb["x"], -1.6, 0])
+            label.move_to([feature_panels[i].get_center()[0], -1.3, 0])
             embedding_labels.add(label)
 
         self.play(FadeIn(embedding_labels, run_time=0.6))
         self.wait(1.5)
 
         # ============================================================
-        # SEQUENCE 4: Aggregation Example - Paris (35-55s)
+        # SEQUENCE 4: Entity Vector (35-50s)
         # ============================================================
         self.play(
-            FadeOut(feature_boxes, arrows, embedding_labels, embedding_title, run_time=0.6)
+            FadeOut(feature_panels, arrows, embedding_labels, embedding_title, run_time=0.6)
         )
         self.wait(0.3)
 
-        example_title = Text(
-            "Example: Paris",
-            font=FONTS["sans"],
-            font_size=28,
-            color=COLORS["accent"]
-        )
-        example_title.move_to([0, 2.0, 0])
-
-        self.play(FadeIn(example_title, run_time=0.6))
-        self.wait(0.4)
-
-        # Load and display real Paris image
-        try:
-            paris_img = ImageMobject("../assets/images/paris_eiffel.jpg")
-            paris_img.scale(1.2)
-            paris_img.move_to([-4.5, 0.8, 0])
-
-            self.play(FadeIn(paris_img, run_time=0.6))
-            self.wait(0.4)
-        except:
-            paris_img = None
-
-        # Image aggregation explanation
-        img_explain = Text(
-            "Multiple images from Paris",
-            font=FONTS["sans"],
-            font_size=16,
-            color=COLORS["text_muted"]
-        )
-        img_explain.move_to([0, 1.2, 0])
-
-        self.play(FadeIn(img_explain, run_time=0.4))
-        self.wait(0.3)
-
-        # Show multiple image embeddings
-        img_dots = VGroup()
-        img_labels = []
-        for i, offset in enumerate([-0.6, -0.2, 0.2, 0.6]):
-            dot = Dot(
-                point=[-1.5 + offset, 0.5, 0],
-                radius=0.08,
-                color=COLORS["gold_light"]
-            )
-            img_dots.add(dot)
-
-            label = Text(
-                f"z_img_{i+1}",
-                font=FONTS["sans"],
-                font_size=10,
-                color=COLORS["text_muted"]
-            )
-            label.move_to([-1.5 + offset, -0.1, 0])
-            img_labels.append(label)
-
-        img_labels_group = VGroup(*img_labels)
-        self.play(FadeIn(img_dots, img_labels_group, run_time=0.6))
-        self.wait(0.6)
-
-        # Mean aggregation arrow
-        mean_arrow = Arrow(
-            start=[-0.9, 0.5, 0],
-            end=[0.6, 0.5, 0],
-            buff=0,
-            color=COLORS["accent"],
-            stroke_width=2.5,
-            tip_length=0.12
-        )
-
-        mean_label = Text(
-            "mean",
-            font=FONTS["sans"],
-            font_size=14,
-            color=COLORS["accent"]
-        )
-        mean_label.next_to(mean_arrow, UP, buff=0.1)
-
-        self.play(Create(mean_arrow, run_time=0.4))
-        self.play(FadeIn(mean_label, run_time=0.3))
-        self.wait(0.4)
-
-        # Result: single embedding
-        result_embedding = Text(
-            "z_img_Paris",
-            font=FONTS["sans"],
-            font_size=18,
-            color=COLORS["gold_light"]
-        )
-        result_embedding.move_to([1.8, 0.5, 0])
-
-        self.play(FadeIn(result_embedding, run_time=0.4))
-        self.wait(0.4)
-
-        # Location and name embeddings for Paris
-        paris_info = Text(
-            "z_loc_Paris: (48.8566°N, 2.3522°E)\nz_name_Paris: semantic embedding",
-            font=FONTS["sans"],
-            font_size=14,
-            color=COLORS["text_muted"],
-            line_spacing=1.3
-        )
-        paris_info.move_to([0, -0.5, 0])
-
-        self.play(FadeIn(paris_info, run_time=0.6))
-        self.wait(1.5)
-
-        # ============================================================
-        # SEQUENCE 5: Complete Entity Vector (55-65s)
-        # ============================================================
-        fade_objects = [img_explain, img_dots, img_labels_group, mean_arrow,
-                       mean_label, result_embedding, paris_info]
-        if paris_img is not None:
-            fade_objects.append(paris_img)
-
-        self.play(
-            FadeOut(*fade_objects, run_time=0.6)
-        )
-        self.wait(0.2)
-
-        entity_vector_title = Text(
-            "Entity Vector for Paris",
+        entity_title = Text(
+            "Entity Representation",
             font=FONTS["sans"],
             font_size=24,
             color=COLORS["accent"]
         )
-        entity_vector_title.move_to([0, 1.2, 0])
+        entity_title.move_to([0, 1.5, 0])
 
-        entity_vector = Text(
-            "e_Paris = [z_img_Paris, z_loc_Paris, z_name_Paris]",
+        # Entity vector equation
+        entity_eq = Text(
+            "e = [z_img, z_loc, z_name]",
             font=FONTS["sans"],
-            font_size=18,
+            font_size=20,
             color=COLORS["gold_light"]
         )
-        entity_vector.move_to([0, 0.4, 0])
+        entity_eq.move_to([0, 0.7, 0])
 
-        hyperbolic_text = Text(
-            "Mapped to Hyperbolic Space\nfor hierarchical representation",
+        # Explanation
+        explanation = Text(
+            "Combined vector in hyperbolic space\nenables hierarchical matching",
             font=FONTS["sans"],
             font_size=14,
             color=COLORS["text_muted"],
             line_spacing=1.2
         )
-        hyperbolic_text.move_to([0, -0.5, 0])
+        explanation.move_to([0, -0.3, 0])
 
-        self.play(FadeIn(entity_vector_title, run_time=0.5))
-        self.play(FadeIn(entity_vector, run_time=0.5))
-        self.wait(0.3)
-        self.play(FadeIn(hyperbolic_text, run_time=0.5))
-        self.wait(1.5)
+        self.play(FadeIn(entity_title, entity_eq, explanation, run_time=0.8))
+        self.wait(2.0)
 
         # ============================================================
-        # SEQUENCE 6: Search Process (65-75s)
+        # SEQUENCE 5: Search Process (50-65s)
         # ============================================================
         self.play(
-            FadeOut(example_title, entity_vector_title, entity_vector,
-                   hyperbolic_text, run_time=0.6)
+            FadeOut(entity_title, entity_eq, explanation, run_time=0.5)
         )
         self.wait(0.2)
 
         search_title = Text(
-            "Query Image → Query Embedding",
+            "Hierarchical Search",
             font=FONTS["sans"],
-            font_size=24,
+            font_size=28,
             color=COLORS["accent"]
         )
-        search_title.move_to([0, 1.5, 0])
+        search_title.move_to([0, 1.8, 0])
 
-        search_steps = Text(
-            "1. Encode query image to z_query\n"
-            "2. Find similar entities in hyperbolic space\n"
-            "3. Hierarchical ranking: country → region → city",
-            font=FONTS["sans"],
-            font_size=16,
-            color=COLORS["text_muted"],
-            line_spacing=1.3
-        )
-        search_steps.move_to([0, -0.2, 0])
+        # Search steps in organized layout
+        search_steps = VGroup()
+        steps_text = [
+            "1. Query image → z_query",
+            "2. Find similar entities",
+            "3. Rank by geography:\n   Countries → Regions → Cities"
+        ]
+
+        for i, step in enumerate(steps_text):
+            step_text = Text(
+                step,
+                font=FONTS["sans"],
+                font_size=14,
+                color=COLORS["text_muted"],
+                line_spacing=1.1
+            )
+            search_steps.add(step_text)
+
+        search_steps.arrange(DOWN, buff=0.4, aligned_edge=LEFT)
+        search_steps.move_to([0, 0.3, 0])
 
         self.play(FadeIn(search_title, run_time=0.6))
         self.wait(0.3)
-        self.play(FadeIn(search_steps, run_time=0.6))
+        self.play(FadeIn(search_steps, run_time=0.8))
         self.wait(2.0)
+
+        # ============================================================
+        # SEQUENCE 6: Key Insight (65-75s)
+        # ============================================================
+        self.play(
+            FadeOut(search_title, search_steps, run_time=0.5)
+        )
+        self.wait(0.2)
+
+        insight_box = RoundedRectangle(
+            width=6.0,
+            height=1.8,
+            corner_radius=0.15,
+            color=COLORS["accent"],
+            stroke_width=2.5,
+            fill_opacity=0.08,
+            fill_color=COLORS["accent"]
+        )
+        insight_box.move_to([0, 0.3, 0])
+
+        insight_text = Text(
+            "Hyperbolic geometry preserves hierarchical structure\nwhile enabling efficient similarity search",
+            font=FONTS["sans"],
+            font_size=16,
+            color=COLORS["text"],
+            line_spacing=1.3
+        )
+        insight_text.move_to(insight_box.get_center())
+
+        self.play(Create(insight_box, run_time=0.6))
+        self.play(FadeIn(insight_text, run_time=0.6))
+        self.wait(2.5)
 
         # ============================================================
         # SEQUENCE 7: Transition (75-80s)
         # ============================================================
         self.play(
-            FadeOut(title, search_title, search_steps, run_time=1.0)
+            FadeOut(title, insight_box, insight_text, run_time=1.0)
         )
         self.wait(0.5)
