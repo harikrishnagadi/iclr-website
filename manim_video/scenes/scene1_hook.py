@@ -342,74 +342,33 @@ class Scene1Hook(Scene):
             self.wait(0.3)
 
             # ============================================================
-            # CREATE ENHANCED 3D GLOBE VISUALIZATION
+            # CREATE EARTH GLOBE USING SVG
             # ============================================================
-            # Earth sphere with better visual appearance
-            earth = Circle(
-                radius=1.2,
-                color="#4a90e2",
-                fill_color="#1e3a5f",
-                fill_opacity=0.95,
-                stroke_width=3,
-                stroke_color="#6ba3e8",
-                stroke_opacity=1.0
+            # Load Earth SVG from static/images
+            earth_svg = SVGMobject(
+                file_name="/Volumes/SSD/iclr-website/static/images/earth-icon.svg"
             )
-            earth.move_to([2.2, 1.2, 0])
+            earth_svg.set_height(2.4)  # Diameter of approximately 1.2 radius
+            earth_svg.move_to([2.2, 1.2, 0])
 
-            # Add shadow/depth effect with darker circle behind
+            # Add subtle shadow/depth effect with darker circle behind
             earth_shadow = Circle(
                 radius=1.2,
                 color="#0a0a0f",
                 fill_color="#0a0a0f",
-                fill_opacity=0.3,
+                fill_opacity=0.2,
                 stroke_width=0,
                 stroke_opacity=0
             )
             earth_shadow.move_to([2.2 + 0.1, 1.2 - 0.1, 0])
-
-            # Continents visualization - multiple continents for better representation
-            continents = VGroup()
-
-            # Europe (left side, green)
-            europe = Polygon(
-                [1.8, 1.7, 0], [1.9, 1.9, 0], [2.0, 1.85, 0], [2.05, 1.6, 0],
-                color="#52c41a",
-                fill_color="#52c41a",
-                fill_opacity=0.95,
-                stroke_width=0.5,
-                stroke_color="#52c41a"
-            )
-            continents.add(europe)
-
-            # Americas (right side, green)
-            americas = Polygon(
-                [2.8, 1.5, 0], [2.9, 1.7, 0], [3.0, 1.6, 0], [2.95, 1.3, 0],
-                color="#52c41a",
-                fill_color="#52c41a",
-                fill_opacity=0.95,
-                stroke_width=0.5,
-                stroke_color="#52c41a"
-            )
-            continents.add(americas)
-
-            # Africa (center, green)
-            africa = Polygon(
-                [2.3, 1.0, 0], [2.5, 1.2, 0], [2.45, 0.8, 0],
-                color="#52c41a",
-                fill_color="#52c41a",
-                fill_opacity=0.95,
-                stroke_width=0.5,
-                stroke_color="#52c41a"
-            )
-            continents.add(africa)
 
             # Create location marker for Paris with pulse effect
             lat = 48.86 * np.pi / 180
             lon = 2.35 * np.pi / 180
 
             # Position on sphere surface
-            marker_x = earth.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
-            marker_y = earth.get_center()[1] + 1.2 * np.sin(lat)
+            marker_x = earth_svg.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
+            marker_y = earth_svg.get_center()[1] + 1.2 * np.sin(lat)
 
             # Location pin with better design
             marker_dot = Dot(
@@ -472,8 +431,8 @@ class Scene1Hook(Scene):
             )
             label_group = VGroup(label_bg, location_label)
 
-            # Assemble Earth group
-            earth_group = VGroup(earth_shadow, earth, continents)
+            # Assemble Earth group (SVG + shadow)
+            earth_group = VGroup(earth_shadow, earth_svg)
             marker_group = VGroup(marker_pulse, marker_glow, marker_dot)
 
             # Display everything
