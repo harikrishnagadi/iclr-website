@@ -80,35 +80,80 @@ class Scene3Insight(Scene):
         )
         self.wait(0.3)
 
-        # Geographic Hierarchy Map (4-panel progression: Europe → France → Île-de-France → Paris)
-        map_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_progression.png"
-        hierarchy_map = None
-
-        if os.path.exists(map_path):
+        # Sequential Hierarchy Levels with 2-second display and boundary highlights
+        # Level 1: Europe
+        level1_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level1_europe.png"
+        level1_map = None
+        if os.path.exists(level1_path):
             try:
-                hierarchy_map = ImageMobject(map_path)
-                hierarchy_map.set_height(4.0)
-                hierarchy_map.move_to([0, 0.2, 0])
-            except Exception as e:
+                level1_map = ImageMobject(level1_path)
+                level1_map.set_height(5.5)
+                level1_map.move_to([0, 0.3, 0])
+            except Exception:
                 pass
 
-        if hierarchy_map is None:
-            # Fallback if map doesn't load
-            hierarchy_map = VGroup()
+        if level1_map is None:
+            level1_map = VGroup()
 
-        hierarchy_desc = create_sans_body(
-            "Geographic data naturally organizes into multiple\nhierarchical levels: Countries → Regions → Cities",
-            font_size=18,
-            color=COLORS["text"]
-        )
-        hierarchy_desc.move_to([0, -2.0, 0])
-
-        self.play(
-            FadeIn(hierarchy_map, hierarchy_desc,
-                   run_time=1.0,
-                   rate_func=rate_functions.ease_in_out_sine)
-        )
+        self.play(FadeIn(level1_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
         self.wait(2.0)
+
+        # Level 2: France
+        level2_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level2_france.png"
+        level2_map = None
+        if os.path.exists(level2_path):
+            try:
+                level2_map = ImageMobject(level2_path)
+                level2_map.set_height(5.5)
+                level2_map.move_to([0, 0.3, 0])
+            except Exception:
+                pass
+
+        if level2_map is None:
+            level2_map = VGroup()
+
+        self.play(FadeOut(level1_map, run_time=0.5, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(level2_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.wait(2.0)
+
+        # Level 3: Île-de-France
+        level3_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level3_idf.png"
+        level3_map = None
+        if os.path.exists(level3_path):
+            try:
+                level3_map = ImageMobject(level3_path)
+                level3_map.set_height(5.5)
+                level3_map.move_to([0, 0.3, 0])
+            except Exception:
+                pass
+
+        if level3_map is None:
+            level3_map = VGroup()
+
+        self.play(FadeOut(level2_map, run_time=0.5, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(level3_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.wait(2.0)
+
+        # Level 4: Paris
+        level4_path = "/Volumes/SSD/iclr-website/static/images/hierarchy_level4_paris.png"
+        level4_map = None
+        if os.path.exists(level4_path):
+            try:
+                level4_map = ImageMobject(level4_path)
+                level4_map.set_height(5.5)
+                level4_map.move_to([0, 0.3, 0])
+            except Exception:
+                pass
+
+        if level4_map is None:
+            level4_map = VGroup()
+
+        self.play(FadeOut(level3_map, run_time=0.5, rate_func=rate_functions.ease_in_out_sine))
+        self.play(FadeIn(level4_map, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+        self.wait(2.0)
+
+        # Combine all maps for final fadeout reference
+        hierarchy_map = level4_map
 
         # ============================================================
         # SEQUENCE 2: The Challenge - Euclidean Space Problem
@@ -129,7 +174,7 @@ class Scene3Insight(Scene):
         problem_desc.move_to([0, 0.5, 0])
 
         self.play(
-            FadeOut(hierarchy_map, hierarchy_desc, hierarchy_title,
+            FadeOut(hierarchy_map, hierarchy_title,
                    run_time=0.6,
                    rate_func=rate_functions.ease_in_out_sine)
         )
