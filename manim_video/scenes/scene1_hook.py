@@ -362,12 +362,12 @@ class Scene1Hook(Scene):
             self.play(FadeOut(*images_to_fade, *other_frames, run_time=0.7))
             self.wait(0.3)
 
-            # Keep Paris image (index 0) and move it (without scaling)
+            # Keep Paris image (index 0) and move it to center of screen (without scaling)
             paris_image = image_objects[0]
             paris_frame = frames_group[0]
             self.play(
-                paris_image.animate.move_to([-1.5, 2.0, 0]),
-                paris_frame.animate.move_to([-1.5, 2.0, 0]),
+                paris_image.animate.move_to([0, 0, 0]),
+                paris_frame.animate.move_to([0, 0, 0]),
                 FadeOut(geo_title, geo_description, task_text, run_time=0.5)
             )
             self.wait(0.3)
@@ -430,8 +430,13 @@ class Scene1Hook(Scene):
             marker_pulse.move_to([marker_x, marker_y, 0])
 
             # Improved arrow with curve pointing to the location pin
+            # Start from the right edge of the image frame
+            paris_frame_bounds = ObjectPositioner.get_bounds(paris_frame)
+            arrow_start_x = paris_frame_bounds['x_max'] + 0.2  # Slightly right of frame edge
+            arrow_start_y = paris_frame_bounds['center'][1]  # Center height of frame
+
             arrow_path = CurvedArrow(
-                start_point=[-1.5 + 0.5, 1.5, 0],
+                start_point=[arrow_start_x, arrow_start_y, 0],
                 end_point=[marker_x, marker_y, 0],
                 color=COLORS["accent"],
                 stroke_width=2.5,
