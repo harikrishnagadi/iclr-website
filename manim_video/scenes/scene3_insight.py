@@ -96,8 +96,21 @@ class Scene3Insight(Scene):
             if os.path.exists(sv_path):
                 try:
                     street_view = ImageMobject(sv_path)
-                    street_view.set_height(2.8)
-                    street_view.move_to([-3.2, 0.4, 0])  # Left side
+                    street_view.set_height(2.2)  # Reduced from 2.8
+                    street_view.move_to([-3.5, 0.5, 0])  # Left side
+
+                    # Add frame around image (like Scene 2)
+                    frame = Rectangle(
+                        width=street_view.width + 0.15,
+                        height=street_view.height + 0.15,
+                        stroke_color=COLORS["accent"],
+                        stroke_width=2.5,
+                        fill_opacity=0,
+                    )
+                    frame.move_to([-3.5, 0.5, 0])
+
+                    # Group image with frame
+                    street_view = VGroup(street_view, frame)
                     break
                 except Exception:
                     pass
@@ -124,20 +137,20 @@ class Scene3Insight(Scene):
                 map_animation.set_height(3.0)
                 map_animation.move_to([3.0, 0.4, 0])  # Right side
 
-                # Create text labels below map
+                # Create text labels below map with yellow color for hierarchy
                 map_label = create_sans_body(
-                    "Geographic Hierarchy: Europe → France → Île-de-France → Paris",
+                    "Geographic Hierarchy: France → Île-de-France Regions → Paris",
                     font_size=14,
-                    color=COLORS["text"]
+                    color='#ffff00'  # Yellow for hierarchy
                 )
                 map_label.move_to([3.0, -2.2, 0])  # Below right-side map
 
                 location_label = create_sans_body(
-                    "Street view location: 1st Arrondissement, Paris (48.863°N, 2.337°E)",
-                    font_size=12,
+                    "Street view: Paris, France (48.863°N, 2.337°E)",
+                    font_size=11,
                     color=COLORS["text_muted"]
                 )
-                location_label.move_to([-3.2, -2.2, 0])  # Below left-side image
+                location_label.move_to([-3.5, -2.2, 0])  # Below left-side image
 
                 # FadeIn map and labels
                 self.play(FadeIn(map_animation, map_label, location_label,

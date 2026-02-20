@@ -94,17 +94,17 @@ class Scene4Solution(Scene):
 
         # Three feature boxes with icons
         features = [
-            {"name": "Images", "desc": "Photos from location", "x": -3.5, "icon": "../assets/icons/image_icon.svg"},
-            {"name": "Location", "desc": "Coordinates (lat, lon)", "x": 0.0, "icon": "../assets/icons/location_icon.svg"},
-            {"name": "Name", "desc": "City/region name", "x": 3.5, "icon": "../assets/icons/name_icon.svg"}
+            {"name": "Images", "desc": "Photos from location", "x": -3.5, "icon": "../assets/icons/image_icon.png"},
+            {"name": "Location", "desc": "Coordinates (lat, lon)", "x": 0.0, "icon": "../assets/icons/location_icon.png"},
+            {"name": "Name", "desc": "City/region name", "x": 3.5, "icon": "../assets/icons/name_icon.png"}
         ]
 
         feature_boxes = VGroup()
         for feat in features:
-            # Load SVG icon
+            # Load PNG icon
             try:
-                icon = SVGMobject(feat["icon"])
-                icon.scale(0.8)
+                icon = ImageMobject(feat["icon"])
+                icon.scale(0.6)
                 icon.move_to([feat["x"], 0.7, 0])
             except:
                 # Fallback to colored circle if icon not found
