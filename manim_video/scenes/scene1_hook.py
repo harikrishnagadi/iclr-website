@@ -323,20 +323,14 @@ class Scene1Hook(Scene):
                 color=COLORS["accent"]
             )
 
-            # Position text elements below bottom images using smart layout
+            # Position text elements:
+            # - Visual Geolocation title in the middle (center of screen)
+            # - Definition and challenge below the bottom images
             objects_to_position = [
-                {
-                    'object': geo_title,
-                    'name': 'Visual Geolocation Title',
-                    'target_y': bottom_image_y - 0.8,
-                    'center_x': 0,
-                    'width': 6.0,
-                    'height': 0.8
-                },
                 {
                     'object': geo_description,
                     'name': 'Visual Geolocation Definition',
-                    'target_y': bottom_image_y - 1.6,
+                    'target_y': bottom_image_y - 0.6,
                     'center_x': 0,
                     'width': 8.0,
                     'height': 0.6
@@ -344,7 +338,7 @@ class Scene1Hook(Scene):
                 {
                     'object': task_text,
                     'name': 'Challenge Text',
-                    'target_y': bottom_image_y - 2.3,
+                    'target_y': bottom_image_y - 1.3,
                     'center_x': 0,
                     'width': 7.0,
                     'height': 0.6
@@ -354,26 +348,20 @@ class Scene1Hook(Scene):
             # Get reference bounds from images
             reference_bounds = [b for b in image_bounds_list if b]
 
-            # Use smart layout to position text
+            # Position title in the middle (center of screen)
+            geo_title.move_to([0, 0, 0])
+
+            # Use smart layout to position definition and challenge below images
             layout_results = ObjectPositioner.layout_objects(self, objects_to_position)
             ObjectPositioner.debug_layout(self, objects_to_position, layout_results)
 
-            # Fade in definition text (only if successfully positioned)
-            if layout_results['success']:
-                self.play(FadeIn(geo_title, run_time=0.6))
-                self.wait(0.3)
-                self.play(FadeIn(geo_description, run_time=0.7))
-                self.wait(0.3)
-                self.play(FadeIn(task_text, run_time=0.6))
-                self.wait(2.0)
-            else:
-                # Fallback: show warning and continue
-                print("⚠️  Layout positioning had issues, using fallback positions")
-                geo_title.move_to([0, bottom_image_y - 0.8, 0])
-                geo_description.move_to([0, bottom_image_y - 1.6, 0])
-                task_text.move_to([0, bottom_image_y - 2.3, 0])
-                self.play(FadeIn(geo_title, geo_description, task_text, run_time=0.6))
-                self.wait(2.0)
+            # Fade in all text
+            self.play(FadeIn(geo_title, run_time=0.6))
+            self.wait(0.3)
+            self.play(FadeIn(geo_description, run_time=0.7))
+            self.wait(0.3)
+            self.play(FadeIn(task_text, run_time=0.6))
+            self.wait(2.0)
 
             # ============================================================
             # SEQUENCE 7: Isolate Image & Show Location on Earth (16-30s)
