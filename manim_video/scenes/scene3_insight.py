@@ -82,143 +82,55 @@ class Scene3Insight(Scene):
         self.wait(0.3)
 
         # ============================================================
-        # Street view image (real Paris location) - Load once
+        # Animated Map Zoom Sequence (Paris → France → Europe)
         # ============================================================
-        street_view_files = [
-            "/Volumes/SSD/iclr-website/static/images/streetview/Paris_00131_445353063_8c58bd82b1_179_88895879@N00.jpg",
-            "/Volumes/SSD/iclr-website/static/images/streetview/0b_5a_5283974984.jpg",
-            "/Volumes/SSD/iclr-website/static/images/streetview/482314949_dbc149bb10_224_50435419@N00.jpg",
-        ]
+        # Load pre-generated animation frames (64 frames total)
+        map_frame_dir = "/Volumes/SSD/iclr-website/static/images/map_zoom_frames"
 
-        street_view = None
-        for sv_path in street_view_files:
-            if os.path.exists(sv_path):
-                try:
-                    street_view = ImageMobject(sv_path)
-                    # Constrain height to safe zone: title at y=2.2, content area below
-                    # Max safe height: ~2.8 units to avoid overlap with lower UI
-                    street_view.set_height(2.6)
-                    break
-                except Exception:
-                    pass
+        if os.path.exists(map_frame_dir):
+            # Load all animation frames
+            frame_files = sorted([f for f in os.listdir(map_frame_dir) if f.endswith('.png')])
 
-        if street_view is None:
-            street_view = VGroup()
+            if frame_files:
+                print(f"  ✓ Found {len(frame_files)} map animation frames")
 
-        # ============================================================
-        # Sequential Hierarchy Levels - with proper layout
-        # ============================================================
-        # Level 1: Country - France
-        sv_level1_path = "/Volumes/SSD/iclr-website/static/images/sv_level1_country.png"
-        sv_level1_map = None
-        if os.path.exists(sv_level1_path):
-            try:
-                sv_level1_map = ImageMobject(sv_level1_path)
-                # Same height constraint as street view
-                sv_level1_map.set_height(2.6)
-            except Exception:
-                pass
+                # Load first frame and display
+                first_frame_path = os.path.join(map_frame_dir, frame_files[0])
+                map_animation = ImageMobject(first_frame_path)
+                map_animation.set_height(3.2)
+                map_animation.move_to([0, 0.2, 0])
 
-        if sv_level1_map is None:
-            sv_level1_map = VGroup()
+                # FadeIn the map animation
+                self.play(FadeIn(map_animation, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
 
-        # Create proper layout: street view on left, map on right
-        # Position images with safe spacing using ObjectPositioner validation
+                # Play through all frames with smooth transitions
+                # Each frame shown for ~0.017s (1/60 second) to create animation effect
+                for frame_idx in range(1, len(frame_files)):
+                    frame_path = os.path.join(map_frame_dir, frame_files[frame_idx])
+                    try:
+                        next_frame = ImageMobject(frame_path)
+                        next_frame.set_height(3.2)
+                        next_frame.move_to([0, 0.2, 0])
 
-        # Left image (street view): x = -3.0, centered vertically at y = 0.3
-        street_view.move_to([-3.0, 0.3, 0])
+                        # Quick transition to next frame
+                        self.play(FadeOut(map_animation, run_time=0.01),
+                                 FadeIn(next_frame, run_time=0.01))
+                        map_animation = next_frame
+                    except Exception as e:
+                        print(f"  ⚠ Error loading frame {frame_idx}: {e}")
+                        continue
 
-        # Right image (map): x = +3.0, centered vertically at y = 0.3
-        sv_level1_map.move_to([3.0, 0.3, 0])
+                # Hold final frame (Europe view)
+                self.wait(0.5)
 
-        # Create group with proper spacing
-        level1_container = Group(street_view, sv_level1_map)
-
-        # Validate bounds using ObjectPositioner
-        sv_bounds = ObjectPositioner.get_bounds(street_view)
-        map_bounds = ObjectPositioner.get_bounds(sv_level1_map)
-
-        bounds_ok = True
-        if sv_bounds and map_bounds:
-            is_sv_ok, sv_errors = ObjectPositioner.is_within_canvas(sv_bounds)
-            is_map_ok, map_errors = ObjectPositioner.is_within_canvas(map_bounds)
-            bounds_ok = is_sv_ok and is_map_ok
-
-        if bounds_ok:
-            self.play(FadeIn(level1_container, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+                # Reference for final fadeout
+                hierarchy_map = map_animation
+            else:
+                print("  ⚠ No map animation frames found, using fallback")
+                hierarchy_map = VGroup()
         else:
-            # Fallback: reduce sizes if bounds exceeded
-            street_view.set_height(2.0)
-            sv_level1_map.set_height(2.0)
-            street_view.move_to([-3.0, 0.3, 0])
-            sv_level1_map.move_to([3.0, 0.3, 0])
-            level1_container = Group(street_view, sv_level1_map)
-            self.play(FadeIn(level1_container, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
-
-        self.wait(2.0)
-
-        # Level 2: Region - Île-de-France
-        sv_level2_path = "/Volumes/SSD/iclr-website/static/images/sv_level2_region.png"
-        sv_level2_map = None
-        if os.path.exists(sv_level2_path):
-            try:
-                sv_level2_map = ImageMobject(sv_level2_path)
-                sv_level2_map.set_height(2.6)
-            except Exception:
-                pass
-
-        if sv_level2_map is None:
-            sv_level2_map = VGroup()
-
-        sv_level2_map.move_to([3.0, 0.3, 0])
-        level2_container = Group(street_view, sv_level2_map)
-
-        self.play(FadeOut(level1_container, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(level2_container, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
-        self.wait(2.0)
-
-        # Level 3: City - Paris
-        sv_level3_path = "/Volumes/SSD/iclr-website/static/images/sv_level3_city.png"
-        sv_level3_map = None
-        if os.path.exists(sv_level3_path):
-            try:
-                sv_level3_map = ImageMobject(sv_level3_path)
-                sv_level3_map.set_height(2.6)
-            except Exception:
-                pass
-
-        if sv_level3_map is None:
-            sv_level3_map = VGroup()
-
-        sv_level3_map.move_to([3.0, 0.3, 0])
-        level3_container = Group(street_view, sv_level3_map)
-
-        self.play(FadeOut(level2_container, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(level3_container, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
-        self.wait(2.0)
-
-        # Level 4: District - 1st Arrondissement
-        sv_level4_path = "/Volumes/SSD/iclr-website/static/images/sv_level4_district.png"
-        sv_level4_map = None
-        if os.path.exists(sv_level4_path):
-            try:
-                sv_level4_map = ImageMobject(sv_level4_path)
-                sv_level4_map.set_height(2.6)
-            except Exception:
-                pass
-
-        if sv_level4_map is None:
-            sv_level4_map = VGroup()
-
-        sv_level4_map.move_to([3.0, 0.3, 0])
-        level4_container = Group(street_view, sv_level4_map)
-
-        self.play(FadeOut(level3_container, run_time=0.4, rate_func=rate_functions.ease_in_out_sine))
-        self.play(FadeIn(level4_container, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
-        self.wait(2.0)
-
-        # Reference for final fadeout
-        hierarchy_map = level4_container
+            print(f"  ⚠ Map frame directory not found: {map_frame_dir}")
+            hierarchy_map = VGroup()
 
         # ============================================================
         # SEQUENCE 2: The Challenge - Euclidean Space Problem
