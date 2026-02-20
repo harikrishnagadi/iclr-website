@@ -82,9 +82,11 @@ class Scene3Insight(Scene):
         self.wait(0.3)
 
         # ============================================================
-        # Animated Map Zoom Sequence (Paris → France → Europe)
+        # Animated Map Zoom IN Sequence (Europe → Paris)
         # ============================================================
-        # Load pre-generated animation frames (64 frames total)
+        # Load pre-generated animation frames (810 frames = 13.5 seconds)
+        # - 3 seconds at each level (Europe, France, Île-de-France, Paris)
+        # - Smooth transitions between levels (0.5s each)
         map_frame_dir = "/Volumes/SSD/iclr-website/static/images/map_zoom_frames"
 
         if os.path.exists(map_frame_dir):
@@ -92,36 +94,45 @@ class Scene3Insight(Scene):
             frame_files = sorted([f for f in os.listdir(map_frame_dir) if f.endswith('.png')])
 
             if frame_files:
-                print(f"  ✓ Found {len(frame_files)} map animation frames")
+                print(f"  ✓ Geographic hierarchy animation: {len(frame_files)} frames ({len(frame_files)/60:.1f}s)")
 
                 # Load first frame and display
                 first_frame_path = os.path.join(map_frame_dir, frame_files[0])
                 map_animation = ImageMobject(first_frame_path)
-                map_animation.set_height(3.2)
-                map_animation.move_to([0, 0.2, 0])
+                map_animation.set_height(3.4)
+                map_animation.move_to([0, 0.25, 0])
 
-                # FadeIn the map animation
-                self.play(FadeIn(map_animation, run_time=0.6, rate_func=rate_functions.ease_in_out_sine))
+                # FadeIn the animation
+                self.play(FadeIn(map_animation, run_time=0.8, rate_func=rate_functions.ease_in_out_sine))
+                self.wait(0.2)
 
-                # Play through all frames with smooth transitions
-                # Each frame shown for ~0.017s (1/60 second) to create animation effect
+                # Play through all frames sequentially
+                # At 60fps, each frame = 1/60s = 0.0167s
+                frame_duration = 1.0 / 60.0  # Duration per frame in seconds
+
                 for frame_idx in range(1, len(frame_files)):
                     frame_path = os.path.join(map_frame_dir, frame_files[frame_idx])
                     try:
                         next_frame = ImageMobject(frame_path)
-                        next_frame.set_height(3.2)
-                        next_frame.move_to([0, 0.2, 0])
+                        next_frame.set_height(3.4)
+                        next_frame.move_to([0, 0.25, 0])
 
-                        # Quick transition to next frame
-                        self.play(FadeOut(map_animation, run_time=0.01),
-                                 FadeIn(next_frame, run_time=0.01))
+                        # Instant transition to next frame (no animation overhead)
+                        # This allows proper 60fps playback
+                        self.remove(map_animation)
+                        self.add(next_frame)
                         map_animation = next_frame
+
+                        # Add minimal wait to control frame timing
+                        self.wait(frame_duration * 0.95)  # 0.95 factor accounts for processing time
+
                     except Exception as e:
-                        print(f"  ⚠ Error loading frame {frame_idx}: {e}")
+                        if frame_idx < 10 or frame_idx % 100 == 0:
+                            print(f"    Frame {frame_idx}/{len(frame_files)}")
                         continue
 
-                # Hold final frame (Europe view)
-                self.wait(0.5)
+                # Hold final frame (Paris zoomed in)
+                self.wait(0.3)
 
                 # Reference for final fadeout
                 hierarchy_map = map_animation
