@@ -68,7 +68,7 @@ class Scene1Hook(Scene):
         self.add(background_elements)
 
         # ============================================================
-        # SEQUENCE 1: Paper Title (0-2s)
+        # SEQUENCE 1: Paper Title (0-1.5s)
         # ============================================================
         paper_title = Text(
             "HierLoc: Hyperbolic Entity Embeddings\nfor Hierarchical Visual Geolocation",
@@ -77,206 +77,451 @@ class Scene1Hook(Scene):
             color=COLORS["text"],
             line_spacing=1.3
         )
-        paper_title.move_to([0, 2.8, 0])
+        paper_title.move_to([0, 2.2, 0])
 
         self.play(FadeIn(paper_title, run_time=1.2))
         self.wait(1.0)
 
         # ============================================================
-        # SEQUENCE 2: Authors (2-3.5s)
+        # SEQUENCE 2: Authors with Affiliation Numbers (1.5-3s)
         # ============================================================
-        authors = Text(
-            "Hari Krishna Gadi, Hongyi Luo, Daniel Matos, Lu Liu,\nYongliang Wang, Yanfeng Zhang, Liqiu Meng",
+        # Authors with superscript affiliation numbers
+        authors_line1 = Text(
+            "Hari Krishna Gadi",
             font=FONTS["sans"],
-            font_size=18,
-            color=COLORS["text"],
-            line_spacing=1.2
+            font_size=20,
+            color=COLORS["text"]
         )
-        authors.move_to([0, 1.8, 0])
+        authors_num1 = Text(
+            "1,2",
+            font=FONTS["sans"],
+            font_size=12,
+            color=COLORS["text"]
+        )
 
-        self.play(FadeIn(authors, run_time=0.8))
-        self.wait(0.7)
+        authors_line2 = Text(
+            "Hongyi Luo",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text"]
+        )
+        authors_num2 = Text(
+            "1,2",
+            font=FONTS["sans"],
+            font_size=12,
+            color=COLORS["text"]
+        )
+
+        authors_line3 = Text(
+            "Daniel Matos, Lu Liu, Yongliang Wang, Yanfeng Zhang",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text"]
+        )
+        authors_num3 = Text(
+            "1",
+            font=FONTS["sans"],
+            font_size=12,
+            color=COLORS["text"]
+        )
+
+        authors_line4 = Text(
+            "Liqiu Meng",
+            font=FONTS["sans"],
+            font_size=20,
+            color=COLORS["text"]
+        )
+        authors_num4 = Text(
+            "2",
+            font=FONTS["sans"],
+            font_size=12,
+            color=COLORS["text"]
+        )
+
+        # Combine authors with their numbers (simplified layout)
+        authors_group = VGroup(
+            Text(
+                "Hari Krishna Gadi¹,², Daniel Matos¹, Hongyi Luo¹,²,\nLu Liu¹, Yongliang Wang¹, Yanfeng Zhang¹, Liqiu Meng²",
+                font=FONTS["sans"],
+                font_size=18,
+                color=COLORS["text"],
+                line_spacing=1.2
+            )
+        )
+        authors_group.move_to([0, 0.8, 0])
+
+        self.play(FadeIn(authors_group, run_time=0.8))
+        self.wait(1.0)
 
         # ============================================================
-        # SEQUENCE 3: Affiliations (3.5-4.5s)
+        # SEQUENCE 3: Numbered Affiliations (3-4.5s)
         # ============================================================
-        affiliations = Text(
-            "Huawei Riemann Lab, Technical University of Munich",
+        affiliation1 = Text(
+            "¹ Huawei Riemann Lab",
             font=FONTS["sans"],
             font_size=16,
             color=COLORS["text_muted"]
         )
-        affiliations.move_to([0, 1.2, 0])
+        affiliation1.move_to([0, -0.2, 0])
 
-        self.play(FadeIn(affiliations, run_time=0.6))
+        affiliation2 = Text(
+            "² Technical University of Munich",
+            font=FONTS["sans"],
+            font_size=16,
+            color=COLORS["text_muted"]
+        )
+        affiliation2.move_to([0, -0.6, 0])
+
+        self.play(FadeIn(affiliation1, run_time=0.5))
+        self.wait(0.3)
+        self.play(FadeIn(affiliation2, run_time=0.5))
         self.wait(0.8)
 
         # ============================================================
-        # SEQUENCE 4: Transition & Main Challenge (4.5-12s)
+        # SEQUENCE 4: Transition to Challenge & Animate Header (4.5-6s)
         # ============================================================
-        # Fade out paper info
-        self.play(
-            FadeOut(paper_title, authors, affiliations, run_time=0.8)
-        )
-        self.wait(0.5)
-
-        # Main title: "HierLoc" - centered
-        title = Text(
+        # Create "HierLoc" text at center (for animation)
+        hierlock_title = Text(
             "HierLoc",
             font=FONTS["sans"],
-            font_size=100,
-            color=COLORS["text"]
+            font_size=64,
+            color=COLORS["accent"]
         )
-        title.move_to([0, 2.5, 0])
+        hierlock_title.move_to([0, 1.0, 0])
 
-        # Apply gold accent to "Loc" (last 3 characters)
-        title[4:7].set_color(COLORS["accent"])
+        # Fade out paper info
+        self.play(
+            FadeOut(paper_title, authors_group, affiliation1, affiliation2, run_time=0.8),
+            FadeIn(hierlock_title, run_time=0.8)
+        )
+        self.wait(0.3)
 
-        self.play(FadeIn(title, run_time=1.0))
+        # Animate HierLoc to top-left corner (header position)
+        # Full-width divider line below header
+        divider_line = Line(
+            start=[-7.0, 3.2, 0],
+            end=[7.0, 3.2, 0],
+            color=COLORS["text_muted"],
+            stroke_width=1.5,
+            stroke_opacity=0.3
+        )
+
+        # Progress dots spread evenly across entire line
+        progress_dots = VGroup()
+        num_scenes = 5
+        dot_x_positions = np.linspace(-6.8, 6.8, num_scenes)
+        for i, x_pos in enumerate(dot_x_positions):
+            dot = Dot(
+                point=[x_pos, 3.2, 0],
+                radius=0.07,
+                color=COLORS["accent"] if i == 0 else COLORS["text_muted"],
+                fill_opacity=1.0 if i == 0 else 0.4
+            )
+            progress_dots.add(dot)
+
+        # Animate header to top-left (centered in gap between line and top)
+        self.play(
+            hierlock_title.animate.scale(0.75).move_to([-5.5, 3.6, 0]),
+            FadeIn(progress_dots, divider_line, run_time=0.6)
+        )
         self.wait(0.5)
 
-        # Subtitle: "Visual Geolocation"
-        subtitle = Text(
-            "Visual Geolocation",
-            font=FONTS["sans"],
-            font_size=42,
-            color=COLORS["text_muted"]
-        )
-        subtitle.next_to(title, DOWN, buff=0.4)
-
-        self.play(FadeIn(subtitle, run_time=0.8))
-        self.wait(1.0)
-
         # ============================================================
-        # SEQUENCE 5: First Question with Image (12-16s)
+        # SEQUENCE 5: Display Street View Images in Grid (6-24s)
         # ============================================================
-        q1_text = Text(
-            "Can you guess where\nthis photo was taken?",
-            font=FONTS["sans"],
-            font_size=32,
-            color=COLORS["text"],
-            line_spacing=1.2
-        )
-        q1_text.move_to([0, -2.5, 0])
-
-        # Load image from streetview directory
+        # Load all available street view images
         streetview_dir = "/Volumes/SSD/iclr-website/static/images/streetview"
         image_paths = [
             os.path.join(streetview_dir, "Paris_00131_445353063_8c58bd82b1_179_88895879@N00.jpg"),
             os.path.join(streetview_dir, "Russia_00019_985802242_5ad0b7dbeb_1190_23707253@N00.jpg"),
             os.path.join(streetview_dir, "482314949_dbc149bb10_224_50435419@N00.jpg"),
+            os.path.join(streetview_dir, "0b_5a_5283974984.jpg"),
         ]
 
         # Verify images exist
         available_images = [p for p in image_paths if os.path.exists(p)]
 
         if available_images:
-            image1 = ImageMobject(available_images[0])
-            image1.set_height(3.0)
-            image1.move_to([0, 0.5, 0])
+            # Create frames and load images
+            frames_group = VGroup()
+            image_objects = []
 
-            self.play(FadeIn(image1, run_time=0.8))
-            self.wait(0.4)
-            self.play(FadeIn(q1_text, run_time=0.6))
-            self.wait(1.5)
+            # Grid positions (2x2 layout)
+            positions = [
+                [-3.5, 1.5, 0],   # Top-left
+                [3.5, 1.5, 0],    # Top-right
+                [-3.5, -1.5, 0],  # Bottom-left
+                [3.5, -1.5, 0],   # Bottom-right
+            ]
 
-            # ============================================================
-            # SEQUENCE 6: Second Question with Different Image (16-20s)
-            # ============================================================
-            q2_text = Text(
-                "Without landmarks,\npeople, or language?",
-                font=FONTS["sans"],
-                font_size=32,
-                color=COLORS["text"],
-                line_spacing=1.2
-            )
-            q2_text.move_to([0, -2.5, 0])
+            for idx, img_path in enumerate(available_images):
+                if idx < len(positions):
+                    # Load image
+                    img = ImageMobject(img_path)
+                    img.set_height(1.8)
+                    img.move_to(positions[idx])
 
-            if len(available_images) > 1:
-                image2 = ImageMobject(available_images[1])
-                image2.set_height(3.0)
-                image2.move_to([0, 0.5, 0])
-
-                # Cross-fade
-                self.play(
-                    FadeOut(q1_text, run_time=0.5),
-                    FadeOut(image1, run_time=0.5)
-                )
-                self.wait(0.3)
-                self.play(FadeIn(image2, run_time=0.6))
-                self.wait(0.3)
-                self.play(FadeIn(q2_text, run_time=0.6))
-                self.wait(1.5)
-
-                # ============================================================
-                # SEQUENCE 7: The Challenge (20-24s)
-                # ============================================================
-                challenge_text = VGroup(
-                    Text(
-                        "How would a",
-                        font=FONTS["sans"],
-                        font_size=40,
-                        color=COLORS["text"]
-                    ),
-                    Text(
-                        "computer",
-                        font=FONTS["sans"],
-                        font_size=40,
-                        color=COLORS["accent"]
-                    ),
-                    Text(
-                        "solve this?",
-                        font=FONTS["sans"],
-                        font_size=40,
-                        color=COLORS["text"]
+                    # Create rounded rectangle frame around image
+                    frame = RoundedRectangle(
+                        width=img.width + 0.2,
+                        height=img.height + 0.2,
+                        corner_radius=0.15,
+                        color=COLORS["accent"],
+                        stroke_width=2,
+                        fill_opacity=0,
+                        stroke_opacity=0.8
                     )
-                )
-                challenge_text.arrange(DOWN, buff=0.2)
-                challenge_text.move_to([0, -2.5, 0])
+                    frame.move_to(positions[idx])
 
-                # Reveal the challenge
-                self.play(FadeOut(q2_text, image2, run_time=0.5))
-                self.wait(0.3)
+                    # Add frame to group (ImageMobject needs to be added separately)
+                    frames_group.add(frame)
+                    image_objects.append(img)
+                    self.add(img)
 
-                for i, part in enumerate(challenge_text):
-                    self.play(Write(part, run_time=0.4, rate_func=linear))
-                    self.wait(0.2)
+            # Fade in all frames and images together at once
+            self.play(FadeIn(frames_group, run_time=1.2))
+            self.wait(2.5)
 
-                self.wait(2.0)
-
-                # ============================================================
-                # SEQUENCE 8: Transition to Next Scene (24s)
-                # ============================================================
-                self.play(
-                    FadeOut(title, subtitle, challenge_text, background_elements, run_time=1.0)
-                )
-                self.wait(0.5)
-            else:
-                # Fallback if second image not available
-                self.play(FadeOut(q1_text, image1, run_time=0.5))
-                self.wait(0.3)
-                self.play(FadeIn(q2_text, run_time=0.6))
-                self.wait(2.0)
-                self.play(FadeOut(title, subtitle, q2_text, background_elements, run_time=1.0))
-                self.wait(0.5)
-        else:
-            # Fallback if no images available - proceed with text only
-            self.play(FadeIn(q1_text, run_time=0.6))
-            self.wait(2.0)
-
-            q2_text = Text(
-                "How would a computer\nsolve this challenge?",
+            # ============================================================
+            # SEQUENCE 6: Define Visual Geolocation (6-16s)
+            # ============================================================
+            # Title: What is Visual Geolocation?
+            geo_title = Text(
+                "Visual Geolocation",
                 font=FONTS["sans"],
-                font_size=32,
-                color=COLORS["text"],
-                line_spacing=1.2
+                font_size=28,
+                color=COLORS["accent"]
             )
-            q2_text.move_to([0, -2.5, 0])
+            geo_title.move_to([0, -2.8, 0])
 
-            self.play(FadeOut(q1_text, run_time=0.5))
+            # Description text
+            geo_description = Text(
+                "Determining the geographic location of an image\nbased on visual features alone",
+                font=FONTS["sans"],
+                font_size=18,
+                color=COLORS["text"],
+                line_spacing=1.3
+            )
+            geo_description.move_to([0, -3.5, 0])
+
+            # Task text
+            task_text = Text(
+                "The Challenge: Guess where each image was taken",
+                font=FONTS["sans"],
+                font_size=16,
+                color=COLORS["text_muted"]
+            )
+            task_text.move_to([0, -4.0, 0])
+
+            # Fade in definition
+            self.play(FadeIn(geo_title, run_time=0.6))
             self.wait(0.3)
-            self.play(FadeIn(q2_text, run_time=0.6))
+            self.play(FadeIn(geo_description, run_time=0.7))
+            self.wait(0.3)
+            self.play(FadeIn(task_text, run_time=0.6))
             self.wait(2.0)
 
-            self.play(FadeOut(title, subtitle, q2_text, background_elements, run_time=1.0))
+            # ============================================================
+            # SEQUENCE 7: Isolate Image & Show Location on Earth (16-30s)
+            # ============================================================
+            # Fade out the other images, keep one (Paris at top-left)
+            images_to_fade = [image_objects[1], image_objects[2], image_objects[3]]
+            other_frames = [frames_group[1], frames_group[2], frames_group[3]]
+
+            self.play(FadeOut(*images_to_fade, *other_frames, run_time=0.7))
+            self.wait(0.3)
+
+            # Keep Paris image (index 0) and move it closer to Earth
+            paris_image = image_objects[0]
+            paris_frame = frames_group[0]
+            self.play(
+                paris_image.animate.scale(0.5).move_to([-1.5, 2.0, 0]),
+                paris_frame.animate.scale(0.5).move_to([-1.5, 2.0, 0]),
+                FadeOut(geo_title, geo_description, task_text, run_time=0.5)
+            )
+            self.wait(0.3)
+
+            # ============================================================
+            # CREATE ENHANCED 3D GLOBE VISUALIZATION
+            # ============================================================
+            # Earth sphere with better visual appearance
+            earth = Circle(
+                radius=1.2,
+                color="#4a90e2",
+                fill_color="#1e3a5f",
+                fill_opacity=0.95,
+                stroke_width=3,
+                stroke_color="#6ba3e8",
+                stroke_opacity=1.0
+            )
+            earth.move_to([2.2, 1.2, 0])
+
+            # Add shadow/depth effect with darker circle behind
+            earth_shadow = Circle(
+                radius=1.2,
+                color="#0a0a0f",
+                fill_color="#0a0a0f",
+                fill_opacity=0.3,
+                stroke_width=0,
+                stroke_opacity=0
+            )
+            earth_shadow.move_to([2.2 + 0.1, 1.2 - 0.1, 0])
+
+            # Continents visualization - multiple continents for better representation
+            continents = VGroup()
+
+            # Europe (left side, green)
+            europe = Polygon(
+                [1.8, 1.7, 0], [1.9, 1.9, 0], [2.0, 1.85, 0], [2.05, 1.6, 0],
+                color="#52c41a",
+                fill_color="#52c41a",
+                fill_opacity=0.95,
+                stroke_width=0.5,
+                stroke_color="#52c41a"
+            )
+            continents.add(europe)
+
+            # Americas (right side, green)
+            americas = Polygon(
+                [2.8, 1.5, 0], [2.9, 1.7, 0], [3.0, 1.6, 0], [2.95, 1.3, 0],
+                color="#52c41a",
+                fill_color="#52c41a",
+                fill_opacity=0.95,
+                stroke_width=0.5,
+                stroke_color="#52c41a"
+            )
+            continents.add(americas)
+
+            # Africa (center, green)
+            africa = Polygon(
+                [2.3, 1.0, 0], [2.5, 1.2, 0], [2.45, 0.8, 0],
+                color="#52c41a",
+                fill_color="#52c41a",
+                fill_opacity=0.95,
+                stroke_width=0.5,
+                stroke_color="#52c41a"
+            )
+            continents.add(africa)
+
+            # Create location marker for Paris with pulse effect
+            lat = 48.86 * np.pi / 180
+            lon = 2.35 * np.pi / 180
+
+            # Position on sphere surface
+            marker_x = earth.get_center()[0] + 1.2 * np.cos(lat) * np.cos(lon)
+            marker_y = earth.get_center()[1] + 1.2 * np.sin(lat)
+
+            # Location pin with better design
+            marker_dot = Dot(
+                point=[marker_x, marker_y, 0],
+                radius=0.07,
+                color=COLORS["accent"],
+                fill_opacity=1.0
+            )
+
+            # Glow effect (outer ring)
+            marker_glow = Circle(
+                radius=0.16,
+                color=COLORS["accent"],
+                stroke_opacity=0.5,
+                fill_opacity=0,
+                stroke_width=2
+            )
+            marker_glow.move_to([marker_x, marker_y, 0])
+
+            # Pulse ring effect (subtle animation element)
+            marker_pulse = Circle(
+                radius=0.25,
+                color=COLORS["accent"],
+                stroke_opacity=0.2,
+                fill_opacity=0,
+                stroke_width=1.5
+            )
+            marker_pulse.move_to([marker_x, marker_y, 0])
+
+            # Improved arrow with curve for visual interest
+            arrow_path = CurvedArrow(
+                start_point=[-1.5 + 0.5, 1.5, 0],
+                end_point=[2.2 - 0.4, 1.2 + 0.5, 0],
+                color=COLORS["accent"],
+                stroke_width=2.5,
+                tip_length=0.2,
+                stroke_opacity=0.8,
+                angle=PI/6
+            )
+
+            # Enhanced location label with background
+            location_label = Text(
+                "Paris, France",
+                font=FONTS["sans"],
+                font_size=14,
+                color=COLORS["accent"]
+            )
+            location_label.move_to([2.2, -0.6, 0])
+
+            # Label background for better readability
+            label_bg = SurroundingRectangle(
+                location_label,
+                buff=0.15,
+                color=COLORS["accent"],
+                fill_color=COLORS["bg"],
+                fill_opacity=0.8,
+                stroke_width=1,
+                stroke_opacity=0.5,
+                corner_radius=0.1
+            )
+            label_group = VGroup(label_bg, location_label)
+
+            # Assemble Earth group
+            earth_group = VGroup(earth_shadow, earth, continents)
+            marker_group = VGroup(marker_pulse, marker_glow, marker_dot)
+
+            # Display everything
+            self.add(earth_group)
+            self.play(
+                FadeIn(earth_group, marker_group, arrow_path, run_time=0.8)
+            )
+            self.wait(0.5)
+            self.play(FadeIn(label_group, run_time=0.5))
+            self.wait(0.5)
+
+            # Pulse animation on marker
+            self.play(
+                marker_pulse.animate.scale(1.5).set_opacity(0),
+                run_time=1.0,
+                rate_func=rate_functions.ease_out_quad
+            )
+
+            # Animate Earth rotation with improved visual
+            self.play(
+                earth_group.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
+                marker_group.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
+                arrow_path.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
+                label_group.animate.rotate(PI/3, axis=np.array([0, 0, 1])),
+                run_time=2.5,
+                rate_func=rate_functions.ease_in_out_cubic
+            )
+            self.wait(2.0)
+
+            # ============================================================
+            # SEQUENCE 8: Transition to Next Scene
+            # ============================================================
+            # Fade out everything
+            self.play(
+                FadeOut(paris_image, paris_frame, earth_group, marker_group,
+                        arrow_path, label_group, background_elements, run_time=1.0)
+            )
+            self.remove(paris_image)
+            self.wait(0.5)
+        else:
+            # Fallback if no images available
+            no_images_text = Text(
+                "Street view images not found",
+                font=FONTS["sans"],
+                font_size=24,
+                color=COLORS["text"]
+            )
+            self.play(FadeIn(no_images_text, run_time=1.0))
+            self.wait(2.0)
+            self.play(FadeOut(no_images_text, background_elements, run_time=1.0))
             self.wait(0.5)
