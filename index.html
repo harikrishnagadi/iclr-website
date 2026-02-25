@@ -209,8 +209,7 @@
   -->
 
   <main id="main-content">
-    <section class="hero is-medium"
-      style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); position: relative; overflow: hidden;">
+    <section class="hero is-medium hero-section">
       <div class="hero-body">
         <div class="container is-max-desktop">
           <div class="columns is-centered">
@@ -296,35 +295,36 @@
     <!-- End teaser video -->
 
     <!-- Paper abstract -->
-    <section class="section hero reveal"
-      style="background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #f093fb 100%);">
+    <section class="section hero reveal abstract-section">
       <div class="container is-max-desktop">
         <div class="columns is-centered has-text-centered">
           <div class="column is-four-fifths">
-            <h2 class="title is-2 has-text-white">Abstract</h2>
-            <div class="content has-text-justified has-text-white">
-              <p class="is-size-5">
-                Visual geolocalization, the task of predicting where an image was taken, remains challenging due to
-                global scale, visual ambiguity, and the inherently hierarchical structure of geography. Existing
-                paradigms rely on either large-scale retrieval, which requires storing a large number of image
-                embeddings, grid-based classifiers that ignore geographic continuity, or generative models that diffuse
-                over space but struggle with fine detail.
-              </p>
-              <p class="is-size-5">
-                We introduce an entity-centric formulation of geolocation that replaces image-to-image retrieval with a
-                compact hierarchy of geographic entities embedded in Hyperbolic space. Images are aligned directly to
-                country, region, subregion, and city entities through Geo-Weighted Hyperbolic contrastive learning by
-                directly incorporating haversine distance into the contrastive objective. This hierarchical design
-                enables interpretable predictions and efficient inference with 240k entity embeddings instead of over 5
-                million image embeddings on the OSV5M benchmark, on which our method establishes a new state-of-the-art
-                performance.
-              </p>
-              <p class="is-size-5">
-                Compared to the current methods in the literature, it reduces mean geodesic error by 19.5%, while
-                improving the fine-grained subregion accuracy by 43%. These results demonstrate that geometry-aware
-                hierarchical embeddings provide a scalable and conceptually new alternative for global image
-                geolocation.
-              </p>
+            <h2 class="title is-2 publication-title">Abstract</h2>
+            <div class="abstract-card">
+              <div class="content has-text-justified">
+                <p class="is-size-5">
+                  Visual geolocalization, the task of predicting where an image was taken, remains challenging due to
+                  global scale, visual ambiguity, and the inherently hierarchical structure of geography. Existing
+                  paradigms rely on either large-scale retrieval, which requires storing a large number of image
+                  embeddings, grid-based classifiers that ignore geographic continuity, or generative models that diffuse
+                  over space but struggle with fine detail.
+                </p>
+                <p class="is-size-5">
+                  We introduce an entity-centric formulation of geolocation that replaces image-to-image retrieval with a
+                  compact hierarchy of geographic entities embedded in Hyperbolic space. Images are aligned directly to
+                  country, region, subregion, and city entities through Geo-Weighted Hyperbolic contrastive learning by
+                  directly incorporating haversine distance into the contrastive objective. This hierarchical design
+                  enables interpretable predictions and efficient inference with 240k entity embeddings instead of over 5
+                  million image embeddings on the OSV5M benchmark, on which our method establishes a new state-of-the-art
+                  performance.
+                </p>
+                <p class="is-size-5">
+                  Compared to the current methods in the literature, it reduces mean geodesic error by 19.5%, while
+                  improving the fine-grained subregion accuracy by 43%. These results demonstrate that geometry-aware
+                  hierarchical embeddings provide a scalable and conceptually new alternative for global image
+                  geolocation.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -692,8 +692,7 @@
           <div class="mobile-video-stack">
 
             <!-- Video 1 -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+            <div class="box methodology-box">
               <h3 class="title is-4 has-text-centered">The Challenge: Finding Your Place</h3>
               <p class="has-text-centered" style="margin-bottom: 1rem;">
                 Visual geolocation is like finding a needle in a haystack—but the haystack is the entire planet. 
@@ -709,8 +708,7 @@
             </div>
 
             <!-- Video 2 -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+            <div class="box methodology-box">
               <h3 class="title is-4 has-text-centered">The Old Way vs. HierLoc</h3>
               <p class="has-text-centered" style="margin-bottom: 1rem;">
                 Most systems use massive image retrieval (slow) or rigid grids (inaccurate). 
@@ -726,8 +724,7 @@
             </div>
 
             <!-- Video 3 -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+            <div class="box methodology-box">
               <h3 class="title is-4 has-text-centered">The Core Insight: Multimodal Entities</h3>
               <p class="has-text-centered" style="margin-bottom: 1rem;">
                 We don't just use coordinates. We fuse <strong>Vision</strong> (DINOv3), <strong>Language</strong> (CLIP), and <strong>Location</strong> 
@@ -743,8 +740,7 @@
             </div>
 
             <!-- Video 4: Architecture -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+            <div class="box methodology-box">
               <h3 class="title is-4 has-text-centered">The Architecture</h3>
               <p class="has-text-centered" style="margin-bottom: 1rem;">
                 How it works under the hood: Images and Entities are projected into a shared <strong>Tangent Space</strong>, 
@@ -760,8 +756,7 @@
             </div>
 
             <!-- Video 5: Geometry -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+            <div class="box methodology-box">
               <h3 class="title is-4 has-text-centered">Why Geometry Matters</h3>
               <p class="has-text-centered" style="margin-bottom: 1rem;">
                 See the difference: Euclidean space crushes the hierarchy. Hyperbolic space preserves it.
@@ -777,8 +772,7 @@
             </div>
 
             <!-- Video 6: Inference -->
-            <div class="box"
-              style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+            <div class="box methodology-box">
               <h3 class="title is-4 has-text-centered">Smart Navigation: Beam Search</h3>
               <p class="has-text-centered" style="margin-bottom: 1rem;">
                 We don't scan blindly. We navigate. By traversing the tree (Continent → Country → City) with Beam Search, 
