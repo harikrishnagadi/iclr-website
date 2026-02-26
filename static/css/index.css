@@ -424,6 +424,16 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.5rem 0;
 }
 
+/* Let carousel adapt height per slide (tables are taller than images) */
+.results-carousel .slider,
+.results-carousel .slider-container {
+  height: auto !important;
+}
+
+.results-carousel .slider-item {
+  height: auto !important;
+}
+
 .results-carousel .item {
   margin: 0 0.5rem;
   padding: clamp(1rem, 4vw, 2rem);
@@ -468,7 +478,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Table carousel items — constrain on mobile */
-.results-carousel .item .table-container {
+.results-carousel .item .table-container,
+.results-carousel .item .hl-table-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -502,12 +513,15 @@ h1, h2, h3, h4, h5, h6 {
 
   /* Shrink table text further on mobile */
   .results-carousel .table th,
-  .results-carousel .table td {
+  .results-carousel .table td,
+  .results-carousel .hl-table thead th,
+  .results-carousel .hl-table tbody td {
     font-size: 0.68rem !important;
     padding: 0.5rem 0.4rem !important;
   }
 
-  .results-carousel .table td:first-child {
+  .results-carousel .table td:first-child,
+  .results-carousel .hl-table tbody td:first-child {
     font-size: 0.72rem !important;
   }
 }
@@ -519,70 +533,249 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--gold) !important;
 }
 
-/* ── Table Styling ─────────────────────────────────────────── */
+/* ── HierLoc Table Design System ──────────────────────────── */
+
+/* Table item card overrides */
+.item--table {
+  font-size: 1rem !important;
+}
+
+/* Header: table number + title */
+.hl-table-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.hl-table-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-dim);
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(232,168,56,0.15);
+}
+.hl-table-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.hl-table-caption {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.hl-table-caption strong {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+/* Table wrapper */
+.hl-table-wrap {
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--rim);
+  background:
+    linear-gradient(180deg, rgba(232,168,56,0.03) 0%, transparent 40%),
+    var(--ink);
+}
+
+/* Table base */
+.hl-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--text);
+}
+
+/* Header cells */
+.hl-table thead th {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 14px 16px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(232,168,56,0.18);
+  background: transparent;
+  position: relative;
+}
+.hl-table thead th:not(:first-child) {
+  text-align: right;
+}
+/* Subtle gold line under header */
+.hl-table thead tr {
+  background: rgba(232,168,56,0.04);
+}
+
+/* Data cells */
+.hl-table tbody td {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.15s ease, color 0.15s ease;
+  text-align: right;
+}
+.hl-table tbody td:first-child {
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+  letter-spacing: -0.005em;
+}
+
+/* Alternating row tint */
+.hl-table tbody tr:nth-child(even):not(.hl-row-ours):not(.hl-row-dataset) td {
+  background: rgba(255,255,255,0.012);
+}
+
+/* Hover */
+.hl-table tbody tr:not(.hl-row-dataset):hover td {
+  background: rgba(255,255,255,0.03);
+}
+
+/* Best values: bold + underline */
+.hl-table td strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.hl-table td u {
+  text-decoration: none;
+  border-bottom: 1px dashed var(--text-muted);
+  padding-bottom: 1px;
+}
+
+/* ── HierLoc rows (ours) ─────────────── */
+.hl-row-ours td {
+  position: relative;
+}
+
+/* Secondary variant (ViT-L/14) */
+.hl-row-secondary td {
+  background: rgba(232,168,56,0.03) !important;
+  border-bottom-color: rgba(232,168,56,0.08) !important;
+  border-top: 1px solid rgba(232,168,56,0.1);
+}
+.hl-row-secondary td:first-child {
+  color: var(--gold-light) !important;
+}
+.hl-row-secondary td u {
+  color: var(--gold-light);
+  border-bottom-color: rgba(245,204,122,0.35);
+}
+
+/* Best variant — the star row */
+.hl-row-best td {
+  background: rgba(232,168,56,0.07) !important;
+  color: var(--gold-light) !important;
+  border-bottom-color: rgba(232,168,56,0.12) !important;
+}
+.hl-row-best td:first-child {
+  color: var(--gold) !important;
+  font-weight: 700 !important;
+}
+.hl-row-best td strong {
+  color: var(--gold) !important;
+  font-weight: 700;
+}
+.hl-row-best td u {
+  color: var(--gold-light);
+  border-bottom-color: rgba(245,204,122,0.4);
+}
+/* Gold left accent bar on best row */
+.hl-row-best td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(232,168,56,0.4);
+}
+
+/* Variant label */
+.hl-variant {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+.hl-row-best .hl-variant {
+  color: rgba(245,204,122,0.6);
+}
+
+/* ── Dataset section headers (Table 2) ── */
+.hl-row-dataset td {
+  font-family: var(--sans) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted) !important;
+  text-align: center !important;
+  padding: 10px 16px !important;
+  background: rgba(255,255,255,0.02) !important;
+  border-bottom: 1px solid var(--rim) !important;
+  border-top: 1px solid var(--rim) !important;
+  position: relative;
+}
+/* Decorative dashes around dataset name */
+.hl-row-dataset td::before,
+.hl-row-dataset td::after {
+  content: '—';
+  margin: 0 10px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+/* ── Mobile table adjustments ─────────── */
+@media (max-width: 768px) {
+  .hl-table thead th {
+    font-size: 0.6rem;
+    padding: 10px 10px;
+    letter-spacing: 0.08em;
+  }
+  .hl-table tbody td {
+    font-size: 0.72rem;
+    padding: 9px 10px;
+  }
+  .hl-table tbody td:first-child {
+    font-size: 0.76rem;
+  }
+  .hl-table-title {
+    font-size: 0.95rem;
+  }
+  .hl-table-caption {
+    font-size: 0.75rem;
+  }
+}
+
+/* ── Legacy Bulma table overrides (keep for any remaining tables) ── */
 .table-container {
   overflow-x: auto;
   border-radius: var(--r-lg);
   border: 1px solid var(--rim);
   background: var(--ink-2);
 }
-
 .table {
   background: transparent !important;
   color: var(--text) !important;
   width: 100%;
 }
-
-.table th {
-  background: rgba(232,168,56,0.06) !important;
-  color: var(--gold) !important;
-  font-family: var(--sans) !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase;
-  border-color: var(--rim) !important;
-  padding: 0.9rem 0.75rem !important;
-  white-space: nowrap;
-}
-
-.table td {
-  border-color: var(--rim) !important;
-  color: var(--text-muted) !important;
-  font-family: var(--mono) !important;
-  font-size: 0.82rem !important;
-  padding: 0.75rem !important;
-  vertical-align: middle !important;
-}
-
-.table td:first-child {
-  font-family: var(--sans) !important;
-  font-size: 0.875rem !important;
-  color: var(--text) !important;
-  font-weight: 600 !important;
-}
-
-.table tbody tr:hover td { background: rgba(255,255,255,0.02) !important; }
-
-/* SOTA row */
-.table .is-selected td {
-  background: rgba(232,168,56,0.08) !important;
-  color: var(--gold-light) !important;
-}
-.table .is-selected td:first-child { color: var(--gold) !important; }
-.table .is-selected td strong { color: var(--gold) !important; }
-
-/* Section header rows */
-.table .is-selected[data-section-header] td {
-  background: rgba(232,168,56,0.04) !important;
-  color: var(--gold) !important;
-  font-family: var(--sans) !important;
-  font-size: 0.78rem !important;
-  letter-spacing: 0.06em;
-}
-
-.table tr[style*="border-top"] td { border-top: 1px solid var(--rim-strong) !important; }
-.table tr[style*="#f0f8ff"] td { background: rgba(232,168,56,0.05) !important; }
 
 /* ── Video Cards ─────────────────────────────────────────── */
 .video-grid {
