@@ -20,7 +20,9 @@ IMAGE_DOCUMENTATION.md
 
 # Source/build directories
 iclr2026/
-plots/
+plots/*
+!plots/hierloc_ad.mp4
+!plots/hierloc_ad_mobile.mp4
 media/
 
 # Render scripts
