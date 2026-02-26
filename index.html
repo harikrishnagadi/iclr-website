@@ -46,8 +46,6 @@
 
   <title>HierLoc: Hyperbolic Entity Embeddings for Hierarchical Visual Geolocation</title>
 
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico">
 
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,6 +88,9 @@
 
 <body>
 
+  <!-- Fixed 3D background (Three.js) -->
+  <div id="hero-3d-container" aria-hidden="true"></div>
+
   <!-- Scroll to Top -->
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
@@ -105,9 +106,6 @@
       <div class="hero-arc"></div>
       <div class="hero-arc"></div>
       <div class="hero-arc"></div>
-
-      <!-- Animated hyperbolic canvas -->
-      <canvas id="hyperbolic-canvas" aria-hidden="true"></canvas>
 
       <div class="hero-body-inner">
         <div class="venue-badge">ICLR 2026 &nbsp;·&nbsp; International Conference on Learning Representations</div>
@@ -133,17 +131,8 @@
         </div>
 
         <div class="cta-row">
-          <a href="https://arxiv.org/pdf/2601.23064" target="_blank" class="cta-btn cta-btn-primary">
-            <i class="fas fa-file-pdf"></i> Paper
-          </a>
-          <a href="https://arxiv.org/abs/2601.23064" target="_blank" class="cta-btn cta-btn-outline">
+          <a href="https://arxiv.org/abs/2601.23064" target="_blank" class="cta-btn cta-btn-primary">
             <i class="ai ai-arxiv"></i> arXiv
-          </a>
-          <a href="#" target="_blank" class="cta-btn cta-btn-outline">
-            <i class="fab fa-github"></i> Code
-          </a>
-          <a href="static/paper.pdf" target="_blank" class="cta-btn cta-btn-outline">
-            <i class="fas fa-download"></i> PDF
           </a>
         </div>
       </div>
@@ -152,26 +141,54 @@
     <!-- ═══════════════════════════════════════════════════════
          STAT BAR
     ═══════════════════════════════════════════════════════ -->
-    <div class="stat-bar reveal">
+    <div class="stat-bar">
       <div class="stat-bar-inner">
-        <div class="stat-item">
-          <span class="stat-value">19.5%</span>
+        <div class="stat-item stat-animate">
+          <span class="stat-value" data-target="19.5" data-suffix="%" data-decimals="1">0%</span>
           <span class="stat-label">Error Reduction</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-value">43%</span>
-          <span class="stat-label">Subregion Accuracy ↑</span>
+        <div class="stat-item stat-animate">
+          <span class="stat-value" data-target="23.3" data-suffix="%" data-decimals="1">0%</span>
+          <span class="stat-label">City Accuracy ↑</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-value">6.56×</span>
+        <div class="stat-item stat-animate">
+          <span class="stat-value" data-target="6.56" data-suffix="×" data-decimals="2">0×</span>
           <span class="stat-label">Inference Speedup</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-value">240k</span>
+        <div class="stat-item stat-animate">
+          <span class="stat-value" data-target="240" data-suffix="k" data-decimals="0">0k</span>
           <span class="stat-label">Entity Embeddings</span>
         </div>
       </div>
     </div>
+
+    <!-- Fullscreen autoplay overlay -->
+    <div class="video-fullscreen-overlay" id="video-fullscreen-overlay">
+      <video id="showcase-video-fs" autoplay muted playsinline>
+        <source src="plots/hierloc_ad_mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+        <source src="plots/hierloc_ad.mp4" type="video/mp4">
+      </video>
+      <button class="skip-video-btn" id="skip-video-btn">Skip <i class="fas fa-forward"></i></button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         VIDEO SHOWCASE (inline replay)
+    ═══════════════════════════════════════════════════════ -->
+    <div id="post-video-content" class="post-video-content post-video-hidden">
+
+    <section class="hl-section video-showcase" id="video-showcase">
+      <div class="u-center" style="margin-bottom: 2.5rem;">
+        <span class="section-eyebrow">Overview</span>
+        <h2 class="section-heading">HierLoc <em>in 60 Seconds</em></h2>
+        <hr class="section-rule section-rule-center">
+      </div>
+      <div class="video-showcase-inner">
+        <video id="showcase-video-inline" controls muted playsinline>
+          <source src="plots/hierloc_ad_mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+          <source src="plots/hierloc_ad.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
 
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
@@ -347,15 +364,6 @@
           </div>
 
           <div class="item">
-            <img src="static/images/carousel_final/island_nonisland_panels.png" alt="Island vs Mainland Performance" loading="lazy" />
-            <h2 class="subtitle has-text-centered">
-              <strong>Island vs Mainland Analysis:</strong> HierLoc shows consistent improvement across both island
-              and mainland territories. Cross-attention particularly helps challenging regions, reducing median
-              errors from 545 km to 411 km on IM2GPS3K.
-            </h2>
-          </div>
-
-          <div class="item">
             <img src="static/images/carousel_final/scaling_wallclock_to_2B.png" alt="Scaling Performance" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Computational Efficiency:</strong> Inference latency vs accuracy on same GPU. HierLoc provides
@@ -364,42 +372,11 @@
             </h2>
           </div>
 
-          <div class="item">
-            <img src="static/images/carousel_final/lorentz_umap.png" alt="Lorentz Model Configuration" loading="lazy" />
-            <h2 class="subtitle has-text-centered">
-              <strong>Manifold Sensitivity:</strong> Hyperbolic outperforms Euclidean/spherical across benchmarks:
-              25.3 km vs 27.4 km vs 28.9 km median error on OSV5M. Provides 7.7% and 12.5% error reduction vs
-              Euclidean and spherical respectively.
-            </h2>
-          </div>
-
-          <div class="item">
-            <img src="static/images/carousel_final/main_banner.png" alt="HierLoc Banner" loading="lazy" />
-            <h2 class="subtitle has-text-centered">
-              <strong>HierLoc:</strong> Hierarchical Geolocation in Hyperbolic Space with Cross-Modal Attention for
-              Accurate and Efficient Image Geolocation. Accepted to ICLR 2026.
-            </h2>
-          </div>
 
         </div>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════
-         RESULTS VIDEO
-    ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt reveal">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
-        <span class="section-eyebrow">Demonstration</span>
-        <h2 class="section-heading"><em>Results</em></h2>
-        <hr class="section-rule section-rule-center">
-      </div>
-      <div class="results-video-wrap">
-        <video controls muted playsinline loop>
-          <source src="static/videos/hierloc_results_slideshow.mp4" type="video/mp4">
-        </video>
-      </div>
-    </section>
 
     <!-- ═══════════════════════════════════════════════════════
          METHODOLOGY VIDEO
@@ -412,7 +389,7 @@
       </div>
       <div class="results-video-wrap">
         <video controls muted playsinline>
-          <source src="static/videos/hierloc_explainer_new.mp4" type="video/mp4">
+          <source src="static/videos/HierLoc_Explainer_ICLR.mp4" type="video/mp4">
         </video>
       </div>
     </section>
@@ -447,6 +424,8 @@
       </div>
     </section>
 
+    </div><!-- /post-video-content -->
+
     <!-- ═══════════════════════════════════════════════════════
          FOOTER
     ═══════════════════════════════════════════════════════ -->
@@ -469,93 +448,7 @@
 
   </main>
 
-  <!-- Hyperbolic canvas animation -->
-  <script>
-    (function() {
-      const canvas = document.getElementById('hyperbolic-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-
-      function resize() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      // Draw Poincaré disk geodesics (circles orthogonal to boundary)
-      let t = 0;
-
-      function drawGeodesic(cx, cy, r, alpha) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(232, 168, 56, ${alpha})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-
-      function render() {
-        const W = canvas.width, H = canvas.height;
-        ctx.clearRect(0, 0, W, H);
-
-        const cx = W / 2, cy = H / 2;
-        const R = Math.min(W, H) * 0.42;
-
-        // Outer boundary circle
-        ctx.beginPath();
-        ctx.arc(cx, cy, R, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(232, 168, 56, 0.07)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // Concentric geodesic rings (animating)
-        const rings = 8;
-        for (let i = 1; i <= rings; i++) {
-          const progress = i / rings;
-          // Hyperbolic: inner rings expand slowly, outer compress
-          const rr = R * (1 - Math.exp(-progress * 2.5)) / (1 - Math.exp(-2.5));
-          const alpha = (0.12 - progress * 0.012) * (0.7 + 0.3 * Math.sin(t * 0.4 + i));
-          drawGeodesic(cx, cy, rr, Math.max(0, alpha));
-        }
-
-        // Rotating geodesic lines through origin (like tree branches)
-        const spokes = 12;
-        for (let i = 0; i < spokes; i++) {
-          const angle = (i / spokes) * Math.PI * 2 + t * 0.05;
-          const x1 = cx + Math.cos(angle) * R;
-          const y1 = cy + Math.sin(angle) * R;
-          const alpha = 0.04 + 0.02 * Math.sin(t * 0.3 + i);
-          ctx.beginPath();
-          ctx.moveTo(cx, cy);
-          ctx.lineTo(x1, y1);
-          ctx.strokeStyle = `rgba(232, 168, 56, ${alpha})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-
-        // Floating points (like entities in hyperbolic space)
-        const points = 24;
-        for (let i = 0; i < points; i++) {
-          const angle = (i / points) * Math.PI * 2 + t * 0.02 * (i % 3 === 0 ? 1 : -0.5);
-          // Hyperbolic placement: cluster near boundary
-          const radialFrac = 0.3 + 0.6 * Math.pow(i / points, 0.4);
-          const px = cx + Math.cos(angle) * R * radialFrac;
-          const py = cy + Math.sin(angle) * R * radialFrac;
-          const size = 1.2 + 0.8 * Math.sin(t * 0.5 + i * 1.3);
-          const alpha = 0.15 + 0.1 * Math.sin(t * 0.4 + i);
-          ctx.beginPath();
-          ctx.arc(px, py, size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(232, 168, 56, ${alpha})`;
-          ctx.fill();
-        }
-
-        t += 0.012;
-        requestAnimationFrame(render);
-      }
-
-      render();
-    })();
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="static/js/hero-3d.js"></script>
 </body>
 </html>

@@ -70,14 +70,19 @@ h1, h2, h3, h4, h5, h6 {
 .title.is-3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
 .title.is-4 { font-size: 1.25rem !important; }
 
-/* ── Hero Canvas Background ─────────────────────────────── */
-#hyperbolic-canvas {
-  position: absolute;
+/* ── Hero 3D Background (Three.js) — fixed behind all content */
+#hero-3d-container {
+  position: fixed;
   inset: 0;
   width: 100%;
-  height: 100%;
-  opacity: 0.35;
+  height: 100vh;
   pointer-events: none;
+  z-index: 0;
+}
+#hero-3d-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* ── Hero Section ────────────────────────────────────────── */
@@ -86,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: radial-gradient(ellipse 120% 80% at 50% -10%, #1e1428 0%, #0a0a0f 60%);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -269,7 +274,8 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Stat Bar ─────────────────────────────────────────────── */
 .stat-bar {
   position: relative;
-  background: var(--ink-2);
+  z-index: 2;
+  background: transparent;
   border-top: 1px solid var(--rim);
   border-bottom: 1px solid var(--rim);
   padding: 1.5rem 0;
@@ -300,6 +306,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 .stat-item:last-child { border-right: none; }
 
+/* Stat count-up animation */
+.stat-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.stat-animate.is-counting {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stat-animate:nth-child(1) { transition-delay: 0s; }
+.stat-animate:nth-child(2) { transition-delay: 0.12s; }
+.stat-animate:nth-child(3) { transition-delay: 0.24s; }
+.stat-animate:nth-child(4) { transition-delay: 0.36s; }
+
 .stat-value {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 3vw, 2.2rem);
@@ -323,10 +344,12 @@ h1, h2, h3, h4, h5, h6 {
 .hl-section {
   padding: 5rem 2rem;
   position: relative;
+  z-index: 2;
+  background: transparent;
 }
 
 .hl-section-alt {
-  background: var(--ink-2);
+  background: transparent;
 }
 
 .section-eyebrow {
@@ -364,7 +387,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ── Abstract ─────────────────────────────────────────────── */
 .abstract-section {
-  background: var(--ink-2);
+  background: transparent;
   border-top: 1px solid var(--rim);
   border-bottom: 1px solid var(--rim);
 }
@@ -393,7 +416,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ── Carousel ─────────────────────────────────────────────── */
 .carousel-section {
-  background: var(--ink);
+  background: transparent;
 }
 
 .results-carousel {
@@ -623,6 +646,114 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1rem;
 }
 
+/* ── Fullscreen Video Overlay ────────────────────────────── */
+.video-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease;
+}
+
+.video-fullscreen-overlay video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-fullscreen-overlay.dismissed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.skip-video-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 0.6rem 1.3rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.4s;
+  letter-spacing: 0.02em;
+}
+
+.skip-video-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.skip-video-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .video-fullscreen-overlay video {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+  .skip-video-btn {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  .video-showcase-inner {
+    border-radius: var(--r-md, 8px);
+  }
+  .video-showcase {
+    padding: 2rem 0.75rem;
+  }
+}
+
+/* ── Video Showcase (inline replay) ─────────────────────── */
+.video-showcase {
+  padding: 3rem 1.5rem;
+}
+
+.video-showcase-inner {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 1px solid var(--rim);
+  box-shadow: var(--glow);
+}
+
+.video-showcase-inner video {
+  width: 100%;
+  display: block;
+}
+
+/* ── Post-video content reveal ──────────────────────────── */
+.post-video-content {
+  transition: opacity 0.8s ease, max-height 0.8s ease;
+}
+
+.post-video-hidden {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.post-video-visible {
+  opacity: 1;
+  max-height: none;
+  overflow: visible;
+  pointer-events: auto;
+}
+
 /* ── Results Video ───────────────────────────────────────── */
 .results-video-wrap {
   max-width: 780px;
@@ -640,7 +771,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ── BibTeX ──────────────────────────────────────────────── */
 .bibtex-section {
-  background: var(--ink-2);
+  background: transparent;
   border-top: 1px solid var(--rim);
 }
 
@@ -723,7 +854,9 @@ code {
 
 /* ── Footer ──────────────────────────────────────────────── */
 .footer {
-  background: var(--ink-2) !important;
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
   border-top: 1px solid var(--rim);
   padding: 3rem 2rem !important;
 }
@@ -861,7 +994,7 @@ section.hero { background: transparent !important; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  #hyperbolic-canvas { display: none; }
+  #hero-3d-container { opacity: 0.5; }
 }
 
 /* ── Utility ─────────────────────────────────────────────── */

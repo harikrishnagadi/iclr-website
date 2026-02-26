@@ -141,7 +141,69 @@ $(document).ready(function () {
 
     // Initialize Scroll Animations
     setupScrollReveal();
+
+    // Initialize Stat Counter
+    setupStatCountUp();
 })
+
+// Stat Count-Up Animation
+function setupStatCountUp() {
+    var statItems = document.querySelectorAll('.stat-animate');
+    if (!statItems.length) return;
+
+    var animated = false;
+
+    var observer = new IntersectionObserver(function (entries) {
+        if (animated) return;
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                animated = true;
+                observer.disconnect();
+                triggerCountUp(statItems);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    observer.observe(document.querySelector('.stat-bar'));
+}
+
+function triggerCountUp(items) {
+    var duration = 1800; // ms
+
+    items.forEach(function (item, index) {
+        // Stagger the reveal
+        item.classList.add('is-counting');
+
+        var valueEl = item.querySelector('.stat-value');
+        var target = parseFloat(valueEl.dataset.target);
+        var suffix = valueEl.dataset.suffix || '';
+        var decimals = parseInt(valueEl.dataset.decimals) || 0;
+
+        // Delay counting to match the CSS stagger
+        var delay = index * 120;
+        var startTime = null;
+
+        setTimeout(function () {
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var progress = Math.min((timestamp - startTime) / duration, 1);
+
+                // Ease-out cubic
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var current = eased * target;
+
+                valueEl.textContent = current.toFixed(decimals) + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    valueEl.textContent = target.toFixed(decimals) + suffix;
+                }
+            }
+            requestAnimationFrame(step);
+        }, delay);
+    });
+}
 
 // Scroll Reveal Animation System
 function setupScrollReveal() {
@@ -163,3 +225,44 @@ function setupScrollReveal() {
         observer.observe(el);
     });
 }
+
+/* ── Mobile / Desktop video source swap ────────────────── */
+(function () {
+    var isMobile = window.matchMedia('(max-width: 768px)').matches;
+    var src = isMobile ? 'plots/hierloc_ad_mobile.mp4' : 'plots/hierloc_ad.mp4';
+    ['showcase-video-fs', 'showcase-video-inline'].forEach(function (id) {
+        var v = document.getElementById(id);
+        if (v) { v.src = src; v.load(); }
+    });
+})();
+
+/* ── Fullscreen Video Overlay ───────────────────────────── */
+(function () {
+    var overlay = document.getElementById('video-fullscreen-overlay');
+    var fsVideo = document.getElementById('showcase-video-fs');
+    var content = document.getElementById('post-video-content');
+    var skipBtn = document.getElementById('skip-video-btn');
+
+    if (!overlay || !fsVideo || !content) return;
+
+    function dismiss() {
+        fsVideo.pause();
+        overlay.classList.add('dismissed');
+        skipBtn.classList.add('hidden');
+        // Remove overlay from DOM after transition
+        setTimeout(function () { overlay.remove(); }, 700);
+        // Reveal the rest of the page
+        content.classList.remove('post-video-hidden');
+        content.classList.add('post-video-visible');
+        // Scroll to the inline video section
+        var inlineSection = document.getElementById('video-showcase');
+        if (inlineSection) {
+            setTimeout(function () {
+                inlineSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }
+
+    fsVideo.addEventListener('ended', dismiss);
+    skipBtn.addEventListener('click', dismiss);
+})();
