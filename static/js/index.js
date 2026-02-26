@@ -232,7 +232,14 @@ function setupScrollReveal() {
     var src = isMobile ? 'plots/hierloc_ad_mobile.mp4' : 'plots/hierloc_ad.mp4';
     ['showcase-video-fs', 'showcase-video-inline'].forEach(function (id) {
         var v = document.getElementById(id);
-        if (v) { v.src = src; v.load(); }
+        if (v) {
+            v.src = src;
+            v.load();
+            // Re-trigger autoplay after programmatic load (only for fullscreen)
+            if (id === 'showcase-video-fs') {
+                v.play().catch(function () {});
+            }
+        }
     });
 })();
 
