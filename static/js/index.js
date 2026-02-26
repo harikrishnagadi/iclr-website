@@ -252,8 +252,11 @@ function setupScrollReveal() {
 
     if (!overlay || !fsVideo || !content) return;
 
+    document.documentElement.classList.add('video-playing');
+
     function dismiss() {
         fsVideo.pause();
+        document.documentElement.classList.remove('video-playing');
         overlay.classList.add('dismissed');
         skipBtn.classList.add('hidden');
         // Remove overlay from DOM after transition
@@ -261,13 +264,10 @@ function setupScrollReveal() {
         // Reveal the rest of the page
         content.classList.remove('post-video-hidden');
         content.classList.add('post-video-visible');
-        // Scroll to the inline video section
-        var inlineSection = document.getElementById('video-showcase');
-        if (inlineSection) {
-            setTimeout(function () {
-                inlineSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
+        // Scroll to top of page (hero section)
+        setTimeout(function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100);
     }
 
     fsVideo.addEventListener('ended', dismiss);

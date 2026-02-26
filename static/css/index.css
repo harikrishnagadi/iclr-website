@@ -647,6 +647,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ── Fullscreen Video Overlay ────────────────────────────── */
+html.video-playing,
+html.video-playing body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
 .video-fullscreen-overlay {
   position: fixed;
   inset: 0;
