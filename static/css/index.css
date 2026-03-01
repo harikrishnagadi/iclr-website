@@ -3,38 +3,38 @@
    Aesthetic: Dark Cosmos · Editorial Serif · Geodesic Gold
    ═══════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
 
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
-  --ink:        #0a0a0f;
-  --ink-2:      #111118;
-  --ink-3:      #1a1a24;
-  --surface:    #14141e;
-  --rim:        rgba(255,255,255,0.06);
-  --rim-strong: rgba(255,255,255,0.12);
+  --ink:        #0d0d16;
+  --ink-2:      #161625;
+  --ink-3:      #1e1e30;
+  --surface:    #2a2a40;
+  --rim:        rgba(255,255,255,0.08);
+  --rim-strong: rgba(255,255,255,0.15);
 
-  --gold:       #e8a838;
-  --gold-light: #f5cc7a;
-  --gold-dim:   rgba(232,168,56,0.18);
+  --gold:       #00d2ff;
+  --gold-light: #7ae6ff;
+  --gold-dim:   rgba(0, 210, 255, 0.18);
 
-  --text:       #e8e4da;
-  --text-muted: #8c8a84;
-  --text-dim:   #4a4842;
+  --text:       #f0f0f5;
+  --text-muted: #a0a0b5;
+  --text-dim:   #606075;
 
-  --serif:      'DM Serif Display', Georgia, serif;
-  --sans:       'Syne', system-ui, sans-serif;
-  --mono:       'DM Mono', 'Cascadia Code', monospace;
+  --serif:      'Inter', system-ui, sans-serif;
+  --sans:       'Inter', system-ui, sans-serif;
+  --mono:       'Fira Code', 'Cascadia Code', monospace;
 
-  --r-sm:   6px;
-  --r-md:   12px;
-  --r-lg:   20px;
-  --r-xl:   32px;
+  --r-sm:   8px;
+  --r-md:   16px;
+  --r-lg:   24px;
+  --r-xl:   36px;
 
   --ease:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --glow: 0 0 60px rgba(232,168,56,0.12), 0 0 120px rgba(232,168,56,0.05);
+  --glow: 0 0 60px rgba(0, 210, 255, 0.15), 0 0 120px rgba(0, 210, 255, 0.08);
 }
 
 /* ── Reset & Base ────────────────────────────────────────── */
@@ -275,7 +275,9 @@ h1, h2, h3, h4, h5, h6 {
 .stat-bar {
   position: relative;
   z-index: 2;
-  background: transparent;
+  background: rgba(22, 22, 37, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--rim);
   border-bottom: 1px solid var(--rim);
   padding: 1.5rem 0;
@@ -396,6 +398,12 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 780px;
   margin: 0 auto;
   text-align: center;
+  background: rgba(22, 22, 37, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--rim);
 }
 
 .abstract-text {
@@ -437,7 +445,9 @@ h1, h2, h3, h4, h5, h6 {
 .results-carousel .item {
   margin: 0 0.5rem;
   padding: clamp(1rem, 4vw, 2rem);
-  background: var(--ink-2);
+  background: rgba(22, 22, 37, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--rim);
   border-radius: var(--r-xl);
   font-size: 0;
@@ -582,9 +592,9 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--r-md);
   overflow: hidden;
   border: 1px solid var(--rim);
-  background:
-    linear-gradient(180deg, rgba(232,168,56,0.03) 0%, transparent 40%),
-    var(--ink);
+  background: rgba(22, 22, 37, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Table base */
@@ -787,7 +797,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .video-card {
-  background: var(--ink-2);
+  background: rgba(22, 22, 37, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--rim);
   border-radius: var(--r-xl);
   overflow: hidden;
@@ -977,7 +989,9 @@ html.video-playing body {
 .bibtex-card {
   max-width: 780px;
   margin: 0 auto;
-  background: var(--ink-3);
+  background: rgba(22, 22, 37, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--rim-strong);
   border-radius: var(--r-xl);
   overflow: hidden;
