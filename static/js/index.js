@@ -144,7 +144,34 @@ $(document).ready(function () {
 
     // Initialize Stat Counter
     setupStatCountUp();
+
+    // Smooth scroll for nav links
+    setupSmoothScroll();
 })
+
+// Smooth Scroll for Navigation
+function setupSmoothScroll() {
+    document.querySelectorAll('.hl-nav-links a, .hl-nav-logo').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Offset for fixed header (approx 80px)
+                const headerOffset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+}
 
 // Stat Count-Up Animation
 function setupStatCountUp() {
