@@ -88,7 +88,25 @@
 
 <body>
 
+
+  <!-- Fixed Glass Nav -->
+  <nav class="navbar is-fixed-top glass-nav" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#" style="font-weight: 700; color: var(--gold);">
+        HierLoc
+      </a>
+    </div>
+    <div class="navbar-menu is-active" style="background: transparent; box-shadow: none;">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#abstract" style="color: var(--text);">Abstract</a>
+        <a class="navbar-item" href="#results" style="color: var(--text);">Results</a>
+        <a class="navbar-item" href="#bibtex" style="color: var(--text);">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- Fixed 3D background (Three.js) -->
+
   <div id="hero-3d-container" aria-hidden="true"></div>
 
   <!-- Scroll to Top -->
@@ -193,8 +211,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section id="abstract" class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -225,7 +243,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section id="results" class="hl-section carousel-section reveal">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
@@ -263,7 +281,7 @@
             </h2>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 1</span>
               <span class="hl-table-title">OSV5M Results</span>
@@ -303,7 +321,7 @@
             </div>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 2</span>
               <span class="hl-table-title">Benchmark Performance</span>
@@ -401,13 +419,13 @@
     <!-- ═══════════════════════════════════════════════════════
          BIBTEX
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section bibtex-section reveal" id="BibTeX">
+    <section id="bibtex" class="hl-section bibtex-section reveal">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Citation</span>
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
