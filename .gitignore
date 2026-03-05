@@ -33,3 +33,7 @@ update_architecture.sh
 
 # PDF duplicates of images (PNG versions are used on the web)
 static/images/*.pdf
+
+node_modules/
+screenshot.png
+screenshot.js
