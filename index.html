@@ -91,7 +91,19 @@
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
 
+
+  <!-- Top Navigation Bar -->
+  <nav class="top-nav" aria-label="main navigation">
+    <a class="top-nav-logo" href="#">Hier<span>Loc</span></a>
+    <div class="top-nav-links">
+      <a href="#video-showcase">Overview</a>
+      <a href="#results-carousel">Results</a>
+      <a href="#BibTeX">BibTeX</a>
+    </div>
+  </nav>
+
   <!-- Scroll to Top -->
+
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
   </button>
@@ -194,7 +206,7 @@
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -234,7 +246,7 @@
       <div class="u-max-wide">
         <div id="results-carousel" class="carousel results-carousel">
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>HierLoc Architecture:</strong> Images are encoded and mapped with exp₀ into the Lorentz model of
@@ -244,7 +256,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/exp0_log0.png" alt="Hyperbolic Space Projections" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Hyperbolic Projections:</strong> The exp₀ and log₀ functions enable bidirectional mapping
@@ -254,7 +266,7 @@
           </div>
 
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/mean_error_raster_grid.png" alt="Mean Geographic Error Distribution" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Geographic Error Distribution:</strong> Mean error visualization across global regions on
@@ -263,7 +275,7 @@
             </h2>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 1</span>
               <span class="hl-table-title">OSV5M Results</span>
@@ -303,7 +315,7 @@
             </div>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 2</span>
               <span class="hl-table-title">Benchmark Performance</span>
@@ -349,7 +361,7 @@
             </div>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/hierloc_vs_sc_inference.png" alt="Comparison with Baselines" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Inference Strategies:</strong> Beam search comparison showing HierLoc achieves 97% of
@@ -358,7 +370,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/beam_width_plots.png" alt="Beam Width Analysis" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Beam Width Optimization:</strong> Accuracies and search time for different beam widths.
@@ -367,7 +379,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/scaling_wallclock_to_2B.png" alt="Scaling Performance" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Computational Efficiency:</strong> Inference latency vs accuracy on same GPU. HierLoc provides
@@ -407,7 +419,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
