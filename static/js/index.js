@@ -80,14 +80,46 @@ function scrollToTop() {
     });
 }
 
-// Show/hide scroll to top button
+// Show/hide scroll to top button (Optimized)
+const scrollButton = document.querySelector('.scroll-to-top');
+let isScrollButtonVisible = false;
+let scrollTicking = false;
+
 window.addEventListener('scroll', function () {
-    const scrollButton = document.querySelector('.scroll-to-top');
-    if (window.pageYOffset > 300) {
-        scrollButton.classList.add('visible');
-    } else {
-        scrollButton.classList.remove('visible');
+    if (!scrollTicking) {
+        window.requestAnimationFrame(function () {
+            const shouldBeVisible = window.pageYOffset > 300;
+            if (shouldBeVisible !== isScrollButtonVisible) {
+                if (shouldBeVisible) {
+                    scrollButton.classList.add('visible');
+                } else {
+                    scrollButton.classList.remove('visible');
+                }
+                isScrollButtonVisible = shouldBeVisible;
+            }
+            scrollTicking = false;
+        });
+        scrollTicking = true;
     }
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('.glass-nav .nav-link').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 60, // Account for fixed nav height
+                behavior: 'smooth'
+            });
+
+            // Update active state
+            document.querySelectorAll('.glass-nav .nav-link').forEach(link => link.classList.remove('active'));
+            this.classList.add('active');
+        }
+    });
 });
 
 // Video carousel autoplay when in view

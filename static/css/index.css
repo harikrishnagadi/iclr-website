@@ -14,9 +14,9 @@
   --rim:        rgba(255,255,255,0.06);
   --rim-strong: rgba(255,255,255,0.12);
 
-  --gold:       #e8a838;
-  --gold-light: #f5cc7a;
-  --gold-dim:   rgba(232,168,56,0.18);
+  --accent:       #e8a838;
+  --accent-light: #f5cc7a;
+  --accent-dim:   rgba(232,168,56,0.18);
 
   --text:       #e8e4da;
   --text-muted: #8c8a84;
@@ -138,7 +138,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 1rem;
-  background: var(--gold-dim);
+  background: var(--accent-dim);
   border: 1px solid rgba(232,168,56,0.3);
   border-radius: 100px;
   font-family: var(--sans);
@@ -146,7 +146,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   margin-bottom: 2rem;
   animation: fadeInDown 0.7s var(--ease) both;
 }
@@ -156,8 +156,8 @@ h1, h2, h3, h4, h5, h6 {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 8px var(--gold);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
   animation: pulse 2s ease infinite;
 }
 
@@ -178,7 +178,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-title .accent {
-  color: var(--gold);
+  color: var(--accent);
   font-style: italic;
 }
 
@@ -186,7 +186,7 @@ h1, h2, h3, h4, h5, h6 {
 .title-rule {
   width: 80px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
   margin: 0 auto 2rem;
   animation: fadeInUp 0.8s var(--ease) 0.2s both;
 }
@@ -209,8 +209,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .publication-authors a:hover {
-  color: var(--gold) !important;
-  border-bottom-color: var(--gold);
+  color: var(--accent) !important;
+  border-bottom-color: var(--accent);
 }
 
 .author-block { display: inline; }
@@ -250,11 +250,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cta-btn-primary {
-  background: var(--gold);
+  background: var(--accent);
   color: #0a0a0f;
 }
 .cta-btn-primary:hover {
-  background: var(--gold-light);
+  background: var(--accent-light);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(232,168,56,0.35);
 }
@@ -266,8 +266,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .cta-btn-outline:hover {
   background: var(--rim);
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--accent);
+  color: var(--accent);
   transform: translateY(-2px);
 }
 
@@ -324,7 +324,7 @@ h1, h2, h3, h4, h5, h6 {
 .stat-value {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 3vw, 2.2rem);
-  color: var(--gold);
+  color: var(--accent);
   line-height: 1;
   display: block;
 }
@@ -358,7 +358,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   margin-bottom: 0.75rem;
   display: block;
 }
@@ -371,12 +371,12 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.15;
 }
 
-.section-heading em { color: var(--gold); font-style: italic; }
+.section-heading em { color: var(--accent); font-style: italic; }
 
 .section-rule {
   width: 40px;
   height: 2px;
-  background: var(--gold);
+  background: var(--accent);
   margin: 1.25rem 0 2.5rem;
   border: none;
 }
@@ -529,8 +529,8 @@ h1, h2, h3, h4, h5, h6 {
 .carousel-container button.carousel-nav-left:hover,
 .carousel-container button.carousel-nav-right:hover {
   background: var(--ink-2) !important;
-  border-color: var(--gold) !important;
-  color: var(--gold) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
 }
 
 /* ── HierLoc Table Design System ──────────────────────────── */
@@ -553,8 +553,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
-  background: var(--gold-dim);
+  color: var(--accent);
+  background: var(--accent-dim);
   padding: 4px 12px;
   border-radius: 100px;
   border: 1px solid rgba(232,168,56,0.15);
@@ -573,7 +573,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 18px;
 }
 .hl-table-caption strong {
-  color: var(--gold-light);
+  color: var(--accent-light);
   font-weight: 700;
 }
 
@@ -602,7 +602,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   padding: 14px 16px;
   text-align: left;
   white-space: nowrap;
@@ -670,29 +670,29 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid rgba(232,168,56,0.1);
 }
 .hl-row-secondary td:first-child {
-  color: var(--gold-light) !important;
+  color: var(--accent-light) !important;
 }
 .hl-row-secondary td u {
-  color: var(--gold-light);
+  color: var(--accent-light);
   border-bottom-color: rgba(245,204,122,0.35);
 }
 
 /* Best variant — the star row */
 .hl-row-best td {
   background: rgba(232,168,56,0.07) !important;
-  color: var(--gold-light) !important;
+  color: var(--accent-light) !important;
   border-bottom-color: rgba(232,168,56,0.12) !important;
 }
 .hl-row-best td:first-child {
-  color: var(--gold) !important;
+  color: var(--accent) !important;
   font-weight: 700 !important;
 }
 .hl-row-best td strong {
-  color: var(--gold) !important;
+  color: var(--accent) !important;
   font-weight: 700;
 }
 .hl-row-best td u {
-  color: var(--gold-light);
+  color: var(--accent-light);
   border-bottom-color: rgba(245,204,122,0.4);
 }
 /* Gold left accent bar on best row */
@@ -704,7 +704,7 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 4px;
   width: 3px;
   border-radius: 0 3px 3px 0;
-  background: var(--gold);
+  background: var(--accent);
   box-shadow: 0 0 8px rgba(232,168,56,0.4);
 }
 
@@ -808,7 +808,7 @@ h1, h2, h3, h4, h5, h6 {
 .video-card-number {
   font-family: var(--mono);
   font-size: 0.7rem;
-  color: var(--gold);
+  color: var(--accent);
   letter-spacing: 0.1em;
   font-weight: 500;
   margin-bottom: 0.5rem;
@@ -997,7 +997,7 @@ html.video-playing body {
   font-size: 0.78rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.1em !important;
-  color: var(--gold) !important;
+  color: var(--accent) !important;
   text-transform: uppercase;
   margin: 0 !important;
 }
@@ -1024,10 +1024,10 @@ code {
   align-items: center;
   gap: 0.4rem;
   padding: 0.45rem 1rem;
-  background: var(--gold-dim);
+  background: var(--accent-dim);
   border: 1px solid rgba(232,168,56,0.3);
   border-radius: var(--r-sm);
-  color: var(--gold);
+  color: var(--accent);
   font-family: var(--sans);
   font-size: 0.78rem;
   font-weight: 700;
@@ -1038,7 +1038,7 @@ code {
 
 .copy-bibtex-btn:hover {
   background: rgba(232,168,56,0.25);
-  border-color: var(--gold);
+  border-color: var(--accent);
 }
 
 .copy-bibtex-btn.copied {
@@ -1076,8 +1076,8 @@ code {
 }
 
 .footer a:hover {
-  color: var(--gold) !important;
-  border-bottom-color: var(--gold);
+  color: var(--accent) !important;
+  border-bottom-color: var(--accent);
 }
 
 /* ── Scroll-to-top ───────────────────────────────────────── */
@@ -1108,9 +1108,9 @@ code {
 }
 
 .scroll-to-top:hover {
-  background: var(--gold-dim);
-  border-color: var(--gold);
-  color: var(--gold);
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
   transform: translateY(-3px);
 }
 
@@ -1205,3 +1205,71 @@ section.hero { background: transparent !important; }
 .section { background: transparent; padding: 0; }
 .hero-body { padding: 0; }
 .content.has-text-justified p { margin-bottom: 1.25rem; }
+
+/* ── Glass Nav ─────────────────────────────────────────── */
+.glass-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(10, 10, 15, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rim);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  transition: transform 0.3s var(--ease);
+}
+
+.glass-nav .nav-link {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  padding: 0.5rem;
+}
+
+.glass-nav .nav-link:hover,
+.glass-nav .nav-link.active {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .glass-nav {
+    display: none; /* simple fix for mobile for now */
+  }
+}
+
+/* ── Glass Card ────────────────────────────────────────── */
+.glass-card {
+  background: rgba(20, 20, 30, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--rim-strong);
+  border-radius: var(--r-xl);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.abstract-card.glass-card {
+  padding: 3rem;
+}
+
+.bibtex-card.glass-card {
+  padding: 0;
+}
