@@ -91,12 +91,19 @@
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
 
+  <!-- Navigation Bar -->
+  <nav class="glass-nav">
+    <a href="#video-showcase">Overview</a>
+    <a href="#results-carousel">Results</a>
+    <a href="#BibTeX">BibTeX</a>
+  </nav>
+
   <!-- Scroll to Top -->
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
   </button>
 
-  <main id="main-content">
+  <main id="main-content" style="padding-top: 60px;">
 
     <!-- ═══════════════════════════════════════════════════════
          HERO
@@ -194,7 +201,7 @@
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -407,7 +414,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">

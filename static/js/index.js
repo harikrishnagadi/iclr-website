@@ -273,3 +273,20 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for navigation links
+$(document).ready(function() {
+    $('.glass-nav a').on('click', function(event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            var targetOffset = $(hash).offset().top - 80; // Offset for the fixed nav bar
+            $('html, body').animate({
+                scrollTop: targetOffset
+            }, 800, function(){
+                // Optional: add hash to URL after scroll
+                // window.location.hash = hash;
+            });
+        }
+    });
+});
