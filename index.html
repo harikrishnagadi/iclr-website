@@ -96,6 +96,18 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
+
+  <!-- Top Navigation -->
+  <nav class="glass-nav">
+    <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; padding: 1rem 2rem;">
+      <a href="#" style="color: var(--text); font-weight: 700; text-decoration: none;">HierLoc</a>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="#video-showcase" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Overview</a>
+        <a href="#BibTeX" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
   <main id="main-content">
 
     <!-- ═══════════════════════════════════════════════════════
@@ -194,7 +206,7 @@
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -407,7 +419,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
