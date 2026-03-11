@@ -88,6 +88,14 @@
 
 <body>
 
+  <nav class="glass-nav">
+    <a href="#video-showcase">Overview</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#results">Results</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#BibTeX">BibTeX</a>
+  </nav>
+
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
 
@@ -177,7 +185,7 @@
     <div id="post-video-content" class="post-video-content post-video-hidden">
 
     <section class="hl-section video-showcase" id="video-showcase">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+      <div class="u-center mb-lg">
         <span class="section-eyebrow">Overview</span>
         <h2 class="section-heading">HierLoc <em>in 60 Seconds</em></h2>
         <hr class="section-rule section-rule-center">
@@ -193,8 +201,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section class="hl-section hl-section-alt abstract-section reveal" id="abstract">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -225,8 +233,8 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+    <section class="hl-section carousel-section reveal" id="results">
+      <div class="u-center mb-lg">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
         <hr class="section-rule section-rule-center">
@@ -234,7 +242,7 @@
       <div class="u-max-wide">
         <div id="results-carousel" class="carousel results-carousel">
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>HierLoc Architecture:</strong> Images are encoded and mapped with exp₀ into the Lorentz model of
@@ -244,7 +252,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/exp0_log0.png" alt="Hyperbolic Space Projections" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Hyperbolic Projections:</strong> The exp₀ and log₀ functions enable bidirectional mapping
@@ -254,7 +262,7 @@
           </div>
 
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/mean_error_raster_grid.png" alt="Mean Geographic Error Distribution" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Geographic Error Distribution:</strong> Mean error visualization across global regions on
@@ -263,7 +271,7 @@
             </h2>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 1</span>
               <span class="hl-table-title">OSV5M Results</span>
@@ -349,7 +357,7 @@
             </div>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/hierloc_vs_sc_inference.png" alt="Comparison with Baselines" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Inference Strategies:</strong> Beam search comparison showing HierLoc achieves 97% of
@@ -358,7 +366,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/beam_width_plots.png" alt="Beam Width Analysis" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Beam Width Optimization:</strong> Accuracies and search time for different beam widths.
@@ -367,7 +375,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/scaling_wallclock_to_2B.png" alt="Scaling Performance" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Computational Efficiency:</strong> Inference latency vs accuracy on same GPU. HierLoc provides
@@ -385,8 +393,8 @@
     <!-- ═══════════════════════════════════════════════════════
          METHODOLOGY VIDEO
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section reveal">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+    <section class="hl-section reveal" id="methodology">
+      <div class="u-center mb-lg">
         <span class="section-eyebrow">Explainer</span>
         <h2 class="section-heading">Methodology <em>Explained</em></h2>
         <hr class="section-rule section-rule-center">
@@ -402,12 +410,12 @@
          BIBTEX
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section bibtex-section reveal" id="BibTeX">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+      <div class="u-center mb-lg">
         <span class="section-eyebrow">Citation</span>
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
