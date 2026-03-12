@@ -88,6 +88,13 @@
 
 <body>
 
+  <nav class="glass-nav">
+    <a href="#abstract">Abstract</a>
+    <a href="#carousel">Results</a>
+    <a href="#video-showcase">Explainer</a>
+    <a href="#BibTeX">BibTeX</a>
+  </nav>
+
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
 
@@ -177,7 +184,7 @@
     <div id="post-video-content" class="post-video-content post-video-hidden">
 
     <section class="hl-section video-showcase" id="video-showcase">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+      <div class="u-center section-header-margin">
         <span class="section-eyebrow">Overview</span>
         <h2 class="section-heading">HierLoc <em>in 60 Seconds</em></h2>
         <hr class="section-rule section-rule-center">
@@ -193,8 +200,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section id="abstract" class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -226,13 +233,13 @@
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section carousel-section reveal">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+      <div class="u-center section-header-margin">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
       <div class="u-max-wide">
-        <div id="results-carousel" class="carousel results-carousel">
+        <div id="carousel" class="carousel results-carousel">
 
           <div class="item">
             <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
@@ -386,7 +393,7 @@
          METHODOLOGY VIDEO
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section reveal">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+      <div class="u-center section-header-margin">
         <span class="section-eyebrow">Explainer</span>
         <h2 class="section-heading">Methodology <em>Explained</em></h2>
         <hr class="section-rule section-rule-center">
@@ -402,12 +409,12 @@
          BIBTEX
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section bibtex-section reveal" id="BibTeX">
-      <div class="u-center" style="margin-bottom: 2.5rem;">
+      <div class="u-center section-header-margin">
         <span class="section-eyebrow">Citation</span>
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
