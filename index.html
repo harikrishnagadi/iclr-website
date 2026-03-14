@@ -52,6 +52,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://ajax.googleapis.com">
 
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <!-- Critical CSS -->
   <link rel="stylesheet" href="static/css/bulma.min.css?v=3">
   <link rel="stylesheet" href="static/css/index.css?v=3">
@@ -88,6 +90,15 @@
 
 <body>
 
+  <nav class="glass-nav">
+    <ul>
+      <li><a href="#main-content">Home</a></li>
+      <li><a href="#video-showcase">Overview</a></li>
+      <li><a href="#results-carousel-section">Results</a></li>
+      <li><a href="#BibTeX">Citation</a></li>
+    </ul>
+  </nav>
+
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
 
@@ -117,13 +128,13 @@
         <div class="title-rule"></div>
 
         <div class="is-size-5 publication-authors">
-          <span class="author-block"><a href="#" target="_blank">Hari Krishna Gadi</a><sup>1,2</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Daniel Matos</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Hongyi Luo</a><sup>1,2</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Lu Liu</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Yongliang Wang</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Yanfeng Zhang</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Liqiu Meng</a><sup>2</sup></span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Hari Krishna Gadi</a><sup>1,2</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Daniel Matos</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Hongyi Luo</a><sup>1,2</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Lu Liu</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Yongliang Wang</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Yanfeng Zhang</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Liqiu Meng</a><sup>2</sup></span>
         </div>
 
         <div class="affiliation-line">
@@ -194,7 +205,7 @@
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -225,7 +236,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section class="hl-section carousel-section reveal" id="results-carousel-section">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
@@ -407,7 +418,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
@@ -440,9 +451,9 @@
             <div class="content">
               <p>
                 This page was built using the
-                <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
-                adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-                Licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+                <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener noreferrer">Academic Project Page Template</a>
+                adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener noreferrer">Nerfies</a> project page.
+                Licensed under <a rel="license noopener noreferrer" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
               </p>
             </div>
           </div>
