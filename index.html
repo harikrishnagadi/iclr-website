@@ -97,6 +97,11 @@
   </button>
 
   <main id="main-content">
+    <nav class="glass-nav">
+      <a href="#video-showcase">Overview</a>
+      <a href="#results">Results</a>
+      <a href="#BibTeX">BibTeX</a>
+    </nav>
 
     <!-- ═══════════════════════════════════════════════════════
          HERO
@@ -117,13 +122,13 @@
         <div class="title-rule"></div>
 
         <div class="is-size-5 publication-authors">
-          <span class="author-block"><a href="#" target="_blank">Hari Krishna Gadi</a><sup>1,2</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Daniel Matos</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Hongyi Luo</a><sup>1,2</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Lu Liu</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Yongliang Wang</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Yanfeng Zhang</a><sup>1</sup>, </span>
-          <span class="author-block"><a href="#" target="_blank">Liqiu Meng</a><sup>2</sup></span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Hari Krishna Gadi</a><sup>1,2</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Daniel Matos</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Hongyi Luo</a><sup>1,2</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Lu Liu</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Yongliang Wang</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Yanfeng Zhang</a><sup>1</sup>, </span>
+          <span class="author-block"><a href="#" target="_blank" rel="noopener noreferrer">Liqiu Meng</a><sup>2</sup></span>
         </div>
 
         <div class="affiliation-line">
@@ -131,7 +136,7 @@
         </div>
 
         <div class="cta-row">
-          <a href="https://arxiv.org/abs/2601.23064" target="_blank" class="cta-btn cta-btn-primary">
+          <a href="https://arxiv.org/abs/2601.23064" target="_blank" rel="noopener noreferrer" class="cta-btn cta-btn-primary">
             <i class="ai ai-arxiv"></i> arXiv
           </a>
         </div>
@@ -182,7 +187,7 @@
         <h2 class="section-heading">HierLoc <em>in 60 Seconds</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="video-showcase-inner">
+      <div class="video-showcase-inner glass-card">
         <video id="showcase-video-inline" controls muted playsinline>
           <source src="plots/hierloc_ad_mobile.mp4" type="video/mp4" media="(max-width: 768px)">
           <source src="plots/hierloc_ad.mp4" type="video/mp4">
@@ -194,7 +199,7 @@
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -225,7 +230,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section class="hl-section carousel-section reveal" id="results">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
@@ -234,7 +239,7 @@
       <div class="u-max-wide">
         <div id="results-carousel" class="carousel results-carousel">
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>HierLoc Architecture:</strong> Images are encoded and mapped with exp₀ into the Lorentz model of
@@ -244,7 +249,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/exp0_log0.png" alt="Hyperbolic Space Projections" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Hyperbolic Projections:</strong> The exp₀ and log₀ functions enable bidirectional mapping
@@ -254,7 +259,7 @@
           </div>
 
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/mean_error_raster_grid.png" alt="Mean Geographic Error Distribution" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Geographic Error Distribution:</strong> Mean error visualization across global regions on
@@ -263,7 +268,7 @@
             </h2>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 1</span>
               <span class="hl-table-title">OSV5M Results</span>
@@ -303,7 +308,7 @@
             </div>
           </div>
 
-          <div class="item item--table">
+          <div class="item item--table glass-card">
             <div class="hl-table-header">
               <span class="hl-table-num">Table 2</span>
               <span class="hl-table-title">Benchmark Performance</span>
@@ -349,7 +354,7 @@
             </div>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/hierloc_vs_sc_inference.png" alt="Comparison with Baselines" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Inference Strategies:</strong> Beam search comparison showing HierLoc achieves 97% of
@@ -358,7 +363,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/beam_width_plots.png" alt="Beam Width Analysis" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Beam Width Optimization:</strong> Accuracies and search time for different beam widths.
@@ -367,7 +372,7 @@
             </h2>
           </div>
 
-          <div class="item">
+          <div class="item glass-card">
             <img src="static/images/carousel_final/scaling_wallclock_to_2B.png" alt="Scaling Performance" loading="lazy" />
             <h2 class="subtitle has-text-centered">
               <strong>Computational Efficiency:</strong> Inference latency vs accuracy on same GPU. HierLoc provides
@@ -391,7 +396,7 @@
         <h2 class="section-heading">Methodology <em>Explained</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="results-video-wrap">
+      <div class="results-video-wrap glass-card">
         <video controls muted playsinline>
           <source src="static/videos/HierLoc_Explainer_ICLR.mp4" type="video/mp4">
         </video>
@@ -407,7 +412,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
@@ -440,9 +445,9 @@
             <div class="content">
               <p>
                 This page was built using the
-                <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
-                adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-                Licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+                <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener noreferrer">Academic Project Page Template</a>
+                adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener noreferrer">Nerfies</a> project page.
+                Licensed under <a rel="license noopener noreferrer" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
               </p>
             </div>
           </div>
