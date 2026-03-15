@@ -14,17 +14,17 @@ window.addEventListener('DOMContentLoaded', function () {
   if (W === 0 || H === 0) { W = window.innerWidth; H = window.innerHeight; }
 
   /* ── Config ──────────────────────────────────────────────── */
-  var GOLD     = 0xe8a838;
-  var GOLD_DIM = 0x9c6a2e;
+  var ACCENT     = 0x007bff;
+  var ACCENT_DIM = 0x004a99;
   var PURPLE   = 0x2a1f3d;
   var U_MAX    = 1.55;
   var isMobile = W < 768;
 
   var LEVELS = [
-    { u: 0.28, count: isMobile ? 4  : 6,   size: 0.09,  color: 0xf5cc7a, label: 'continent' },
-    { u: 0.58, count: isMobile ? 8  : 14,  size: 0.06,  color: 0xe8a838, label: 'country' },
-    { u: 0.92, count: isMobile ? 16 : 28,  size: 0.038, color: 0xc88a30, label: 'region' },
-    { u: 1.32, count: isMobile ? 24 : 48,  size: 0.022, color: 0x9c6a2e, label: 'city' },
+    { u: 0.28, count: isMobile ? 4  : 6,   size: 0.09,  color: 0x66b0ff, label: 'continent' },
+    { u: 0.58, count: isMobile ? 8  : 14,  size: 0.06,  color: 0x007bff, label: 'country' },
+    { u: 0.92, count: isMobile ? 16 : 28,  size: 0.038, color: 0x0056b3, label: 'region' },
+    { u: 1.32, count: isMobile ? 24 : 48,  size: 0.022, color: 0x004a99, label: 'city' },
   ];
 
   /* ── Scene, Camera, Renderer ─────────────────────────────── */
@@ -103,7 +103,7 @@ window.addEventListener('DOMContentLoaded', function () {
   world.add(new THREE.LineSegments(
     new THREE.WireframeGeometry(hGeom),
     new THREE.LineBasicMaterial({
-      color: GOLD,
+      color: ACCENT,
       transparent: true,
       opacity: 0.2,
     })
@@ -194,7 +194,7 @@ window.addEventListener('DOMContentLoaded', function () {
         world.add(new THREE.Line(
           new THREE.BufferGeometry().setFromPoints(pts),
           new THREE.LineBasicMaterial({
-            color: GOLD,
+            color: ACCENT,
             transparent: true,
             opacity: 0.15,
           })
@@ -216,7 +216,7 @@ window.addEventListener('DOMContentLoaded', function () {
   }
   world.add(new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(bPts),
-    new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.35 })
+    new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.35 })
   ));
 
   // Concentric Poincaré rings
@@ -230,7 +230,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     world.add(new THREE.Line(
       new THREE.BufferGeometry().setFromPoints(rPts),
-      new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.12 })
+      new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.12 })
     ));
   });
 
@@ -242,7 +242,7 @@ window.addEventListener('DOMContentLoaded', function () {
         new THREE.Vector3(0, DISK_Y, 0),
         new THREE.Vector3(Math.cos(a) * DISK_R, DISK_Y, Math.sin(a) * DISK_R),
       ]),
-      new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.08 })
+      new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.08 })
     ));
   }
 
@@ -266,7 +266,7 @@ window.addEventListener('DOMContentLoaded', function () {
     world.add(new THREE.Line(
       new THREE.BufferGeometry().setFromPoints([e.basePos.clone(), dp]),
       new THREE.LineBasicMaterial({
-        color: GOLD_DIM,
+        color: ACCENT_DIM,
         transparent: true,
         opacity: 0.06,
       })
@@ -294,7 +294,7 @@ window.addEventListener('DOMContentLoaded', function () {
   pGeom.setAttribute('position', new THREE.Float32BufferAttribute(pPos, 3));
 
   var dust = new THREE.Points(pGeom, new THREE.PointsMaterial({
-    color: GOLD,
+    color: ACCENT,
     size: 0.015,
     transparent: true,
     opacity: 0.4,
