@@ -122,6 +122,21 @@ function setupVideoCarouselAutoplay() {
 $(document).ready(function () {
     // Check for click events on the navbar burger icon
 
+    // Glass nav smooth scroll
+    document.querySelectorAll('.glass-nav a').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('href');
+            var targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
     var options = {
         slidesToScroll: 1,
         slidesToShow: 1,
