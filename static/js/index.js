@@ -54,20 +54,7 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-            setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
+            // No fallback, fallback using execCommand is deprecated for security reasons
         });
     }
 }
@@ -81,13 +68,42 @@ function scrollToTop() {
 }
 
 // Show/hide scroll to top button
+const scrollButton = document.querySelector('.scroll-to-top');
+let isScrollButtonVisible = false;
+let ticking = false;
+
 window.addEventListener('scroll', function () {
-    const scrollButton = document.querySelector('.scroll-to-top');
-    if (window.pageYOffset > 300) {
-        scrollButton.classList.add('visible');
-    } else {
-        scrollButton.classList.remove('visible');
+    if (!ticking) {
+        window.requestAnimationFrame(function() {
+            const shouldBeVisible = window.pageYOffset > 300;
+
+            if (shouldBeVisible !== isScrollButtonVisible) {
+                if (shouldBeVisible) {
+                    scrollButton.classList.add('visible');
+                } else {
+                    scrollButton.classList.remove('visible');
+                }
+                isScrollButtonVisible = shouldBeVisible;
+            }
+            ticking = false;
+        });
+        ticking = true;
     }
+});
+
+// Smooth scrolling for glass-nav links
+document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    });
 });
 
 // Video carousel autoplay when in view
