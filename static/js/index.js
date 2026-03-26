@@ -72,6 +72,26 @@ function copyBibTeX() {
     }
 }
 
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.glass-nav a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+
 // Scroll to top functionality
 function scrollToTop() {
     window.scrollTo({
