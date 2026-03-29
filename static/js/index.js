@@ -205,6 +205,31 @@ function triggerCountUp(items) {
     });
 }
 
+// Glass Nav Smooth Scroll
+function setupGlassNavScroll() {
+    const navLinks = document.querySelectorAll('.glass-nav a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Offset for the fixed nav bar
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - navHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
 // Scroll Reveal Animation System
 function setupScrollReveal() {
     const observer = new IntersectionObserver((entries) => {
