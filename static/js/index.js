@@ -273,3 +273,34 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for glass-nav
+$(document).ready(function() {
+    $('.glass-nav a').on('click', function(e) {
+        if (this.hash !== "") {
+            e.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top - 80 // offset for fixed nav
+            }, 800, function(){
+                history.pushState(null, null, hash);
+            });
+
+            $('.glass-nav a').removeClass('active');
+            $(this).addClass('active');
+        }
+    });
+
+    // Highlight active link on scroll
+    $(window).scroll(function() {
+        var scrollPos = $(document).scrollTop() + 100;
+        $('.glass-nav a').each(function() {
+            var currLink = $(this);
+            var refElement = $(currLink.attr("href"));
+            if (refElement.length > 0 && refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+                $('.glass-nav a').removeClass("active");
+                currLink.addClass("active");
+            }
+        });
+    });
+});
