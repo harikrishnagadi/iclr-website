@@ -273,3 +273,65 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.glass-nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            // Calculate offset including the fixed nav height plus some padding
+            const navHeight = 60; // .glass-nav is 60px
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+
+            // Update active state
+            document.querySelectorAll('.glass-nav a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        }
+    });
+});
+
+// Update active state on scroll
+window.addEventListener('scroll', function() {
+    const scrollPosition = window.scrollY;
+    const navLinks = document.querySelectorAll('.glass-nav a');
+
+    // Find the section currently in view
+    let currentSection = '';
+    const navHeight = 60;
+
+    document.querySelectorAll('.hl-section').forEach(section => {
+        const sectionTop = section.offsetTop - navHeight - 50;
+        const sectionHeight = section.offsetHeight;
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = '#' + section.getAttribute('id');
+        }
+    });
+
+    // Fallback logic for video showcase specific ID
+    const showcase = document.getElementById('video-showcase');
+    if (showcase && scrollPosition >= (showcase.offsetTop - navHeight - 50) && scrollPosition < (showcase.offsetTop + showcase.offsetHeight)) {
+        currentSection = '#video-showcase';
+    }
+
+    if (currentSection) {
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+});
