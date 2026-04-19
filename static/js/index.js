@@ -273,3 +273,26 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+/* ── Smooth Scrolling for Glass Nav ─────────────────────── */
+document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const hash = this.getAttribute('href');
+        const target = document.querySelector(hash);
+
+        if (target) {
+            // Calculate offset (e.g., height of the glass nav + some padding)
+            const offset = 80;
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, hash);
+        }
+    });
+});
