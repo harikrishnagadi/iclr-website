@@ -32,4 +32,4 @@ render_batch_v3.sh
 update_architecture.sh
 
 # PDF duplicates of images (PNG versions are used on the web)
-static/images/*.pdf
+static/images/*.pdfserver.log
