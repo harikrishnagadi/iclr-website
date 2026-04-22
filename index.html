@@ -97,6 +97,13 @@
   </button>
 
   <main id="main-content">
+    <!-- Glass Navigation -->
+    <nav class="glass-nav">
+      <a href="#video-showcase">Overview</a>
+      <a href="#method-section">Method & Results</a>
+      <a href="#BibTeX">Citation</a>
+    </nav>
+
 
     <!-- ═══════════════════════════════════════════════════════
          HERO
@@ -194,7 +201,7 @@
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
     <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -385,7 +392,7 @@
     <!-- ═══════════════════════════════════════════════════════
          METHODOLOGY VIDEO
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section reveal">
+    <section class="hl-section reveal" id="method-section">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Explainer</span>
         <h2 class="section-heading">Methodology <em>Explained</em></h2>
@@ -407,7 +414,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
@@ -454,5 +461,26 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="static/js/hero-3d.js"></script>
+
+  <script>
+    // Smooth scroll with offset for fixed nav
+    document.querySelectorAll('.glass-nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const navHeight = 64; // height of glass-nav
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          history.pushState(null, null, targetId);
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>
