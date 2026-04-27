@@ -14,17 +14,17 @@ window.addEventListener('DOMContentLoaded', function () {
   if (W === 0 || H === 0) { W = window.innerWidth; H = window.innerHeight; }
 
   /* ── Config ──────────────────────────────────────────────── */
-  var GOLD     = 0xe8a838;
-  var GOLD_DIM = 0x9c6a2e;
-  var PURPLE   = 0x2a1f3d;
+  var GOLD     = 0x38bdf8;
+  var GOLD_DIM = 0x1e3a8a;
+  var PURPLE   = 0x1e293b;
   var U_MAX    = 1.55;
   var isMobile = W < 768;
 
   var LEVELS = [
-    { u: 0.28, count: isMobile ? 4  : 6,   size: 0.09,  color: 0xf5cc7a, label: 'continent' },
-    { u: 0.58, count: isMobile ? 8  : 14,  size: 0.06,  color: 0xe8a838, label: 'country' },
-    { u: 0.92, count: isMobile ? 16 : 28,  size: 0.038, color: 0xc88a30, label: 'region' },
-    { u: 1.32, count: isMobile ? 24 : 48,  size: 0.022, color: 0x9c6a2e, label: 'city' },
+    { u: 0.28, count: isMobile ? 4  : 6,   size: 0.09,  color: 0x7dd3fc, label: 'continent' },
+    { u: 0.58, count: isMobile ? 8  : 14,  size: 0.06,  color: 0x38bdf8, label: 'country' },
+    { u: 0.92, count: isMobile ? 16 : 28,  size: 0.038, color: 0x0284c7, label: 'region' },
+    { u: 1.32, count: isMobile ? 24 : 48,  size: 0.022, color: 0x0369a1, label: 'city' },
   ];
 
   /* ── Scene, Camera, Renderer ─────────────────────────────── */
