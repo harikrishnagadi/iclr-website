@@ -273,3 +273,28 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.glass-nav-links a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            // Calculate offset (nav bar height + some padding)
+            const navHeight = document.querySelector('.glass-nav').offsetHeight;
+            const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+        }
+    });
+});
