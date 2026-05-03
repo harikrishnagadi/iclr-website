@@ -3,28 +3,28 @@
    Aesthetic: Dark Cosmos · Editorial Serif · Geodesic Gold
    ═══════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
-  --ink:        #0a0a0f;
-  --ink-2:      #111118;
-  --ink-3:      #1a1a24;
+  --ink:        #020617;
+  --ink-2:      #0f172a;
+  --ink-3:      #1e293b;
   --surface:    #14141e;
-  --rim:        rgba(255,255,255,0.06);
-  --rim-strong: rgba(255,255,255,0.12);
+  --rim:        rgba(255,255,255,0.08);
+  --rim-strong: rgba(255,255,255,0.15);
 
-  --gold:       #e8a838;
-  --gold-light: #f5cc7a;
-  --gold-dim:   rgba(232,168,56,0.18);
+  --gold:       #38bdf8;
+  --gold-light: #7dd3fc;
+  --gold-dim:   rgba(56, 189, 248, 0.15);
 
-  --text:       #e8e4da;
-  --text-muted: #8c8a84;
-  --text-dim:   #4a4842;
+  --text:       #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim:   #475569;
 
-  --serif:      'DM Serif Display', Georgia, serif;
-  --sans:       'Syne', system-ui, sans-serif;
-  --mono:       'DM Mono', 'Cascadia Code', monospace;
+  --serif:      'Space Grotesk', system-ui, sans-serif;
+  --sans:       'Inter', system-ui, sans-serif;
+  --mono:       'JetBrains Mono', 'Cascadia Code', monospace;
 
   --r-sm:   6px;
   --r-md:   12px;
@@ -34,7 +34,15 @@
   --ease:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --glow: 0 0 60px rgba(232,168,56,0.12), 0 0 120px rgba(232,168,56,0.05);
+  --glow: 0 0 60px rgba(56,189,248,0.12), 0 0 120px rgba(56,189,248,0.05);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--rim) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
 }
 
 /* ── Reset & Base ────────────────────────────────────────── */
