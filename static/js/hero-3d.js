@@ -14,9 +14,9 @@ window.addEventListener('DOMContentLoaded', function () {
   if (W === 0 || H === 0) { W = window.innerWidth; H = window.innerHeight; }
 
   /* ── Config ──────────────────────────────────────────────── */
-  var GOLD     = 0xe8a838;
-  var GOLD_DIM = 0x9c6a2e;
-  var PURPLE   = 0x2a1f3d;
+  var GOLD     = 0x38bdf8;
+  var GOLD_DIM = 0x0284c7;
+  var PURPLE   = 0x0f172a;
   var U_MAX    = 1.55;
   var isMobile = W < 768;
 
