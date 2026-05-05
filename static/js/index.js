@@ -120,7 +120,29 @@ function setupVideoCarouselAutoplay() {
 }
 
 $(document).ready(function () {
-    // Check for click events on the navbar burger icon
+    // Smooth scrolling for navigation links with offset
+    document.querySelectorAll('.glass-nav-links a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerOffset = 80; // Offset for the fixed nav bar
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
 
     var options = {
         slidesToScroll: 1,
