@@ -51,6 +51,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Critical CSS -->
   <link rel="stylesheet" href="static/css/bulma.min.css?v=3">
@@ -87,6 +88,15 @@
 </head>
 
 <body>
+
+  <nav class="glass-nav">
+    <a href="#main-content">Home</a>
+    <a href="#video-showcase">Video</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#results">Results</a>
+    <a href="#BibTeX">BibTeX</a>
+  </nav>
+
 
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
@@ -193,7 +203,7 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
+    <section class="hl-section hl-section-alt abstract-section reveal" id="abstract">
       <div class="abstract-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
@@ -225,7 +235,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section class="hl-section carousel-section reveal" id="results">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
