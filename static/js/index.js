@@ -273,3 +273,52 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+/* ── Smooth Scrolling for Glass Nav ─────────────────────── */
+document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            const navHeight = document.querySelector('.glass-nav').offsetHeight;
+            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = targetPosition - navHeight - 20; // 20px extra padding
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+
+            // Update active state
+            document.querySelectorAll('.glass-nav a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        }
+    });
+});
+
+// Update active state on scroll
+window.addEventListener('scroll', function() {
+    let current = '';
+    const sections = document.querySelectorAll('section[id], main[id]');
+    const navHeight = document.querySelector('.glass-nav').offsetHeight;
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= (sectionTop - navHeight - 100)) {
+            current = section.getAttribute('id');
+        }
+    });
+
+    document.querySelectorAll('.glass-nav a').forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) {
+            a.classList.add('active');
+        }
+    });
+});
