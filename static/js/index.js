@@ -42,9 +42,12 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
-    if (bibtexElement) {
+    if (button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return;
+    }
+
+    if (bibtexElement && navigator.clipboard) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
-            // Success feedback
             button.classList.add('copied');
             copyText.textContent = 'Cop';
 
@@ -54,18 +57,11 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
+            button.classList.add('copy-failed');
+            copyText.textContent = 'Failed';
 
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
         });
@@ -273,3 +269,22 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.glass-nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const hash = this.getAttribute('href');
+        const target = document.querySelector(hash);
+        if (target) {
+            const navHeight = document.querySelector('.glass-nav').offsetHeight;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+                top: targetPosition - navHeight - 20, // 20px extra padding
+                behavior: 'smooth'
+            });
+            history.pushState(null, null, hash);
+        }
+    });
+});
