@@ -1,3 +1,25 @@
+
+// Smooth scrolling for glass-nav links
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.glass-nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Offset for fixed nav
+                const offset = 80;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+});
+
 window.HELP_IMPROVE_VIDEOJS = false;
 
 // More Works Dropdown Functionality
@@ -42,7 +64,7 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
-    if (bibtexElement) {
+    if (bibtexElement && !button.classList.contains('copied') && !button.classList.contains('copy-failed')) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
             button.classList.add('copied');
@@ -54,18 +76,10 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
+            copyText.textContent = 'Failed';
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
         });
