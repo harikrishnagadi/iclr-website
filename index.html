@@ -96,7 +96,22 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="nav-content">
+      <a href="#main-content" class="nav-logo">HierLoc</a>
+      <div class="nav-links">
+        <a href="#video-showcase">Overview</a>
+        <a href="#abstract">Abstract</a>
+        <a href="#results">Results</a>
+        <a href="#BibTeX">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
   <main id="main-content">
+
 
     <!-- ═══════════════════════════════════════════════════════
          HERO
@@ -193,8 +208,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section id="abstract" class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -385,14 +400,14 @@
     <!-- ═══════════════════════════════════════════════════════
          METHODOLOGY VIDEO
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section reveal">
+    <section id="results" class="hl-section reveal">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Explainer</span>
         <h2 class="section-heading">Methodology <em>Explained</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="results-video-wrap">
-        <video controls muted playsinline>
+      <div class="results-video-wrap glass-card" style="padding: 1rem;">
+        <video controls muted playsinline style="border-radius: var(--r-md); width: 100%;">
           <source src="static/videos/HierLoc_Explainer_ICLR.mp4" type="video/mp4">
         </video>
       </div>
@@ -407,7 +422,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
