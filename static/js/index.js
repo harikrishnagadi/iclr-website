@@ -42,34 +42,29 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
-    if (bibtexElement) {
-        navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
-            // Success feedback
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-
-            setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
-        }).catch(function (err) {
-            console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-            setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
-        });
+    if (!bibtexElement || button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return; // State-locking
     }
+
+    navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
+        // Success feedback
+        button.classList.add('copied');
+        copyText.textContent = 'Cop'; // .copied class has ::after { content: 'ied!'; }
+
+        setTimeout(function () {
+            button.classList.remove('copied');
+            copyText.textContent = 'Copy';
+        }, 2000);
+    }).catch(function (err) {
+        console.error('Failed to copy: ', err);
+        button.classList.add('copy-failed');
+        copyText.textContent = 'F'; // .copy-failed class has ::after { content: 'ailed!'; }
+
+        setTimeout(function () {
+            button.classList.remove('copy-failed');
+            copyText.textContent = 'Copy';
+        }, 2000);
+    });
 }
 
 // Scroll to top functionality
@@ -273,3 +268,26 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scroll for glass-nav
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.glass-nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const hash = this.getAttribute('href');
+            const target = document.querySelector(hash);
+
+            if (target) {
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20; // 20px extra padding
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                history.pushState(null, null, hash);
+            }
+        });
+    });
+});
