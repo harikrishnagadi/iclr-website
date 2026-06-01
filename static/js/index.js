@@ -273,3 +273,60 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.glass-nav a[href^="#"]');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Get the height of the fixed nav
+                const navHeight = document.querySelector('.glass-nav')?.offsetHeight || 0;
+
+                // Calculate position with offset for fixed nav
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+
+                // Update active state in nav
+                navLinks.forEach(nl => nl.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // Update active nav link on scroll
+    window.addEventListener('scroll', function() {
+        const navHeight = document.querySelector('.glass-nav')?.offsetHeight || 0;
+        let currentSection = '';
+
+        document.querySelectorAll('section, main > div[id]').forEach(section => {
+            const sectionTop = section.offsetTop - navHeight - 100;
+            if (window.pageYOffset >= sectionTop) {
+                currentSection = '#' + section.getAttribute('id');
+            }
+        });
+
+        if (currentSection) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+});
