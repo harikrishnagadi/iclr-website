@@ -99,6 +99,18 @@
   <main id="main-content">
 
     <!-- ═══════════════════════════════════════════════════════
+         GLASS NAV
+    ═══════════════════════════════════════════════════════ -->
+    <nav class="glass-nav">
+      <a href="#main-content">Home</a>
+      <a href="#video-showcase">Showcase</a>
+      <a href="#abstract">Abstract</a>
+      <a href="#results">Results</a>
+      <a href="#BibTeX">BibTeX</a>
+    </nav>
+
+
+    <!-- ═══════════════════════════════════════════════════════
          HERO
     ═══════════════════════════════════════════════════════ -->
     <section class="hero-main">
@@ -193,8 +205,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section id="abstract" class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card glass-card" style="padding: 2rem; border-radius: var(--r-xl);">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -225,7 +237,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section id="results" class="hl-section carousel-section reveal">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
@@ -407,7 +419,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
