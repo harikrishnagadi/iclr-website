@@ -42,6 +42,10 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
+    if (button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return; // State locked
+    }
+
     if (bibtexElement) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
@@ -54,18 +58,13 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
 
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            // Failed feedback
+            button.classList.add('copy-failed');
+            copyText.textContent = ''; // Let CSS pseudo-element handle text
+
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
         });
@@ -118,6 +117,31 @@ function setupVideoCarouselAutoplay() {
         observer.observe(video);
     });
 }
+
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            // Calculate offset (nav height + some padding)
+            const navHeight = document.querySelector('.glass-nav').offsetHeight;
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+        }
+    });
+});
+
 
 $(document).ready(function () {
     // Check for click events on the navbar burger icon
