@@ -78,7 +78,30 @@ function scrollToTop() {
         top: 0,
         behavior: 'smooth'
     });
+    history.pushState(null, null, ' ');
 }
+
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Adjust for the height of the fixed navigation bar
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+});
 
 // Show/hide scroll to top button
 window.addEventListener('scroll', function () {
