@@ -50,6 +50,7 @@
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://ajax.googleapis.com">
 
   <!-- Critical CSS -->
@@ -95,6 +96,14 @@
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
   </button>
+
+  <nav class="glass-nav">
+    <a href="#main-content">Home</a>
+    <a href="#video-showcase">Overview</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#results">Results</a>
+    <a href="#BibTeX">Citation</a>
+  </nav>
 
   <main id="main-content">
 
@@ -193,8 +202,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section id="abstract" class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -225,7 +234,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section id="results" class="hl-section carousel-section reveal">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
@@ -407,7 +416,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
