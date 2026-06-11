@@ -50,22 +50,13 @@ function copyBibTeX() {
 
             setTimeout(function () {
                 button.classList.remove('copied');
-                copyText.textContent = 'Copy';
+                copyText.textContent = '';
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
         });
@@ -273,3 +264,25 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            // Calculate position with offset for .glass-nav
+            const navHeight = document.querySelector('.glass-nav').offsetHeight;
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+        }
+    });
+});
