@@ -12,7 +12,7 @@ function toggleMoreWorks() {
         dropdown.classList.add('show');
         button.classList.add('active');
     }
-}
+
 
 // Close dropdown when clicking outside
 document.addEventListener('click', function (event) {
@@ -70,7 +70,7 @@ function copyBibTeX() {
             }, 2000);
         });
     }
-}
+
 
 // Scroll to top functionality
 function scrollToTop() {
@@ -78,7 +78,7 @@ function scrollToTop() {
         top: 0,
         behavior: 'smooth'
     });
-}
+
 
 // Show/hide scroll to top button
 window.addEventListener('scroll', function () {
@@ -117,7 +117,7 @@ function setupVideoCarouselAutoplay() {
     carouselVideos.forEach(video => {
         observer.observe(video);
     });
-}
+
 
 $(document).ready(function () {
     // Check for click events on the navbar burger icon
@@ -165,7 +165,7 @@ function setupStatCountUp() {
     }, { threshold: 0.3 });
 
     observer.observe(document.querySelector('.stat-bar'));
-}
+
 
 function triggerCountUp(items) {
     var duration = 1800; // ms
@@ -203,7 +203,7 @@ function triggerCountUp(items) {
             requestAnimationFrame(step);
         }, delay);
     });
-}
+
 
 // Scroll Reveal Animation System
 function setupScrollReveal() {
@@ -224,7 +224,7 @@ function setupScrollReveal() {
         el.classList.add('will-animate'); // Enable animation state
         observer.observe(el);
     });
-}
+
 
 /* ── Mobile / Desktop video source swap ────────────────── */
 (function () {
@@ -273,3 +273,25 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// This is smooth scroll code we'll add to index.js
+document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            const offset = 80;
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = targetElement.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+            history.pushState(null, null, this.getAttribute('href'));
+        }
+    });
+});
