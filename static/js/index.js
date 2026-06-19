@@ -119,6 +119,33 @@ function setupVideoCarouselAutoplay() {
     });
 }
 
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.nav-link, .nav-brand').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20; // 20px padding
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Update URL without jumping
+                    history.pushState(null, null, href);
+                }
+            }
+        });
+    });
+});
+
 $(document).ready(function () {
     // Check for click events on the navbar burger icon
 
