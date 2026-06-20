@@ -36,37 +36,41 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
+
 // Copy BibTeX to clipboard
+let isCopying = false;
+
 function copyBibTeX() {
+    if (isCopying) return;
+
     const bibtexElement = document.getElementById('bibtex-code');
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
     if (bibtexElement) {
+        isCopying = true;
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
             button.classList.add('copied');
+            button.classList.remove('copy-failed');
             copyText.textContent = 'Cop';
 
             setTimeout(function () {
                 button.classList.remove('copied');
                 copyText.textContent = 'Copy';
+                isCopying = false;
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
 
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
+            button.classList.remove('copied');
+            copyText.textContent = 'Fail';
+
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
+                isCopying = false;
             }, 2000);
         });
     }
@@ -273,3 +277,29 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+
+// Smooth Scrolling for navigation links
+document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            // Calculate header offset (approx 80px)
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+        }
+    });
+});
