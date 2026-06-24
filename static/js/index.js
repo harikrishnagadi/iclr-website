@@ -42,7 +42,12 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
-    if (bibtexElement) {
+    // State-lock: ignore clicks while an active feedback state exists
+    if (button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return;
+    }
+
+    if (bibtexElement && navigator.clipboard) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
             button.classList.add('copied');
@@ -54,21 +59,26 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
 
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            // Error feedback
+            button.classList.add('copy-failed');
+            copyText.textContent = 'Fail';
+
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
         });
+    } else {
+        // Fallback or Clipboard API unavailable
+        console.error('Clipboard API not available.');
+        button.classList.add('copy-failed');
+        copyText.textContent = 'Fail';
+
+        setTimeout(function () {
+            button.classList.remove('copy-failed');
+            copyText.textContent = 'Copy';
+        }, 2000);
     }
 }
 
@@ -273,3 +283,32 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling with offset for fixed navigation
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.glass-nav a[href^="#"]');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+
+            // Calculate offset (nav height + a little padding)
+            const navHeight = document.querySelector('.glass-nav').offsetHeight;
+            const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without jumping
+            history.pushState(null, null, targetId);
+        });
+    });
+});
