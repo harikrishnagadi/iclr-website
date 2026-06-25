@@ -50,6 +50,7 @@
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://ajax.googleapis.com">
 
   <!-- Critical CSS -->
@@ -95,6 +96,19 @@
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
   </button>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="nav-container">
+      <a href="#main-content" class="nav-brand">HierLoc</a>
+      <div class="nav-links">
+        <a href="#video-showcase">Overview</a>
+        <a href="#abstract">Abstract</a>
+        <a href="#results">Results</a>
+        <a href="#BibTeX">BibTeX</a>
+      </div>
+    </div>
+  </nav>
 
   <main id="main-content">
 
@@ -193,7 +207,7 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
+    <section class="hl-section hl-section-alt abstract-section reveal" id="abstract">
       <div class="abstract-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
@@ -225,7 +239,7 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section class="hl-section carousel-section reveal" id="results">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
