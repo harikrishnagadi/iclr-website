@@ -273,3 +273,57 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Glass Nav Smooth Scrolling with Offset
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.glass-nav a');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if(targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Remove active class from all links
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20; // 20px extra padding
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+
+    // Highlight active section on scroll
+    window.addEventListener('scroll', function() {
+        let current = '';
+        const sections = document.querySelectorAll('main > section, main > div > section, #main-content');
+        const navHeight = document.querySelector('.glass-nav').offsetHeight;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= (sectionTop - navHeight - 50)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+});
