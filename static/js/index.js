@@ -273,3 +273,31 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = document.querySelectorAll('.glass-nav a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        // Calculate offset (60px for the navbar + some padding)
+        const offset = 80;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+
+        // Update URL hash without jumping
+        history.pushState(null, null, '#' + targetId);
+      }
+    });
+  });
+});
