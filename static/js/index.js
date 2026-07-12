@@ -43,6 +43,8 @@ function copyBibTeX() {
     const copyText = button.querySelector('.copy-text');
 
     if (bibtexElement) {
+        if (button.classList.contains('copied') || button.classList.contains('copy-failed')) return;
+
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
             button.classList.add('copied');
@@ -54,19 +56,9 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
             setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
+                button.classList.remove('copy-failed');
             }, 2000);
         });
     }
@@ -273,3 +265,36 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+/* ── Smooth Scrolling for Nav ────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.glass-nav a');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (!targetId || targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+
+                // Add an offset for the fixed navbar (approx 80px)
+                const offset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update active class
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+});
