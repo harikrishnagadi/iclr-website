@@ -273,3 +273,61 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Glass-nav smooth scrolling logic
+document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.glass-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Adjust for fixed nav height
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update URL without causing page jump
+                history.pushState(null, null, targetId);
+
+                // Update active state
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // Handle scroll spy for active navigation item
+    window.addEventListener('scroll', function () {
+        let current = '';
+        const sections = document.querySelectorAll('section');
+        const scrollPosition = window.pageYOffset;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollPosition >= (sectionTop - 150)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        // Main content is special case (hero)
+        if (scrollPosition < 300) {
+            current = 'main-content';
+        }
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    });
+});
