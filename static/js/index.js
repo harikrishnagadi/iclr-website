@@ -42,6 +42,10 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
+    if (button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return; // State-lock: ignore if an animation is active
+    }
+
     if (bibtexElement) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
@@ -62,10 +66,10 @@ function copyBibTeX() {
             document.execCommand('copy');
             document.body.removeChild(textArea);
 
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
+            copyText.textContent = 'Copy ';
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
         });
@@ -273,3 +277,36 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for glass-nav links
+document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.glass-nav a[href^="#"]');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                // Offset for fixed nav
+                const offset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+
+                // Update active state
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+});
