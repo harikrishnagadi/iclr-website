@@ -273,3 +273,27 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Smooth scrolling for glass-nav
+  document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const hash = this.getAttribute('href');
+      const target = document.querySelector(hash);
+      if (target) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = target.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        history.pushState(null, null, hash);
+      }
+    });
+  });
+});
