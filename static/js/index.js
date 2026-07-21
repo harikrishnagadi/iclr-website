@@ -144,7 +144,37 @@ $(document).ready(function () {
 
     // Initialize Stat Counter
     setupStatCountUp();
+
+    // Initialize Smooth Scrolling for Nav Links
+    setupNavSmoothScrolling();
 })
+
+// Nav Smooth Scrolling Animation System
+function setupNavSmoothScrolling() {
+    document.querySelectorAll('.glass-nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    history.pushState(null, null, href);
+                }
+            }
+        });
+    });
+}
 
 // Stat Count-Up Animation
 function setupStatCountUp() {
