@@ -273,3 +273,61 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+/* ── Smooth Scrolling for Nav ───────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Calculate offset for fixed nav
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const offset = 2 * 16; // 2rem offset
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navHeight - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                history.pushState(null, null, `#${targetId}`);
+            }
+        });
+    });
+
+    // Update active link on scroll
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = ['main-content', 'video-showcase', 'abstract-section', 'results-section', 'BibTeX'];
+
+        sections.forEach(section => {
+            const element = document.getElementById(section);
+            if (element) {
+                const navHeight = document.querySelector('.glass-nav').offsetHeight;
+                const sectionTop = element.offsetTop - navHeight - 100;
+
+                if (pageYOffset >= sectionTop) {
+                    current = section;
+                }
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    });
+});
