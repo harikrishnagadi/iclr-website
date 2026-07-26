@@ -23,7 +23,7 @@ Changes from v1:
 - Fix 8: Narrative intro 3.5s added before Sequence 1
 - Fix 9: Descriptions expanded to 2-line explanations
 - Fix 10: Between-sequence waits reduced 1.5s -> 0.8s
-- Fix 11: Progress dot uses COLORS["accent"] (was COLORS["gold_light"])
+- Fix 11: Progress dot uses COLORS["accent"] (was COLORS["accent_light"])
 - Fix 12: Title font_size 52 -> 42
 - Fix 13: FadeIn/FadeOut use rate_func=rate_functions.ease_in_out_sine
 """
@@ -83,7 +83,7 @@ class Scene2Problem(Scene):
         section_specs = [
             ("Classification", -4.35, COLORS["accent"], COLORS["accent"]),
             ("Diffusion",       0.0, COLORS["accent"], COLORS["accent"]),
-            ("Retrieval",       4.35, COLORS["gold_light"], COLORS["text_muted"]),
+            ("Retrieval",       4.35, COLORS["accent_light"], COLORS["text_muted"]),
         ]
 
         earth_radius = 0.45  # Mini Earth radius
@@ -242,7 +242,7 @@ class Scene2Problem(Scene):
             width=2.9,
             height=2.1,
             corner_radius=0.3,
-            color=COLORS["gold_light"],
+            color=COLORS["accent_light"],
             stroke_width=2.5,
             fill_opacity=0.0,
             stroke_opacity=0.8
@@ -337,7 +337,7 @@ class Scene2Problem(Scene):
                 for idx in highlight_indices:
                     highlight_circle = Circle(
                         radius=0.05,
-                        color=COLORS["gold_light"],
+                        color=COLORS["accent_light"],
                         fill_opacity=0.3,
                         stroke_opacity=0.8,
                         stroke_width=1.5
@@ -818,7 +818,7 @@ class Scene2Problem(Scene):
         ret_title = create_sans_body(
             "Retrieval",
             font_size=42,
-            color=COLORS["gold_light"]
+            color=COLORS["accent_light"]
         )
         ret_title.move_to([0, 2.4, 0])
 
@@ -872,7 +872,7 @@ class Scene2Problem(Scene):
         # Circle frame
         ret_circle = Circle(
             radius=earth_radius_ret,
-            color=COLORS["gold_light"],
+            color=COLORS["accent_light"],
             fill_opacity=0,
             stroke_opacity=0.8,
             stroke_width=2
@@ -923,7 +923,7 @@ class Scene2Problem(Scene):
         for idx in highlight_indices:
             highlight_circle = Circle(
                 radius=0.08,
-                color=COLORS["gold_light"],
+                color=COLORS["accent_light"],
                 fill_opacity=0.3,
                 stroke_opacity=0.8,
                 stroke_width=1.5
