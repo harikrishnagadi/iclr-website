@@ -164,7 +164,7 @@ class Scene5Results(Scene):
             dot = Dot(
                 point=[x_pos, 3.2, 0],
                 radius=0.07,
-                color=COLORS["gold_light"] if i == 4 else COLORS["text_muted"],
+                color=COLORS["accent_light"] if i == 4 else COLORS["text_muted"],
                 fill_opacity=1.0 if i == 4 else 0.4
             )
             progress_dots.add(dot)
@@ -387,7 +387,7 @@ class Scene5Results(Scene):
             "Hyperbolic geometry\nscales to 240k entities\nwith 240 embeddings",
             font=FONTS["sans"],
             font_size=28,
-            color=COLORS["gold_light"],
+            color=COLORS["accent_light"],
             line_spacing=1.4
         )
         insight.move_to([0, 1.0, 0])

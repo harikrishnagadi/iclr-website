@@ -52,7 +52,7 @@ class Scene4Solution(Scene):
             dot = Dot(
                 point=[x_pos, 3.2, 0],
                 radius=0.07,
-                color=COLORS["gold_light"] if i == 3 else COLORS["text_muted"],
+                color=COLORS["accent_light"] if i == 3 else COLORS["text_muted"],
                 fill_opacity=1.0 if i == 3 else 0.4
             )
             progress_dots.add(dot)
@@ -173,7 +173,7 @@ class Scene4Solution(Scene):
                 start=feature_panels[i].get_bottom(),
                 end=[feature_panels[i].get_center()[0], -0.6, 0],
                 buff=0.1,
-                color=COLORS["gold_light"],
+                color=COLORS["accent_light"],
                 stroke_width=2.5,
                 tip_length=0.12
             )
@@ -191,7 +191,7 @@ class Scene4Solution(Scene):
                 embed_label,
                 font=FONTS["sans"],
                 font_size=16,
-                color=COLORS["gold_light"]
+                color=COLORS["accent_light"]
             )
             label.move_to([feature_panels[i].get_center()[0], -1.3, 0])
             embedding_labels.add(label)
@@ -220,7 +220,7 @@ class Scene4Solution(Scene):
             "e = [z_img, z_loc, z_name]",
             font=FONTS["sans"],
             font_size=20,
-            color=COLORS["gold_light"]
+            color=COLORS["accent_light"]
         )
         entity_eq.move_to([0, 0.7, 0])
 
