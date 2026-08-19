@@ -88,8 +88,19 @@
 
 <body>
 
+
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <a href="#main-content">Home</a>
+    <a href="#video-showcase">Overview</a>
+    <a href="#abstract-section">Abstract</a>
+    <a href="#results-carousel">Results</a>
+    <a href="#BibTeX">Citation</a>
+  </nav>
+
 
   <!-- Scroll to Top -->
   <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
@@ -193,7 +204,7 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
+    <section id="abstract-section" class="hl-section hl-section-alt abstract-section reveal">
       <div class="abstract-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
@@ -225,14 +236,14 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section class="hl-section carousel-section reveal" id="results-carousel">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
       <div class="u-max-wide">
-        <div id="results-carousel" class="carousel results-carousel">
+        <div class="carousel results-carousel">
 
           <div class="item">
             <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
