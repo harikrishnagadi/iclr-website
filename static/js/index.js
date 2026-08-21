@@ -42,6 +42,11 @@ function copyBibTeX() {
     const button = document.querySelector('.copy-bibtex-btn');
     const copyText = button.querySelector('.copy-text');
 
+    // State-locking logic
+    if (button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return;
+    }
+
     if (bibtexElement) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
             // Success feedback
@@ -54,19 +59,12 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
 
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            // Failure feedback
+            button.classList.add('copy-failed');
+            // Using pseudo-element approach for failure text as per memory
             setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
+                button.classList.remove('copy-failed');
             }, 2000);
         });
     }
@@ -273,3 +271,18 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.glass-nav .nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId && targetId.startsWith('#')) {
+            e.preventDefault();
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+});
