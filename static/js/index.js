@@ -273,3 +273,21 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Glass-nav smooth scrolling
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('.glass-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, targetId);
+                }
+            }
+        });
+    });
+});
