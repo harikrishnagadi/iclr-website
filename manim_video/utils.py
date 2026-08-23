@@ -150,7 +150,7 @@ def create_accent_highlight(mobject, scale_factor=1.2):
         width=mobject.width * scale_factor,
         height=mobject.height * scale_factor,
         fill_opacity=0,
-        stroke_color=COLORS["gold_light"],
+        stroke_color=COLORS["accent_light"],
         stroke_width=3,
     )
     highlight.move_to(mobject.get_center())
