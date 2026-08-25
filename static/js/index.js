@@ -54,20 +54,14 @@ function copyBibTeX() {
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
+            copyText.textContent = 'Fail';
             setTimeout(function () {
-                button.classList.remove('copied');
+                button.classList.remove('copy-failed');
                 copyText.textContent = 'Copy';
             }, 2000);
+            return;
+
         });
     }
 }
@@ -273,3 +267,15 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for glass-nav
+document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
