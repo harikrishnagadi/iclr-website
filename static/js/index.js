@@ -273,3 +273,16 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('.glass-nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    });
+});
