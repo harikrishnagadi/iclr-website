@@ -40,35 +40,39 @@ document.addEventListener('keydown', function (event) {
 function copyBibTeX() {
     const bibtexElement = document.getElementById('bibtex-code');
     const button = document.querySelector('.copy-bibtex-btn');
-    const copyText = button.querySelector('.copy-text');
+
+    if (button.classList.contains('copied') || button.classList.contains('copy-failed')) {
+        return; // Lock state
+    }
 
     if (bibtexElement) {
-        navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
-            // Success feedback
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-
-            setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
-        }).catch(function (err) {
-            console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-            setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
-        });
+        // Modern approach
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
+                button.classList.add('copied');
+                setTimeout(function () { button.classList.remove('copied'); }, 2000);
+            }).catch(function (err) {
+                console.error('Failed to copy: ', err);
+                button.classList.add('copy-failed');
+                setTimeout(function () { button.classList.remove('copy-failed'); }, 2000);
+            });
+        } else {
+            // Fallback
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = bibtexElement.textContent;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                button.classList.add('copied');
+                setTimeout(function () { button.classList.remove('copied'); }, 2000);
+            } catch (err) {
+                console.error('Failed to copy fallback: ', err);
+                button.classList.add('copy-failed');
+                setTimeout(function () { button.classList.remove('copy-failed'); }, 2000);
+            }
+        }
     }
 }
 
@@ -120,6 +124,19 @@ function setupVideoCarouselAutoplay() {
 }
 
 $(document).ready(function () {
+
+  // Smooth scrolling for navigation
+  document.querySelectorAll('.glass-nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
     // Check for click events on the navbar burger icon
 
     var options = {
