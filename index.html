@@ -48,8 +48,9 @@
 
 
   <!-- Preconnect -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://ajax.googleapis.com">
 
   <!-- Critical CSS -->
@@ -87,6 +88,15 @@
 </head>
 
 <body>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <a href="#main-content">Home</a>
+    <a href="#video-showcase">Video</a>
+    <a href="#abstract-section">Abstract</a>
+    <a href="#results-carousel">Results</a>
+    <a href="#BibTeX">BibTeX</a>
+  </nav>
 
   <!-- Fixed 3D background (Three.js) -->
   <div id="hero-3d-container" aria-hidden="true"></div>
@@ -193,8 +203,8 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
-      <div class="abstract-card">
+    <section id="abstract-section" class="hl-section hl-section-alt abstract-section reveal">
+      <div class="abstract-card glass-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
         <hr class="section-rule section-rule-center">
@@ -407,7 +417,7 @@
         <h2 class="section-heading"><em>BibTeX</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
-      <div class="bibtex-card">
+      <div class="bibtex-card glass-card">
         <div class="bibtex-header">
           <h2 class="title">BibTeX</h2>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
