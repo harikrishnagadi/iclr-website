@@ -40,33 +40,18 @@ document.addEventListener('keydown', function (event) {
 function copyBibTeX() {
     const bibtexElement = document.getElementById('bibtex-code');
     const button = document.querySelector('.copy-bibtex-btn');
-    const copyText = button.querySelector('.copy-text');
 
-    if (bibtexElement) {
+    if (bibtexElement && !button.classList.contains('copied') && !button.classList.contains('copy-failed')) {
         navigator.clipboard.writeText(bibtexElement.textContent).then(function () {
-            // Success feedback
             button.classList.add('copied');
-            copyText.textContent = 'Cop';
-
             setTimeout(function () {
                 button.classList.remove('copied');
-                copyText.textContent = 'Copy';
             }, 2000);
         }).catch(function (err) {
             console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
+            button.classList.add('copy-failed');
             setTimeout(function () {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
+                button.classList.remove('copy-failed');
             }, 2000);
         });
     }
@@ -273,3 +258,18 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+// Smooth scrolling for glass-nav links
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.glass-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});
