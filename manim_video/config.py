@@ -13,8 +13,8 @@ OUTPUT_DIR = os.path.join(MANIM_VIDEO_DIR, "output")
 # Website Color Palette
 COLORS = {
     "ink": "#0a0a0f",
-    "accent": "#e8a838",
-    "gold_light": "#f5cc7a",
+    "accent": "#38bdf8",
+    "accent_light": "#7dd3fc",
     "text": "#e8e4da",
     "text_muted": "#8c8a84",
     "surface": "#14141e",
@@ -24,9 +24,9 @@ COLORS = {
 
 # Font Families - Consistent with Scene 1
 FONTS = {
-    "serif": "Futura",          # All text uses Futura (matching Scene 1)
-    "sans": "Futura",           # Primary font - Modern geometric sans-serif
-    "mono": "Futura",           # Even code text uses Futura for consistency
+    "serif": "Space Grotesk",          # All text uses Futura (matching Scene 1)
+    "sans": "Inter",           # Primary font - Modern geometric sans-serif
+    "mono": "JetBrains Mono",           # Even code text uses Futura for consistency
 }
 
 # Animation Easing Functions
