@@ -13,7 +13,7 @@ OUTPUT_DIR = os.path.join(MANIM_VIDEO_DIR, "output")
 # Website Color Palette
 COLORS = {
     "ink": "#0a0a0f",
-    "accent": "#e8a838",
+    "accent": "#38bdf8",
     "gold_light": "#f5cc7a",
     "text": "#e8e4da",
     "text_muted": "#8c8a84",

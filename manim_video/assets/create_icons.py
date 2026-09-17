@@ -1,13 +1,13 @@
 """
 Create professional PNG icons for Scene 4
-Colors match HierLoc design: #e8a838 (accent)
+Colors match HierLoc design: #38bdf8 (accent)
 """
 
 from PIL import Image, ImageDraw
 import os
 
 # HierLoc colors
-ACCENT_COLOR = "#e8a838"
+ACCENT_COLOR = "#38bdf8"
 ACCENT_RGB = (232, 168, 56)
 BG_COLOR = (10, 10, 15)  # Dark background
 
