@@ -273,3 +273,19 @@ function setupScrollReveal() {
     fsVideo.addEventListener('ended', dismiss);
     skipBtn.addEventListener('click', dismiss);
 })();
+
+
+// Modern Smooth Scrolling for Glass Nav
+document.addEventListener('DOMContentLoaded', function() {
+    var glassNavLinks = document.querySelectorAll('.glass-nav a');
+    glassNavLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('href').substring(1);
+            var targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});
