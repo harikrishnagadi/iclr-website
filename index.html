@@ -88,7 +88,20 @@
 
 <body>
 
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="glass-nav-container">
+      <a href="#main-content" class="nav-link">Home</a>
+      <a href="#video-showcase" class="nav-link">Video</a>
+      <a href="#abstract-section" class="nav-link">Abstract</a>
+      <a href="#results-carousel" class="nav-link">Results</a>
+      <a href="#BibTeX" class="nav-link">BibTeX</a>
+    </div>
+  </nav>
+
   <!-- Fixed 3D background (Three.js) -->
+
   <div id="hero-3d-container" aria-hidden="true"></div>
 
   <!-- Scroll to Top -->
@@ -101,7 +114,7 @@
     <!-- ═══════════════════════════════════════════════════════
          HERO
     ═══════════════════════════════════════════════════════ -->
-    <section class="hero-main">
+    <section class="hero-main" id="main-content">
       <!-- Decorative arcs -->
       <div class="hero-arc"></div>
       <div class="hero-arc"></div>
@@ -193,7 +206,7 @@
     <!-- ═══════════════════════════════════════════════════════
          ABSTRACT
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section hl-section-alt abstract-section reveal">
+    <section id="abstract-section" class="hl-section hl-section-alt abstract-section reveal">
       <div class="abstract-card">
         <span class="section-eyebrow">Abstract</span>
         <h2 class="section-heading u-center">A New Geometry<br><em>for the Globe</em></h2>
@@ -225,14 +238,14 @@
     <!-- ═══════════════════════════════════════════════════════
          RESULTS CAROUSEL
     ═══════════════════════════════════════════════════════ -->
-    <section class="hl-section carousel-section reveal">
+    <section id="results-carousel" class="hl-section carousel-section reveal">
       <div class="u-center" style="margin-bottom: 2.5rem;">
         <span class="section-eyebrow">Figures & Results</span>
         <h2 class="section-heading"><em>Key Findings</em></h2>
         <hr class="section-rule section-rule-center">
       </div>
       <div class="u-max-wide">
-        <div id="results-carousel" class="carousel results-carousel">
+        <div class="carousel results-carousel">
 
           <div class="item">
             <img src="static/images/carousel_final/main_architecture.png" alt="HierLoc Architecture Overview" loading="lazy" />
